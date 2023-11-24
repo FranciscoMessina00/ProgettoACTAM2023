@@ -1,0 +1,133 @@
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-jduERlz7En1IUZR54bqzpNI64AbffZWR//KJgF71SJ8D8/liKFZ+s1RxmUmB+bhCnIfzebdZsULwOrbVB5f3nQ==" crossorigin="anonymous" referrerpolicy="no-referrer">import * as Tone from 'tone';</script>
+        <title>Tone JS</title>
+    </head>
+    <body>
+        <h1>Tone JS - Sequencer</h1>
+        <div>
+            <input type="range" min="90" max="300" value="120" id="slider">
+        </div>
+        <div>
+            <button onclick="Tone.Transport.start()">Play</button>
+        </div>
+        <div>
+            <button onclick="Tone.Transport.pause()">Pause</button>
+        </div>
+        <div>
+            <button onclick="stop()">Stop</button>
+        </div>
+        <div>
+            <canvas id="sequencer" width="900" height="400">
+                
+            </canvas>
+        </div>
+        <script>
+            //create a synth and connect it to the main output (your speakers)
+            const context = new AudioContext();
+            const synth = new Tone.Synth().toDestination();
+            var bpm = document.getElementById("slider").value;
+            var canvas = document.getElementById("sequencer");
+            var ctx = canvas.getContext('2d');
+            var position = 0;
+            Tone.Transport.scheduleRepeat(function(time){
+                //do something with the time
+                playSound();
+                position++;
+            }, "8n");
+            
+
+            function stop(){
+                Tone.Transport.stop();
+                position = 0;
+            }
+            // create a 8 by 4 matrix with initial value 0
+            function defineMatrix(){
+                var matrix = [];
+                for (var i = 0; i < 4; i++) {
+                    matrix[i] = [];
+                    for (var j = 0; j < 8; j++) {
+                        matrix[i][j] = 0;
+                    }
+                }
+                return matrix;
+            }
+            function createSequencer() {
+                const cell = 25;
+
+                for (var i = 0; i < 4; i++) {
+                    for (var j = 0; j < 8; j++) {
+                        // Save the square positions for later reference
+                        const squareY = i * cell;
+                        const squareX = j * cell;
+                        if(matrix[i][j] == 0){
+                            ctx.fillStyle = "black";
+                        }else{
+                            ctx.fillStyle = "pink";
+                        }
+                        ctx.fillRect(squareX, squareY, cell, cell);
+                        ctx.lineWidth = 3;
+                        ctx.strokeStyle = "white";
+                        ctx.strokeRect(squareX, squareY, cell, cell);
+                    }
+                }
+                requestAnimationFrame(createSequencer);
+            }
+            function detectClick(){
+                const cell = 25;
+                canvas.addEventListener('click', function(e) {
+                    var rect = canvas.getBoundingClientRect();
+                    var x = e.clientX - rect.left;
+                    var y = e.clientY - rect.top;
+                    
+                    var i = Math.floor(y/cell);
+                    var j = Math.floor(x/cell);
+                    
+                    if((i<4 && i>=0) && (j<8 && j>=0)){
+                        matrix[i][j] = 1 - matrix[i][j];
+                    }
+                });
+            }
+            function drawSelector(){
+                ctx.globalAlpha = 0.5;
+                const cell = 25;
+                const heightCell = 4 * cell;
+                ctx.beginPath();
+                ctx.fillStyle = "yellow";
+                Tone.Transport.bpm.value  = checkFreq();
+                position = position % 8;
+                //playSound(position);
+                ctx.fillRect(position*cell, 0, cell, heightCell);
+                ctx.globalAlpha = 1;
+                requestAnimationFrame(drawSelector);
+            }
+            function checkFreq(){
+                bpm = document.getElementById("slider").value;
+                return bpm;
+            }
+            function playSound(){
+                for (var i = 0; i < 4; i++) {
+                    for(var j = 0; j < 8; j++){
+                        if(matrix[0][j] == 1 && j == position){
+                            synth.triggerAttackRelease("C4", "16n");
+                        }
+                        if(matrix[1][j] == 1 && j == position){
+                            synth.triggerAttackRelease("E4", "16n");
+                        }
+                        if(matrix[2][j] == 1 && j == position){
+                            synth.triggerAttackRelease("G4", "16n");
+                        }
+                        if(matrix[3][j] == 1 && j == position){
+                            synth.triggerAttackRelease("B4", "16n");
+                        }
+                    }
+                }
+            }
+            var matrix = defineMatrix();
+            detectClick();
+            requestAnimationFrame(createSequencer);
+            requestAnimationFrame(drawSelector);
+        </script>
+    </body>
+
+</html>
