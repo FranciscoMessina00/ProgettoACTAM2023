@@ -6,37 +6,42 @@
     <body>
         <h1>Tone JS - Sequencer</h1>
         <div>
+            <div id="valueBpm"></div>
             <input type="range" min="90" max="300" value="120" id="slider">
         </div>
         <div>
-            <button onclick="Tone.Transport.start()">Play</button>
-        </div>
-        <div>
-            <button onclick="Tone.Transport.pause()">Pause</button>
-        </div>
-        <div>
+            <button onclick="start()">Play</button>
+            <!-- <button onclick="Tone.Transport.pause()">Pause</button> -->
             <button onclick="stop()">Stop</button>
         </div>
         <div>
-            <canvas id="sequencer" width="900" height="400">
-                
-            </canvas>
+            <canvas id="sequencer" width="900" height="400"></canvas>
         </div>
         <script>
+            var notes = {
+                0: "C4",
+                1: "E4",
+                2: "G4",
+                3: "B4"
+            }
             //create a synth and connect it to the main output (your speakers)
             const context = new AudioContext();
             const synth = new Tone.Synth().toDestination();
-            var bpm = document.getElementById("slider").value;
+            var bpm = checkFreq();
             var canvas = document.getElementById("sequencer");
             var ctx = canvas.getContext('2d');
             var position = 0;
+            var rows = 4;
+            var cols = 16;
             Tone.Transport.scheduleRepeat(function(time){
                 //do something with the time
-                playSound();
-                position++;
+                playSound(time);
+                position = (position + 1) % cols;
             }, "8n");
             
-
+            function start(){
+                Tone.Transport.start();
+            }
             function stop(){
                 Tone.Transport.stop();
                 position = 0;
@@ -44,9 +49,9 @@
             // create a 8 by 4 matrix with initial value 0
             function defineMatrix(){
                 var matrix = [];
-                for (var i = 0; i < 4; i++) {
+                for (var i = 0; i < rows; i++) {
                     matrix[i] = [];
-                    for (var j = 0; j < 8; j++) {
+                    for (var j = 0; j < cols; j++) {
                         matrix[i][j] = 0;
                     }
                 }
@@ -55,8 +60,8 @@
             function createSequencer() {
                 const cell = 25;
 
-                for (var i = 0; i < 4; i++) {
-                    for (var j = 0; j < 8; j++) {
+                for (var i = 0; i < rows; i++) {
+                    for (var j = 0; j < cols; j++) {
                         // Save the square positions for later reference
                         const squareY = i * cell;
                         const squareX = j * cell;
@@ -83,7 +88,7 @@
                     var i = Math.floor(y/cell);
                     var j = Math.floor(x/cell);
                     
-                    if((i<4 && i>=0) && (j<8 && j>=0)){
+                    if((i<rows && i>=0) && (j<cols && j>=0)){
                         matrix[i][j] = 1 - matrix[i][j];
                     }
                 });
@@ -95,30 +100,22 @@
                 ctx.beginPath();
                 ctx.fillStyle = "yellow";
                 Tone.Transport.bpm.value  = checkFreq();
-                position = position % 8;
-                //playSound(position);
                 ctx.fillRect(position*cell, 0, cell, heightCell);
                 ctx.globalAlpha = 1;
                 requestAnimationFrame(drawSelector);
             }
             function checkFreq(){
-                bpm = document.getElementById("slider").value;
-                return bpm;
+                var bpm = document.getElementById("slider").value;
+                document.getElementById("valueBpm").innerHTML = bpm;
+                return bpm * 2;
             }
-            function playSound(){
-                for (var i = 0; i < 4; i++) {
-                    for(var j = 0; j < 8; j++){
-                        if(matrix[0][j] == 1 && j == position){
-                            synth.triggerAttackRelease("C4", "16n");
-                        }
-                        if(matrix[1][j] == 1 && j == position){
-                            synth.triggerAttackRelease("E4", "16n");
-                        }
-                        if(matrix[2][j] == 1 && j == position){
-                            synth.triggerAttackRelease("G4", "16n");
-                        }
-                        if(matrix[3][j] == 1 && j == position){
-                            synth.triggerAttackRelease("B4", "16n");
+            function playSound(time){
+                var note;
+                for (var i = 0; i < rows; i++) {
+                    note = notes[i];
+                    for(var j = 0; j < cols; j++){
+                        if(matrix[i][j] == 1 && j == position){
+                            synth.triggerAttackRelease(note, "16n", time);
                         }
                     }
                 }
