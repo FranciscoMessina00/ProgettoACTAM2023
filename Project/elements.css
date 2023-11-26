@@ -1,0 +1,28 @@
+/* canvas{
+    display:flex;
+    justify-content: center;
+} */
+body{
+    background-color: #1E1E1E;
+}
+
+#canvasContainer{
+    bottom: 12px;
+    position: absolute;
+}
+#containerSequencer{
+    display:flex;
+    justify-content: center;
+}
+#wholeContainer{
+    width: 1090px;
+    height: 600px;
+    background-color: #3C3C48;
+    border-radius: 10px;
+}
+#tot{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
