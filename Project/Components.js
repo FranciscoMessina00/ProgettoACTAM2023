@@ -1,8 +1,8 @@
-function drawDodecagon(step){
+function drawDodecagon(selected){
     var cornerRadius = 30;
     ctx.lineWidth = 4;
     const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, 100);
-    if(step == 0){
+    if(!selected){
         grd.addColorStop(1, '#D9D9D9');
         grd.addColorStop(0, '#B1B1B1');
         ctx.strokeStyle = "#44116C";
@@ -18,7 +18,7 @@ function drawDodecagon(step){
     ctx.stroke();
 }
 
-function drawRect(step){
+function drawRect(step, isSelected){
     ctx.beginPath();
     var sideRect = 80;
     var heightRect = 16;
@@ -27,22 +27,24 @@ function drawRect(step){
     ctx.globalAlpha = 0.75;
     ctx.strokeStyle = "transparent";
     ctx.lineWidth = 0;
-    if(step == 0){
-        ctx.fillStyle = "#7B7B7B";
-    }else{
-        ctx.fillStyle = "#FF9CD2";
+    if(step == 1){
+        ctx.fillStyle = "#C80000";
     }
+    else{
+        ctx.fillStyle = !isSelected ? "#7B7B7B" : "#FF9CD2";
+    }
+    
     ctx.roundRect(-sideRect/2, yPos, sideRect, heightRect, rad);
     ctx.fill();
     ctx.stroke();
     ctx.globalAlpha = 1;
 }
 
-function drawStep(posX, posY, scale = 1, step = 0){
+function drawStep(posX, posY, scale = 1, step = 0, isSelected = false){
     ctx.translate(posX, posY);
     ctx.scale(scale, scale);
-    drawDodecagon(step);
-    drawRect(step);
+    drawDodecagon(isSelected);
+    drawRect(step, isSelected);
     ctx.scale(1/scale, 1/scale);
     ctx.translate(-posX, -posY);
 }
@@ -114,14 +116,18 @@ var roundedPoly = function(points,radius){
 function drawSequencer(){
     var scale = 0.3;
     for (var i = 0; i < 16; i++) {
-        drawStep(100 * scale + i * 220 * scale + 10 * scale, 100 * scale + 10 * scale, scale, steps[i]);
+        drawStep((100  + i * 220 + 10) * scale, (100 + 10) * scale, scale, steps[i], i == selected);
     }
     requestAnimationFrame(drawSequencer);
 }
 function detectClick(){
     const cell = 220 * 0.3;
     document.addEventListener('contextmenu', event => event.preventDefault());
-    canvas.addEventListener('contextmenu', function(e) {
+    /* canvas.addEventListener('contextmenu', function(e) {
+        
+    }); */
+
+    canvas.addEventListener("mouseup", (e) => {
         var rect = canvas.getBoundingClientRect();
         var x = e.clientX - rect.left;
         var y = e.clientY - rect.top;
@@ -133,21 +139,33 @@ function detectClick(){
         var i = Math.floor(posX);
         
         var distance = Math.sqrt((posX - (i + 0.5))**2 + (posY - (j + 0.5))**2);
-        /* console.log(i, j);
-        console.log(posX, posY);
-        console.log(distance); */
-        if((distance < 0.45)){
-            steps[i] = 1 - steps[i];
+        switch (e.button) {
+          case 0:
+            if((distance < 100/220)){
+                console.log(i);
+                steps[i] = 1 - steps[i];
+            }
+            break;
+          case 1:
+            // middle clicked
+            
+            break;
+          case 2:
+            // right clicked
+            if((distance < 100/220)){
+                console.log(i);
+                selected = i;
+            }
+            break;
         }
-    });
+      });
 }
 
 var channels = [1, 0, 0, 0]
 var steps = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var canvas = document.getElementById("step");
 var ctx = canvas.getContext("2d");
-canvas.width  = window.innerWidth;
-canvas.height = window.innerHeight;
+var selected = 0;
 
 var dodecagon = [
     {x: 0   , y: -100},
@@ -165,9 +183,9 @@ var dodecagon = [
 ]
 
 var scale = 0.3;
-var lengthSequencer = 100 * scale + 15 * 220 * scale + 100 * scale + 20 * scale;
+var lengthSequencer = (100 + 15 * 220 + 100 + 20) * scale;
 canvas.width  = lengthSequencer;
-canvas.height = 200 * scale + 10 * scale;
+canvas.height = (200 + 20) * scale;
 requestAnimationFrame(drawSequencer);
 detectClick();
 
