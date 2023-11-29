@@ -8,17 +8,17 @@ var o_global = {
 }
 
 var filter_param = {
-    cutoff: 200,
+    cutoff: 400,
     resonance : 7,
     // keyboard_tracking : 0,
     type : 'lowpass',
-    env_amount : 1000,
-    LFO_amount : 1000,
+    env_amount : 500,
+    LFO_amount : 400,
 }
 
 var LFO = {
     waveform : 'sine',
-    rate : 2,
+    rate : 10,
     sync : false,
 }
 
@@ -99,7 +99,7 @@ var oscillator = createOscillator(440, "sine", "triangle", 2.7, 1);
 
 var EnvFilterAmount = new Tone.Gain(filter_param.env_amount);
 var filterEnv = createFilterEnv(adsr_filter.attack,adsr_filter.decay,adsr_filter.sustain,adsr_filter.release);
-var LFO = createLFO(LFO.frequency, filter_param.cutoff, filter_param.LFO_amount);
+var LFO = createLFO(LFO.rate, filter_param.cutoff, filter_param.LFO_amount);
 
 oscillator.chain(ampEnv, filter, Tone.Destination);
 filterEnv.chain(EnvFilterAmount, filter.frequency);
