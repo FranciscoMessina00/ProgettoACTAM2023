@@ -1,10 +1,19 @@
 const c = new AudioContext();
 c.resume();
+Tone.context = c;
 
-var o_global = {
-    glide : 0,
-    pwm : 0,
-    vibrato : 0
+// var o_global = {
+//     glide : 0,
+//     pwm : 0,
+//     vibrato : 0
+// }
+
+osc_param = {
+    freq : 440, 
+    type : "sine", 
+    modtype: "sine", 
+    harm : 1, 
+    mod : 1
 }
 
 var filter_param = {
@@ -94,7 +103,7 @@ function createLFO(frequency, min, max) {
 
 var filter = createFilter(filter_param.cutoff, filter_param.resonance, filter_param.type);
 var ampEnv = createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
-var oscillator = createOscillator(440, "sine", "triangle", 2.7, 1);
+var oscillator = createOscillator(osc_param.freq, osc_param.type, osc_param.modtype, osc.harm, osc.mod);
 
 
 var EnvFilterAmount = new Tone.Gain(filter_param.env_amount);
