@@ -122,11 +122,6 @@ function drawSequencer(){
 }
 function detectClick(){
     const cell = 220 * 0.3;
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    /* canvas.addEventListener('contextmenu', function(e) {
-        
-    }); */
-
     canvas.addEventListener("mouseup", (e) => {
         var rect = canvas.getBoundingClientRect();
         var x = e.clientX - rect.left;
@@ -161,6 +156,93 @@ function detectClick(){
       });
 }
 
+function detectKnob(){
+    knobs = document.querySelectorAll(".container");
+    
+    knobs.forEach(c=> c.addEventListener("mousedown", (e) => {
+        prevMouseY = e.pageY;
+        knob = c.querySelector(".knob");
+        label = c.querySelector("input");
+        document.addEventListener("mousemove", onMouseMove);
+        document.addEventListener("mouseup", onMouseUp);
+    }));
+
+}
+function setInitialKnobValues(){
+    knobs.forEach(kn => setSingleKnobValues(kn));
+}
+function setSingleKnobValues(kn){
+    knob = kn.querySelector(".knob");
+    label = kn.querySelector("input");
+    resizeInput(label);
+    // we get maximum and minimum values of label and normalize the range from -170 to 170
+    normalizedValue = normalizeToAngle(label);
+    knob.style.rotate = normalizedValue + "deg";
+}
+function normalizeToAngle(label){
+    var max = parseFloat(label.max);
+    var min = parseFloat(label.min);
+    var value = parseFloat(label.value);
+    var normalizedValue = (value - min) * 340 / (max - min) - 170;
+    return normalizedValue;
+}
+function normalizeToValue(value, label){
+    // we get from -170 to 170 values and normalize the range to the min of the label and max of the label
+    var max = parseFloat(label.max);
+    var min = parseFloat(label.min);
+    var normalizedValue = (value + 170) * (max - min) / 340 + min;
+    return normalizedValue;
+}
+function rotateKnob(knob, label){
+    var event;
+    knob.addEventListener("mousedown", function(e){
+        event = e;
+        document.addEventListener("mousemove", onMouseMove);
+    });
+    document.addEventListener("mouseup", onMouseUp);
+}
+
+function onMouseMove(event){
+    // console.log(parseInt(label.value));
+    lastCurrentRadiansAngle = normalizeToAngle(label);
+
+    mouseY =  - (event.pageY - prevMouseY) ; //get mouse's y position relative to the previous one
+    finalAngleInDegrees = ((mouseY * 0.6) + lastCurrentRadiansAngle);
+    
+
+    //only allowed to rotate if greater than zero degrees or less than 270 degrees
+    if(finalAngleInDegrees >= -170 && finalAngleInDegrees <= 170)
+    {
+        knob.style.rotate = finalAngleInDegrees + "deg";
+    }
+    if(finalAngleInDegrees < -170)
+    {
+        finalAngleInDegrees = -170;
+    }
+    else if(finalAngleInDegrees > 170)
+    {
+        finalAngleInDegrees = 170;
+    }
+
+    if(label.step.length != 1){
+        label.value = normalizeToValue(finalAngleInDegrees, label).toFixed(label.step.length - 2);
+    } else{
+        label.value = normalizeToValue(finalAngleInDegrees, label).toFixed(0);
+    }
+    
+    resizeInput(label);
+    prevMouseY = event.pageY;
+}
+
+function onMouseUp(){ 
+    // label.value = normalizeToValue(finalAngleInDegrees, label);
+    resizeInput(label);
+    document.removeEventListener("mousemove", onMouseMove); //stop drag
+}
+function resizeInput(input) {
+    input.style.width = input.value.length + "ch";
+  }
+document.addEventListener('contextmenu', event => event.preventDefault());
 var channels = [1, 0, 0, 0]
 var steps = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var canvas = document.getElementById("step");
@@ -182,30 +264,30 @@ var dodecagon = [
     {x: 50  , y: -87 },
 ]
 
+var filterContainer = document.getElementById("filter1");
+var filterCutoff = {
+    knob: document.getElementById("cutoff"),
+}
+
+var lastCurrentRadiansAngle = 0;
+var knob;
+var knobs;
+var label;
+var knobPositionY;
+var prevMouseY;
+var mouseY;
+var knobCenterY;
+var oppositeSide;
+var getRadiansInDegrees;
+var finalAngleInDegrees;
+
 var scale = 0.3;
 var lengthSequencer = (100 + 15 * 220 + 100 + 20) * scale;
 canvas.width  = lengthSequencer;
 canvas.height = (200 + 20) * scale;
 requestAnimationFrame(drawSequencer);
 detectClick();
+detectKnob();
+setInitialKnobValues();
 
 
-
-
-//ctx.scale(0.2, 0.2);
-
-// drawStep(100, 100);
-/* var sides = 12;
-var angle = (sides - 2) * 180 / sides;
-var lengthSide = 50
-
-// I draw a dodecahedron
-ctx.beginPath();
-ctx.moveTo(lengthSide, 0);
-for (var i = 0; i < sides; i++) {
-    ctx.rotate(Math.PI / 180 * (180 - angle));
-    ctx.lineTo(lengthSide, 0);
-}
-
-ctx.stroke();
-*/
