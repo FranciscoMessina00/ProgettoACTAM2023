@@ -165,6 +165,7 @@ function detectKnob(){
         label = c.querySelector("input");
         document.addEventListener("mousemove", onMouseMove);
         document.addEventListener("mouseup", onMouseUp);
+        label.addEventListener("change", updateKnob);
     }));
 
 }
@@ -183,7 +184,17 @@ function normalizeToAngle(label){
     var max = parseFloat(label.max);
     var min = parseFloat(label.min);
     var value = parseFloat(label.value);
+    if (value > max) {
+        label.value = max;
+    }else if (value < min) {
+        label.value = min;
+    }
     var normalizedValue = (value - min) * 340 / (max - min) - 170;
+    if(normalizedValue < -170){
+        normalizedValue = -170;
+    }else if(normalizedValue > 170){
+        normalizedValue = 170;
+    }
     return normalizedValue;
 }
 function normalizeToValue(value, label){
@@ -201,13 +212,27 @@ function rotateKnob(knob, label){
     });
     document.addEventListener("mouseup", onMouseUp);
 }
-
+function focusInput(){
+    console.log(label);
+    knobToChange = knob;
+    labelToChange = label;
+    labelToChange.style.width = 5 + "ch";
+    labelToChange.dispatchEvent(enterKey);
+    labelToChange.focus();
+}
+function updateKnob(){
+    labelToChange.blur();
+    resizeInput(labelToChange);
+    // we get maximum and minimum values of label and normalize the range from -170 to 170
+    normalizedValue = normalizeToAngle(labelToChange);
+    knob.style.rotate = normalizedValue + "deg";
+}
 function onMouseMove(event){
     // console.log(parseInt(label.value));
     lastCurrentRadiansAngle = normalizeToAngle(label);
 
     mouseY =  - (event.pageY - prevMouseY) ; //get mouse's y position relative to the previous one
-    finalAngleInDegrees = ((mouseY * 0.6) + lastCurrentRadiansAngle);
+    finalAngleInDegrees = ((mouseY * 1.2) + lastCurrentRadiansAngle);
     
 
     //only allowed to rotate if greater than zero degrees or less than 270 degrees
@@ -268,11 +293,18 @@ var filterContainer = document.getElementById("filter1");
 var filterCutoff = {
     knob: document.getElementById("cutoff"),
 }
-
+const enterKey = new KeyboardEvent('keydown', {
+    key: 'Enter',
+    code: 'Enter',
+    which: 13,
+    keyCode: 13,
+  });
 var lastCurrentRadiansAngle = 0;
 var knob;
+var knobToChange;
 var knobs;
 var label;
+var labelToChange;
 var knobPositionY;
 var prevMouseY;
 var mouseY;
@@ -289,5 +321,3 @@ requestAnimationFrame(drawSequencer);
 detectClick();
 detectKnob();
 setInitialKnobValues();
-
-

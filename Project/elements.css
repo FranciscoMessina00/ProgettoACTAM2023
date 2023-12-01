@@ -46,6 +46,14 @@ input::-webkit-inner-spin-button {
     height: 100px;
     width: 200;
 }
+.container{
+    display:block;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 200px;
+
+}
 .knob{
     display:flex;
     justify-content: center;
@@ -65,4 +73,12 @@ input::-webkit-inner-spin-button {
     border-radius: 50%;
     background-color: #44116C;
     top: 5px;
+}
+
+.blockSection{
+    border-radius: 20px;
+    border: 1px solid #44116C;
+    background: rgba(217, 217, 217, 0.15);
+    padding: 20px;
+    margin:10px;
 }

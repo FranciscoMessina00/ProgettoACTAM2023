@@ -3,23 +3,24 @@
     <head>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-jduERlz7En1IUZR54bqzpNI64AbffZWR//KJgF71SJ8D8/liKFZ+s1RxmUmB+bhCnIfzebdZsULwOrbVB5f3nQ==" crossorigin="anonymous" referrerpolicy="no-referrer">import * as Tone from "tone";</script>
         <script src="synth.js"></script>
+        <script src="Components.js" defer></script>
         <link rel="stylesheet" href="elements.css"></style>
     </head>
     <body>
         <div id="tot">
             <div id="wholeContainer">
-                <div id="filter1">
+                <div id="filter1" class="blockSection">
                     <div id="cutoffContainer" class="container">
                         <div class="knob"><div class="dot"></div></div>
-                        <div id="cutoff">Cutoff: <input type="number" value="10000" step="1" min="0" max="20000">Hz</div>
+                        <div id="cutoff" onclick="focusInput()">Cutoff: <input type="number" value="10000" step="1" min="0" max="20000">Hz</div>
                     </div>
                     <div id="resonanceContainer" class="container">
                         <div class="knob"><div class="dot"></div></div>
-                        <div id="resonance">Resonance: <input type="number" step="0.01" value="1" min="1" max="10"></div>
+                        <div id="resonance" onclick="focusInput()">Resonance: <input type="number" step="0.1" value="1" min="1" max="10"></div>
                     </div>
                     <div id="ThirdParameter" class="container">
                         <div class="knob"><div class="dot"></div></div>
-                        <div id="third">Parameter: <input type="number" step="1" value="50" min="10" max="800"> seconds</div>
+                        <div id="third" onclick="focusInput()">Parameter: <input type="number" step="1" value="50" min="10" max="800"> s</div>
                     </div>
                 </div>
                 <div id="containerSequencer">
@@ -27,8 +28,6 @@
                 </div>
             </div>
         </div>
-        
-        <script src="Components.js"></script>
     </body>
     
 </html>    
