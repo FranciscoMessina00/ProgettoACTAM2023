@@ -8,28 +8,28 @@ osc_param = {
     modtype: "sine", 
     harm : 1.3, 
     mod : 1,
-    LFOamt: 5000,
+    LFOamt: 1000,
 }
 var global = {
     glide : 0,
     pwm : 0,
     vibrato : 0,
     position: 0,
-    LFOpos: 1,
+    //LFOpos: 1,
 }
 
 var filter_param = {
-    cutoff: 400,
-    resonance : 5,
+    cutoff: 3000,
+    resonance : 0,
     // keyboard_tracking : 0,
     type : 'lowpass',
-    env_amount : 1,
-    LFO_amount : 100,
+    env_amount : 0,
+    LFO_amount : 0,
 }
 
 var LFO = {
-    waveform : 'sawtooth',
-    rate : 1,
+    waveform : 'sine',
+    rate : 2,
     sync : false,
 }
 
@@ -62,26 +62,37 @@ function createAmpEnv(a, d, s, r) {
     return ampEnv;     
 }
 
-function createOscillator(freq, type, modtype, harm, mod) {
+function createOscillator(osc_param) {
     var fmOsc = new Tone.FMOscillator();
+    var LFOModFm = new Tone.Gain(osc_param.LFOamt);
     fmOsc.set({
-        frequency: freq,
-        type: type,
-        modulationType: modtype,
-        harmonicity: harm,
-        modulationIndex: mod,
+        frequency: osc_param.freq,
+        type: osc_param.type,
+        modulationType: osc_param.modtype,
+        harmonicity: osc_param.harm,
+        modulationIndex: osc_param.mod,
     })
-    return fmOsc;
+    return {
+        fmOsc: fmOsc,
+        LFOModFm: LFOModFm};
 }
 
-function createFilter(freq, Q, type){
+function createFilter(filter_param, adsr_filter){
     var filter = new Tone.Filter()
     filter.set({
-        frequency : freq,
-        Q : Q,
-        type : type,
+        frequency : filter_param.cutoff,
+        Q : filter_param.resonance,
+        type : filter_param.type,
     })
-    return filter;
+    var env = createFilterEnv(adsr_filter.attack,adsr_filter.decay,adsr_filter.sustain,adsr_filter.release);
+    var envAmount = new Tone.Gain(filter_param.env_amount);
+    var LFOAmt = new Tone.Gain(filter_param.LFO_amount);
+    
+    return {
+        filter: filter,
+        env: env, 
+        envAmount: envAmount, 
+        LFOAmt: LFOAmt};
 }
 
 
@@ -92,39 +103,34 @@ function createFilterEnv(a, d, s, r) {
     decay: d,
     sustain: s,
     release: r,
-    }); 
+    });
+
 }
 
-function createLFO(frequency, min, max) {
-    return LFO = new Tone.LFO({
-        frequency: frequency,
-        min: min,
-        max: max,
+function createLFO(LFO) {
+    return LFO = new Tone.Oscillator({
+        frequency: LFO.rate,
+        waveform: LFO.waveform,
     });
 }
 
-var filter = createFilter(filter_param.cutoff, filter_param.resonance, filter_param.type);
+var filter = createFilter(filter_param, adsr_filter);
 var ampEnv = createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
-var oscillator = createOscillator(osc_param.freq, osc_param.type, osc_param.modtype, osc_param.harm, osc_param.mod);
+var oscillator = createOscillator(osc_param);
 
-
-var EnvFilterAmount = new Tone.Gain(filter_param.env_amount);
-var filterEnv = createFilterEnv(adsr_filter.attack,adsr_filter.decay,adsr_filter.sustain,adsr_filter.release);
-var LFO = new Tone.Oscillator(LFO.rate, LFO.waveform);
+var LFO = createLFO(LFO);
 //var pan = new Tone.Panner(global.position);
-var LFOfiltAmt = new Tone.Gain(filter_param.LFO_amount);
-var LFOModFm = new Tone.Gain(osc_param.LFOamt);
 //var LFOpan = new Tone.Gain(global.LFOpos);
 
 
-oscillator.chain(ampEnv, filter, pan);
-filterEnv.chain(EnvFilterAmount, filter.frequency);
-LFO.chain(LFOfiltAmt, filter.frequency);
-LFO.chain(LFOModFm, oscillator.modulationIndex);
+oscillator.fmOsc.chain(ampEnv, filter.filter, Tone.Destination);
+filter.env.chain(filter.envAmount, filter.filter.frequency);
+LFO.chain(filter.LFOAmt, filter.filter.frequency);
+LFO.chain(oscillator.LFOModFm, oscillator.fmOsc.modulationIndex);
 //LFO.chain(LFOpan, pan.pan);
 
 LFO.start();
-oscillator.start();
+oscillator.fmOsc.start();
     
 
 
