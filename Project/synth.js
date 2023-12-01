@@ -2,12 +2,6 @@ const c = new AudioContext();
 c.resume();
 Tone.context = c;
 
-// var o_global = {
-//     glide : 0,
-//     pwm : 0,
-//     vibrato : 0
-// }
-
 osc_param = {
     freq : 440, 
     type : "sine", 
@@ -15,19 +9,25 @@ osc_param = {
     harm : 1, 
     mod : 1
 }
+var global = {
+    glide : 0,
+    pwm : 0,
+    vibrato : 0,
+    position: 0,
+}
 
 var filter_param = {
     cutoff: 400,
-    resonance : 7,
+    resonance : 5,
     // keyboard_tracking : 0,
     type : 'lowpass',
-    env_amount : 500,
-    LFO_amount : 400,
+    env_amount : 1,
+    LFO_amount : 1000,
 }
 
 var LFO = {
     waveform : 'sine',
-    rate : 10,
+    rate : 7.0,
     sync : false,
 }
 
@@ -108,11 +108,15 @@ var oscillator = createOscillator(osc_param.freq, osc_param.type, osc_param.modt
 
 var EnvFilterAmount = new Tone.Gain(filter_param.env_amount);
 var filterEnv = createFilterEnv(adsr_filter.attack,adsr_filter.decay,adsr_filter.sustain,adsr_filter.release);
-var LFO = createLFO(LFO.rate, filter_param.cutoff, filter_param.LFO_amount);
+var LFO = c.createOscillator();
+LFO.frequency.value = 7;
+var pan = new Tone.Panner(global.position);
+var LFOfiltAmt = c.createGain();
+LFOfiltAmt.gain.value = filter_param.LFO_amount;
 
-oscillator.chain(ampEnv, filter, Tone.Destination);
+oscillator.chain(ampEnv, filter, pan, Tone.Destination);
 filterEnv.chain(EnvFilterAmount, filter.frequency);
-LFO.connect(filter.frequency);
+LFO.connect(LFOfiltAmt, filter.frequency);
 
 LFO.start();
 oscillator.start();
