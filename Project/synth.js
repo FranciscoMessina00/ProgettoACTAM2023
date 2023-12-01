@@ -6,14 +6,16 @@ osc_param = {
     freq : 440, 
     type : "sine", 
     modtype: "sine", 
-    harm : 1, 
-    mod : 1
+    harm : 1.3, 
+    mod : 1,
+    LFOamt: 5000,
 }
 var global = {
     glide : 0,
     pwm : 0,
     vibrato : 0,
     position: 0,
+    LFOpos: 1,
 }
 
 var filter_param = {
@@ -22,12 +24,12 @@ var filter_param = {
     // keyboard_tracking : 0,
     type : 'lowpass',
     env_amount : 1,
-    LFO_amount : 1000,
+    LFO_amount : 100,
 }
 
 var LFO = {
-    waveform : 'sine',
-    rate : 7.0,
+    waveform : 'sawtooth',
+    rate : 1,
     sync : false,
 }
 
@@ -103,20 +105,23 @@ function createLFO(frequency, min, max) {
 
 var filter = createFilter(filter_param.cutoff, filter_param.resonance, filter_param.type);
 var ampEnv = createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
-var oscillator = createOscillator(osc_param.freq, osc_param.type, osc_param.modtype, osc.harm, osc.mod);
+var oscillator = createOscillator(osc_param.freq, osc_param.type, osc_param.modtype, osc_param.harm, osc_param.mod);
 
 
 var EnvFilterAmount = new Tone.Gain(filter_param.env_amount);
 var filterEnv = createFilterEnv(adsr_filter.attack,adsr_filter.decay,adsr_filter.sustain,adsr_filter.release);
-var LFO = c.createOscillator();
-LFO.frequency.value = 7;
-var pan = new Tone.Panner(global.position);
-var LFOfiltAmt = c.createGain();
-LFOfiltAmt.gain.value = filter_param.LFO_amount;
+var LFO = new Tone.Oscillator(LFO.rate, LFO.waveform);
+//var pan = new Tone.Panner(global.position);
+var LFOfiltAmt = new Tone.Gain(filter_param.LFO_amount);
+var LFOModFm = new Tone.Gain(osc_param.LFOamt);
+//var LFOpan = new Tone.Gain(global.LFOpos);
 
-oscillator.chain(ampEnv, filter, pan, Tone.Destination);
+
+oscillator.chain(ampEnv, filter, pan);
 filterEnv.chain(EnvFilterAmount, filter.frequency);
-LFO.connect(LFOfiltAmt, filter.frequency);
+LFO.chain(LFOfiltAmt, filter.frequency);
+LFO.chain(LFOModFm, oscillator.modulationIndex);
+//LFO.chain(LFOpan, pan.pan);
 
 LFO.start();
 oscillator.start();
