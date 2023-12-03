@@ -230,9 +230,15 @@ function updateKnob(){
 function onMouseMove(event){
     // console.log(parseInt(label.value));
     lastCurrentRadiansAngle = normalizeToAngle(label);
+    if(event.shiftKey){
+        scaling = 0.1;
+    }
+    else{
+        scaling = 1.2;
+    }
 
     mouseY =  - (event.pageY - prevMouseY) ; //get mouse's y position relative to the previous one
-    finalAngleInDegrees = ((mouseY * 1.2) + lastCurrentRadiansAngle);
+    finalAngleInDegrees = ((mouseY * scaling) + lastCurrentRadiansAngle);
     
 
     //only allowed to rotate if greater than zero degrees or less than 270 degrees
