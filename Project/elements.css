@@ -1,3 +1,7 @@
+:root{
+    --size-knob: 50px;
+    --size-dot: 10px;
+}
 html * {
     font-size: 16px;
     line-height: 1.625;
@@ -21,11 +25,11 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 #canvasContainer{
-    bottom: 12px;
-    position: absolute;
+    position: relative;
+    width: 100%;
 }
 #containerSequencer{
-    height: 100%;
+    /* height: 100%; */
     display:flex;
     justify-content: center;
 }
@@ -41,26 +45,32 @@ input::-webkit-inner-spin-button {
     align-items: center;
     height: 100%;
 }
+#filter1{
+    width:340px;
+}
 .knobContainer{
-    /* display:flex; */
-    height: 100px;
-    width: 200;
+    display: flex;
+    flex-wrap: wrap;
 }
 .container{
-    display:block;
+    display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: 200px;
-
+    width: 150px;
+    /* width: min-content; */
+    align-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
 }
 .knob{
     display:flex;
     justify-content: center;
     /* align-items: center; */
     border-radius: 50%;
-    width: 80px;
-    height: 80px;
+    width: var(--size-knob);
+    height: var(--size-knob);
     border: 2px solid #44116C;
     background-color: #D9D9D9;
     rotate: 0deg;
@@ -68,8 +78,8 @@ input::-webkit-inner-spin-button {
 .dot{
     position: relative;
     display: flex;
-    width: 10px;
-    height: 10px;
+    width: var(--size-dot);
+    height: var(--size-dot);
     border-radius: 50%;
     background-color: #44116C;
     top: 5px;
@@ -81,4 +91,24 @@ input::-webkit-inner-spin-button {
     background: rgba(217, 217, 217, 0.15);
     padding: 20px;
     margin:10px;
+}
+.label{
+    width:auto;
+}
+.title{
+    text-align: center;
+    font-size: large;
+}
+.separationSteps{
+    position: relative;
+    background-image: linear-gradient(to right, 
+        rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.25) 25%, 
+        rgba(0, 0, 0, 0.50) 25%, rgba(0, 0, 0, 0.50) 50%, 
+        rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0.25) 75%, 
+        rgba(0, 0, 0, 0.50) 75%, rgba(0, 0, 0, 0.50) 100%);
+    bottom: -223px;
+    width: 100%;
+    height: 86px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }

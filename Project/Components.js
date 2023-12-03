@@ -116,27 +116,31 @@ var roundedPoly = function(points,radius){
 function drawSequencer(){
     var scale = 0.3;
     for (var i = 0; i < 16; i++) {
-        drawStep((100  + i * 220 + 10) * scale, (100 + 10) * scale, scale, steps[i], i == selected);
+        // drawStep((100  + i * 220 + 10) * scale, (100 + 10) * scale, scale, steps[i], i == selected);
+        drawStep((100 + 27.08/2) * 0.3 + (canvas.width / 16) * i, canvas.height - canvas.height/2, scale, steps[i], i == selected)
     }
     requestAnimationFrame(drawSequencer);
 }
 function detectClick(){
-    const cell = 220 * 0.3;
+    const widthCell = (canvas.width / 16);
+    const heightCell = canvas.height;
     canvas.addEventListener("mouseup", (e) => {
         var rect = canvas.getBoundingClientRect();
         var x = e.clientX - rect.left;
         var y = e.clientY - rect.top;
         
-        var posX = (x/cell);
-        var posY = (y/cell);
+        var posX = (x/widthCell) - 0.5;
+        var posY = (y/heightCell) - 0.5;
 
-        var j = Math.floor(posY);
-        var i = Math.floor(posX);
-        
-        var distance = Math.sqrt((posX - (i + 0.5))**2 + (posY - (j + 0.5))**2);
+        var j = Math.round(posY);
+        console.log(j);
+        var i = Math.round(posX);
+        console.log(i);
+        var distance = Math.sqrt((Math.abs(posX) - i)**2 + (Math.abs(posY) - j)**2);
+        console.log(distance);
         switch (e.button) {
           case 0:
-            if((distance < 100/220)){
+            if((Math.abs(posX) - i < 100*0.3/widthCell) && (Math.abs(posY) - j < 100*0.3/heightCell) && (distance < 100*0.3/widthCell || distance < 100*0.3/heightCell)){
                 console.log(i);
                 steps[i] = 1 - steps[i];
             }
@@ -147,7 +151,7 @@ function detectClick(){
             break;
           case 2:
             // right clicked
-            if((distance < 100/220)){
+            if((Math.abs(posX) - i < 100*0.3/widthCell) && (Math.abs(posY) - j < 100*0.3/heightCell)){
                 console.log(i);
                 selected = i;
             }
@@ -321,8 +325,8 @@ var finalAngleInDegrees;
 
 var scale = 0.3;
 var lengthSequencer = (100 + 15 * 220 + 100 + 20) * scale;
-canvas.width  = lengthSequencer;
-canvas.height = (200 + 20) * scale;
+canvas.width  = 1090;
+canvas.height = 86;
 requestAnimationFrame(drawSequencer);
 detectClick();
 detectKnob();

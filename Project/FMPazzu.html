@@ -10,21 +10,29 @@
         <div id="tot">
             <div id="wholeContainer">
                 <div id="filter1" class="blockSection">
-                    <div id="cutoffContainer" class="container">
-                        <div class="knob"><div class="dot"></div></div>
-                        <div id="cutoff" onclick="focusInput()">Cutoff: <input type="number" value="10000" step="1" min="0" max="20000">Hz</div>
-                    </div>
-                    <div id="resonanceContainer" class="container">
-                        <div class="knob"><div class="dot"></div></div>
-                        <div id="resonance" onclick="focusInput()">Resonance: <input type="number" step="0.1" value="1" min="1" max="10"></div>
-                    </div>
-                    <div id="ThirdParameter" class="container">
-                        <div class="knob"><div class="dot"></div></div>
-                        <div id="third" onclick="focusInput()">Parameter: <input type="number" step="1" value="50" min="10" max="800"> s</div>
+                    <div class="title">Filter</div>
+                    <div class="knobContainer">
+                        <div id="cutoffContainer" class="container">
+                            <div class="knob"><div class="dot"></div></div>
+                            <div id="cutoff" onclick="focusInput()" class="label">Cutoff: <input type="number" value="5000" step="1" min="0" max="10000">Hz</div>
+                        </div>
+                        <div id="resonanceContainer" class="container">
+                            <div class="knob"><div class="dot"></div></div>
+                            <div id="resonance" onclick="focusInput()" class="label">Resonance: <input type="number" step="0.1" value="1.0" min="1" max="10"></div>
+                        </div>
+                        <div id="ThirdParameter" class="container">
+                            <div class="knob"><div class="dot"></div></div>
+                            <div id="third" onclick="focusInput()" class="label">Parameter: <input type="number" step="1" value="50" min="10" max="800"> s</div>
+                        </div>
+                        <div id="FourthParameter" class="container">
+                            <div class="knob"><div class="dot"></div></div>
+                            <div id="fourth" onclick="focusInput()" class="label">Mod amount: <input type="number" step="0.1" value="0.0" min="0" max="10"></div>
+                        </div>
                     </div>
                 </div>
                 <div id="containerSequencer">
-                    <div id="canvasContainer"><canvas id="step" ></canvas></div>
+                    <!-- <div class="separationSteps"></div> -->
+                    <div id="canvasContainer" class="separationSteps"><canvas id="step" ></canvas></div>
                 </div>
             </div>
         </div>
