@@ -166,6 +166,9 @@ function detectKnob(){
     knobs.forEach(c=> c.addEventListener("mousedown", (e) => {
         prevMouseY = e.pageY;
         knob = c.querySelector(".knob");
+        if(knob == null){
+            knob = c.querySelector(".waveType");
+        }
         label = c.querySelector("input");
         document.addEventListener("mousemove", onMouseMove);
         document.addEventListener("mouseup", onMouseUp);
@@ -181,8 +184,10 @@ function setSingleKnobValues(kn){
     label = kn.querySelector("input");
     resizeInput(label);
     // we get maximum and minimum values of label and normalize the range from -170 to 170
-    normalizedValue = normalizeToAngle(label);
-    knob.style.rotate = normalizedValue + "deg";
+    if (knob != null){
+        normalizedValue = normalizeToAngle(label);
+        knob.style.rotate = normalizedValue + "deg";
+    }
 }
 function normalizeToAngle(label){
     var max = parseFloat(label.max);
@@ -233,40 +238,42 @@ function updateKnob(){
 }
 function onMouseMove(event){
     // console.log(parseInt(label.value));
-    lastCurrentRadiansAngle = normalizeToAngle(label);
-    if(event.shiftKey){
-        scaling = 0.1;
-    }
-    else{
-        scaling = 1.2;
-    }
+    if(knob.classList.contains("knob")){
+        lastCurrentRadiansAngle = normalizeToAngle(label);
+        if(event.shiftKey){
+            scaling = 0.1;
+        }
+        else{
+            scaling = 1.2;
+        }
 
-    mouseY =  - (event.pageY - prevMouseY) ; //get mouse's y position relative to the previous one
-    finalAngleInDegrees = ((mouseY * scaling) + lastCurrentRadiansAngle);
-    
+        mouseY =  - (event.pageY - prevMouseY) ; //get mouse's y position relative to the previous one
+        finalAngleInDegrees = ((mouseY * scaling) + lastCurrentRadiansAngle);
+        
 
-    //only allowed to rotate if greater than zero degrees or less than 270 degrees
-    if(finalAngleInDegrees >= -170 && finalAngleInDegrees <= 170)
-    {
-        knob.style.rotate = finalAngleInDegrees + "deg";
-    }
-    if(finalAngleInDegrees < -170)
-    {
-        finalAngleInDegrees = -170;
-    }
-    else if(finalAngleInDegrees > 170)
-    {
-        finalAngleInDegrees = 170;
-    }
+        //only allowed to rotate if greater than zero degrees or less than 270 degrees
+        if(finalAngleInDegrees >= -170 && finalAngleInDegrees <= 170)
+        {
+            knob.style.rotate = finalAngleInDegrees + "deg";
+        }
+        if(finalAngleInDegrees < -170)
+        {
+            finalAngleInDegrees = -170;
+        }
+        else if(finalAngleInDegrees > 170)
+        {
+            finalAngleInDegrees = 170;
+        }
 
-    if(label.step.length != 1){
-        label.value = normalizeToValue(finalAngleInDegrees, label).toFixed(label.step.length - 2);
-    } else{
-        label.value = normalizeToValue(finalAngleInDegrees, label).toFixed(0);
+        if(label.step.length != 1){
+            label.value = normalizeToValue(finalAngleInDegrees, label).toFixed(label.step.length - 2);
+        } else{
+            label.value = normalizeToValue(finalAngleInDegrees, label).toFixed(0);
+        }
+        
+        resizeInput(label);
+        prevMouseY = event.pageY;
     }
-    
-    resizeInput(label);
-    prevMouseY = event.pageY;
 }
 
 function onMouseUp(){ 
