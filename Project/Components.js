@@ -323,7 +323,6 @@ var getRadiansInDegrees;
 var finalAngleInDegrees;
 
 var scale = 0.3;
-var lengthSequencer = (100 + 15 * 220 + 100 + 20) * scale;
 canvas.width  = 1200;
 canvas.height = 86;
 requestAnimationFrame(drawSequencer);

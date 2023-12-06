@@ -2,12 +2,14 @@ class Sequencer{
     constructor(){
         this.channel = 0;
         this.steps = [
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                     ];
         this.selected = 0;
+        this.playing = false;
+        this.stepPlaying = 0;
     }
     setChannel(channel){
         if(channel < 0){
@@ -24,9 +26,39 @@ class Sequencer{
     triggerStep(step){
         this.steps[this.channel][step] = 1 - this.steps[this.channel][step];
     }
-    getSteps(){
+    getChannelSteps(){
         return this.steps[this.channel];
     }
+    getAllSteps(){
+        return this.steps;
+    }
+    selected(){
+        return this.selected;
+    }
+    setSelected(selected){
+        this.selected = selected;
+    }
+    play(){
+        this.playing = true;
+    }
+    stop(){
+        this.playing = false;
+    }
+    isPlaying(){
+        return this.playing;
+    }
+    updateStep(){
+        if(this.playing){
+            this.stepPlaying = (this.stepPlaying + 1) % 16;
+        }
+    }
+    setStepPlaying(step){
+        this.stepPlaying = step;
+    }
+}
+
+class Channel{
+    
 }
 
 class Synth{
