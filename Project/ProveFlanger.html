@@ -1,0 +1,50 @@
+<html>
+
+<head><script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-jduERlz7En1IUZR54bqzpNI64AbffZWR//KJgF71SJ8D8/liKFZ+s1RxmUmB+bhCnIfzebdZsULwOrbVB5f3nQ==" crossorigin="anonymous" referrerpolicy="no-referrer">import * as Tone from "tone";</script></head>
+<body>
+
+    
+    <script>
+        const c = new AudioContext();
+        Tone.context = c;
+        c.resume();
+
+        var o = new Tone.Oscillator(400, "sawtooth");
+
+
+        var LFO = new Tone.Oscillator(0.3, "sine");
+        var mod = new Tone.Gain(0.003);
+        var dly = new Tone.Delay(0.015, 0.030);
+        var feedback = new Tone.Gain(0.7);
+        var range_depth = new Tone.Gain(1);
+        var crossFade = new Tone.CrossFade(0.5);
+        var dryWet = new Tone.CrossFade(0.5);
+        var overdrive = new Tone.WaveShaper(function (val) {
+
+            var amt = 1000;
+            return Math.tanh(2^(amt*val));
+            }, 2048);
+
+        o.connect(crossFade.a);
+        o.connect(dryWet.a);
+        crossFade.connect(dly);
+        dly.connect(overdrive);
+        overdrive.connect(feedback);
+        feedback.connect(crossFade.b);
+        dly.connect(range_depth)
+        range_depth.connect(dryWet.b);
+        LFO.chain(mod, dly.delayTime);
+        dryWet.chain(Tone.Destination);
+        LFO.start();
+        o.start();
+    
+
+
+
+        
+    </script>
+
+
+</body>
+
+</html>
