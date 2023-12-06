@@ -5,6 +5,21 @@ var scale = 0.3;
 canvas.width  = 1200;
 canvas.height = 86;
 
+var dodecagon = [
+    {x: 0   , y: -100},
+    {x: -50 , y: -87 },
+    {x: -87 , y: -50 },
+    {x: -100, y: 0   },
+    {x: -87 , y: 50  },
+    {x: -50 , y: 87  },
+    {x: 0   , y: 100 },
+    {x: 50  , y: 87  },
+    {x: 87  , y: 50  },
+    {x: 100 , y: 0   },
+    {x: 87  , y: -50 },
+    {x: 50  , y: -87 },
+]
+
 var colorDodOffOut = '#D9D9D9';
 var colorDodOffIn = '#B1B1B1';
 

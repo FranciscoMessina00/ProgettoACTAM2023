@@ -3,7 +3,16 @@
     <head>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-jduERlz7En1IUZR54bqzpNI64AbffZWR//KJgF71SJ8D8/liKFZ+s1RxmUmB+bhCnIfzebdZsULwOrbVB5f3nQ==" crossorigin="anonymous" referrerpolicy="no-referrer">import * as Tone from "tone";</script>
         <script src="synth.js"></script>
-        <script src="Components.js" defer></script>
+        <script src="Model/Defaults.js" defer></script>
+        <script src="Classes.js" defer></script>
+        <script src="Model/Model knobs.js" defer></script>
+        <script src="Model/Model sequencer.js" defer></script>
+        <!-- <script src="Model/Model synth.js" defer></script> -->
+        <script src="View/ViewKnobs.js" defer></script>
+        <script src="View/ViewSequencer.js" defer></script>
+        <script src="Controller/Controller knobs.js" defer></script>
+        <!-- <script src="Controller/Controller player.js" defer></script> -->
+        <script src="Controller/Controller sequencer.js" defer></script>
         <link rel="stylesheet" href="elements.css"></style>
     </head>
     <body>
@@ -18,7 +27,7 @@
                         </div>
                         <div id="cutoffContainer" class="container">
                             <div class="knob"><div class="dot"></div></div>
-                            <div id="cutoff" onclick="focusInput()" class="label">Cutoff: <input onfocus="this.select()" type="number" value="5000" step="1" min="0" max="10000">Hz</div>
+                            <div id="cutoff" onclick="focusInput()" class="label">Cutoff: <input onfocus="this.select()" type="number" value="3000" step="1" min="0" max="10000">Hz</div>
                         </div>
                         <div id="resonanceContainer" class="container">
                             <div class="knob"><div class="dot"></div></div>

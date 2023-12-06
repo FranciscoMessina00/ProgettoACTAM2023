@@ -25,15 +25,15 @@ class Sequencer{
     }
     triggerStep(step){
         var curr_channel = this.steps[this.channel].getChannel()
-        curr_channel[step].setStepPlaying(1-curr_channel[step].getStepPlaying());  
+        curr_channel[step].setToPlay(1-curr_channel[step].getToPlay());  
     }
     getChannelSteps(){
-        return this.steps[this.channel];
+        return this.steps[this.channel].getChannel();
     }
     getAllSteps(){
         return this.steps;
     }
-    selected(){
+    getSelected(){
         return this.selected;
     }
     setSelected(selected){
@@ -75,18 +75,18 @@ class Channel{
 
 class Step{
     constructor(){
-        this.stepPlaying = 0;
-        this.osc_param = Defaults.osc_param;
-        this.filter_param = Defaults.filter_param;
-        this.LFO = Defaults.LFO;
-        this.adsr_mix = Defaults.adsr_mix;
-        this.adsr_filter = Defaults.adsr_filter;
-        this.flanger_param = Defaults.flanger_param;
+        this.toPlay = 0;
+        this.osc_param = osc_param;
+        this.filter_param = filter_param;
+        this.LFO = LFO;
+        this.adsr_mix = adsr_mix;
+        this.adsr_filter = adsr_filter;
+        this.flanger_param = flanger_param;
     }
 
     //getters
-    getStepPlaying(){
-        return this.stepPlaying;
+    getToPlay(){
+        return this.toPlay;
     }
     getOscParam(){
         return this.osc_param;
@@ -108,8 +108,9 @@ class Step{
     }
     
     //setters
-    setStepPlaying(value){
-        this.stepPlaying = value;
+    setToPlay(value){
+        console.log("hello!")
+        this.toPlay = value;
     }
     setOscParam(value){
         this.osc_param = value;
@@ -165,7 +166,7 @@ class Synth{
             Q : filter_param.resonance,
             type : filter_param.type,
         })
-        var env = createFilterEnv(adsr_filter.attack,adsr_filter.decay,adsr_filter.sustain,adsr_filter.release);
+        var env = Synth.createFilterEnv(adsr_filter.attack,adsr_filter.decay,adsr_filter.sustain,adsr_filter.release);
         var envAmount = new Tone.Gain(filter_param.env_amount);
         var LFOAmt = new Tone.Gain(filter_param.LFO_amount);
         
@@ -177,19 +178,20 @@ class Synth{
     }
     
     static createFilterEnv(a, d, s, r) {
-        return FilterEnv = new Tone.Envelope({
+        var FilterEnv = new Tone.Envelope({
         attack: a,
         decay: d,
         sustain: s,
         release: r,
         });
-    
+        return FilterEnv;
     }
     
     static createLFO(LFO) {
-        return LFO = new Tone.Oscillator({
+        var LFO = new Tone.Oscillator({
             frequency: LFO.rate,
             waveform: LFO.waveform,
         });
+        return LFO;
     }
 }

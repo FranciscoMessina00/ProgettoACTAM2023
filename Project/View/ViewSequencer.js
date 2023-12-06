@@ -2,19 +2,19 @@ function drawDodecagon(index, stepPlaying){
     var cornerRadius = 30;
     ctx.lineWidth = 4;
     const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, 100);
-    if(index == stepPlaying){
-        grd.addColorStop(1, '#F5A94F');
-        grd.addColorStop(0, '#C89140');
-        ctx.strokeStyle = "#6C3D11";
+    if(index == stepPlaying && seq.isPlaying()){
+        grd.addColorStop(1, colorPlayingOut);
+        grd.addColorStop(0, colorPlayingIn);
+        ctx.strokeStyle = strokePlaying;
     } else{
-        if(index != seq.selected()){
-            grd.addColorStop(1, '#D9D9D9');
-            grd.addColorStop(0, '#B1B1B1');
+        if(index != seq.getSelected()){
+            grd.addColorStop(1, colorDodOffOut);
+            grd.addColorStop(0, colorDodOffIn);
         }else{
-            grd.addColorStop(1, '#8951FF');
-            grd.addColorStop(0, '#BE6AFF');
+            grd.addColorStop(1, colorDodOnOut);
+            grd.addColorStop(0,colorDodOnIn);
         }
-        ctx.strokeStyle = "#44116C";
+        ctx.strokeStyle = strokeNotPlaying;
     }
     
     ctx.fillStyle = grd;
@@ -24,7 +24,7 @@ function drawDodecagon(index, stepPlaying){
     ctx.stroke();
 }
 
-function drawRect(step, isSelected){
+function drawRect(step, index, stepPlaying){
     ctx.beginPath();
     var sideRect = 80;
     var heightRect = 16;
@@ -37,7 +37,7 @@ function drawRect(step, isSelected){
         ctx.fillStyle = "#C80000";
     }
     else{
-        ctx.fillStyle = !isSelected ? "#7B7B7B" : "#FF9CD2";
+        ctx.fillStyle = !(index == seq.getSelected()) ? "#7B7B7B" : "#FF9CD2";
     }
     
     ctx.roundRect(-sideRect/2, yPos, sideRect, heightRect, rad);
@@ -50,7 +50,7 @@ function drawStep(posX, posY, scale = 1, step = 0, index = 0, stepPlaying = 0){
     ctx.translate(posX, posY);
     ctx.scale(scale, scale);
     drawDodecagon(index, stepPlaying);
-    drawRect(step, isSelected);
+    drawRect(step, index, stepPlaying);
     ctx.scale(1/scale, 1/scale);
     ctx.translate(-posX, -posY);
 }
@@ -125,7 +125,8 @@ function drawSequencer(){
     for (var i = 0; i < 16; i++) {
         // drawStep((100  + i * 220 + 10) * scale, (100 + 10) * scale, scale, steps[i], i == selected);
         // starting drawing 100 pixels plus a padding from the left 
-        drawStep((100 + space/2) * scale + (canvas.width / 16) * i, canvas.height - canvas.height/2, scale, seq.getChannelSteps()[i], i, seq.getStepPlaying());
+        // console.log(seq.getChannelSteps()[i]);
+        drawStep((100 + space/2) * scale + (canvas.width / 16) * i, canvas.height - canvas.height/2, scale, seq.getChannelSteps()[i].getToPlay(), i, seq.getStepPlaying());
     }
     requestAnimationFrame(drawSequencer);
 }

@@ -1,3 +1,5 @@
+document.addEventListener('contextmenu', event => event.preventDefault());
+
 function detectClick(){
   const widthCell = (canvas.width / 16);
   const heightCell = canvas.height;
@@ -18,7 +20,7 @@ function detectClick(){
     switch (e.button) {
       case 0:
         if((Math.abs(posX) - i < 100*scale/widthCell) && (Math.abs(posY) - j < 100*scale/heightCell) && (distance < 100*scale/widthCell || distance < 100*scale/heightCell)){
-            // console.log(i);
+            console.log(i);
             seq.triggerStep(i)
             // steps[i] = 1 - steps[i];
         }
@@ -30,7 +32,7 @@ function detectClick(){
       case 2:
         // right clicked
         if((Math.abs(posX) - i < 100*scale/widthCell) && (Math.abs(posY) - j < 100*scale/heightCell)){
-            // console.log(i);
+            console.log(i);
             seq.setSelected(i);
             // selected = i;
         }
