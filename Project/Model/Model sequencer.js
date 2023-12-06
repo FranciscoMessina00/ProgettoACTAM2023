@@ -11,6 +11,9 @@ var colorDodOffIn = '#B1B1B1';
 var colorDodOnOut = '#8951FF';
 var colorDodOnIn = '#BE6AFF';
 
+var colorPlayingOut = '#F5A94F'
+var colorPlayingIn = '#C89140';
+
 var colorRectOffNotSel = '#7B7B7B';
 var colorRectOffSel = '#FF9CD2';
 var colorRectOn = '#C80000';
