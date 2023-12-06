@@ -3,59 +3,59 @@ c.resume();
 Tone.context = c;
 
 osc_param = {
-    freq : 440,  
+    freq : 440,         //20-20000 Hz
     type : "sine", 
     modtype: "sine", 
-    harm : 1.3, 
-    mod : 1,
-    LFOamt: 1000,
+    harm : 0.6,          //0-30 raporto di freq tra i due oscillatori
+    mod : 3,             //0-100 quantità di modulazione (non so se è solo un nodo di gain)
+    LFOamt: 10,          //0-25 quantità di mod dell LFO (guarda LFO_amount nei par del filtro per la spiegazione)
 }
 var global = {
     glide : 0,
     vibrato : 0,
-    position: 0,
+    //position: 0,
     //LFOpos: 1,
 }
 
 var filter_param = {
-    cutoff: 3000, //20-20000 Hz
-    resonance : 0, //0-10
+    cutoff: 20000,       //20-20000 Hz
+    resonance : 0,      //0-10, causa un picco nel suono
     // keyboard_tracking : 0,
     type : 'lowpass',
-    env_amount : 0, //0-20000
-    LFO_amount : 0, //0-10000
+    env_amount : 0,     //0-20000, caso limie: parto da 0 Hz e l'inviluppo mi fa arrivare a 20 kHz
+    LFO_amount : 0,     //0-10000, per avere tutto il range di freq: cutoff a 10 kHz e LFO che va da -10000 a +10000
 }
 
-var LFO = {
+var LFO = {             // tutti gli LFO implementati in questo synth sono bipolari (-1,1) e arrivano in banda audio
     waveform : 'sine',
-    rate : 2, //0.1-20000 Hz
+    rate : 1, //0.1-20000 Hz
     sync : false,
 }
 
 var adsr_mix = {
     is_ar : false,
-    attack : 0.5,
-    decay : 0.5,
-    sustain: 0.5,
-    release : 2 
+    attack : 0.5,       //0-3 s
+    decay : 0.5,        //0-3 s
+    sustain: 0.5,       //0-1
+    release : 2         //0-3 s
 }
 
 var adsr_filter = {
     is_ar : false,
-    attack : 1,
-    decay : 0.6,
-    sustain: 0.5,
-    release : 1
+    attack : 1,         //0-3 s
+    decay : 0.6,        //0-3 s
+    sustain: 0.5,       //0-1
+    release : 1         //0-3 s
 }
 
-var flanger_param = {
-    rate : 1,
-    type : 'sine',
-    depth: 0.003,
-    feedback : 0.7,
-    width : 0.5,
-    dw: 0.5,
-    color: 1000
+var flanger_param = {   // Notare che spostare l'overdive prima o dopo il nodo di feedback cambia il timbro. Anche cambiare la funzione del waveshaper ha un effetto pesante. Bisogna scegliere.
+    rate : 1,           //0.1-20000 Hz
+    type : 'triangle',
+    depth: 0.5,         //0.1-1    Attenua l'uscita della delay line
+    feedback : 0.7,     //0-1      Regola il feedback (1 è abbastanza sgravato)
+    width : 0.015,      //0-0.015  Osserva i valori della delay line!
+    dw: 0.5,            //0-1      Semplice DryWet
+    color: 2.4          //0-3      Quantità di distorsione. 0-1 no dist, 1-2 soft, 2-3 hard, >3 self-oscillation (potremmo spostare l'ampEnv dopo il flanger e sfruttare questo comportamento)
 }
 
 
@@ -131,11 +131,11 @@ function createFlanger(flanger_param) {
     var feedback = new Tone.Gain(flanger_param.feedback);
     var range_depth = new Tone.Gain(flanger_param.depth);
     var crossFade = new Tone.CrossFade(0.5);
-    var dryWet = new Tone.CrossFade(flanger_param.dW);
+    var dryWet = new Tone.CrossFade(flanger_param.dw);
     var overdrive = new Tone.WaveShaper(function (val) {
 
         var amt = flanger_param.color;
-        return Math.tanh(2^(amt*val));
+        return Math.tanh(2^(amt*val));  //tanh e 2^val sono funzioni utilizzate nel design di distorsori. Io le ho combinate, se volete sperimentate altre funzioni.
         }, 2048);
 
     crossFade.connect(dly);
@@ -148,7 +148,7 @@ function createFlanger(flanger_param) {
     dryWet.chain(Tone.Destination);
     LFO.start();
     return {
-        crossFade: crossFade,
+        crossFade: crossFade, //Ho voluto fare le connessioni interne del flanger dentro la funzione, ho messo a disposizione solo il nodo in e out
         dryWet: dryWet,
     }
 }
