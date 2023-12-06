@@ -3,7 +3,7 @@ c.resume();
 Tone.context = c;
 
 osc_param = {
-    freq : 440, 
+    freq : 440,  
     type : "sine", 
     modtype: "sine", 
     harm : 1.3, 
@@ -12,24 +12,23 @@ osc_param = {
 }
 var global = {
     glide : 0,
-    pwm : 0,
     vibrato : 0,
     position: 0,
     //LFOpos: 1,
 }
 
 var filter_param = {
-    cutoff: 3000,
-    resonance : 0,
+    cutoff: 3000, //20-20000 Hz
+    resonance : 0, //0-10
     // keyboard_tracking : 0,
     type : 'lowpass',
-    env_amount : 0,
-    LFO_amount : 0,
+    env_amount : 0, //0-20000
+    LFO_amount : 0, //0-10000
 }
 
 var LFO = {
     waveform : 'sine',
-    rate : 2,
+    rate : 2, //0.1-20000 Hz
     sync : false,
 }
 
@@ -47,6 +46,16 @@ var adsr_filter = {
     decay : 0.6,
     sustain: 0.5,
     release : 1
+}
+
+var flanger_param = {
+    rate : 1,
+    type : 'sine',
+    depth: 0.003,
+    feedback : 0.7,
+    width : 0.5,
+    dw: 0.5,
+    color: 1000
 }
 
 
@@ -114,16 +123,48 @@ function createLFO(LFO) {
     });
 }
 
+function createFlanger(flanger_param) {
+
+    var LFO = new Tone.Oscillator(flanger_param.rate, flanger_param.type);
+    var mod = new Tone.Gain(flanger_param.width);
+    var dly = new Tone.Delay(0.015, 0.030);
+    var feedback = new Tone.Gain(flanger_param.feedback);
+    var range_depth = new Tone.Gain(flanger_param.depth);
+    var crossFade = new Tone.CrossFade(0.5);
+    var dryWet = new Tone.CrossFade(flanger_param.dW);
+    var overdrive = new Tone.WaveShaper(function (val) {
+
+        var amt = flanger_param.color;
+        return Math.tanh(2^(amt*val));
+        }, 2048);
+
+    crossFade.connect(dly);
+    dly.connect(overdrive);
+    overdrive.connect(feedback);
+    feedback.connect(crossFade.b);
+    dly.connect(range_depth)
+    range_depth.connect(dryWet.b);
+    LFO.chain(mod, dly.delayTime);
+    dryWet.chain(Tone.Destination);
+    LFO.start();
+    return {
+        crossFade: crossFade,
+        dryWet: dryWet,
+    }
+}
+
+
 var filter = createFilter(filter_param, adsr_filter);
 var ampEnv = createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
 var oscillator = createOscillator(osc_param);
-
+var flanger = createFlanger(flanger_param);
 var LFO = createLFO(LFO);
 //var pan = new Tone.Panner(global.position);
 //var LFOpan = new Tone.Gain(global.LFOpos);
 
 
-oscillator.fmOsc.chain(ampEnv, filter.filter, Tone.Destination);
+oscillator.fmOsc.chain(ampEnv, filter.filter, flanger.crossFade.a);
+filter.filter.connect(flanger.dryWet.a);
 filter.env.chain(filter.envAmount, filter.filter.frequency);
 LFO.chain(filter.LFOAmt, filter.filter.frequency);
 LFO.chain(oscillator.LFOModFm, oscillator.fmOsc.modulationIndex);
