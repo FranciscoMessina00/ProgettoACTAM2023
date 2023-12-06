@@ -2,10 +2,10 @@ class Sequencer{
     constructor(){
         this.channel = 0;
         this.steps = [
-                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                        new Channel(),
+                        new Channel(),
+                        new Channel(),
+                        new Channel()
                     ];
         this.selected = 0;
         this.playing = false;
@@ -24,7 +24,8 @@ class Sequencer{
         return this.channel;
     }
     triggerStep(step){
-        this.steps[this.channel][step] = 1 - this.steps[this.channel][step];
+        var curr_channel = this.steps[this.channel].getChannel()
+        curr_channel[step].setStepPlaying(1-curr_channel[step].getStepPlaying());  
     }
     getChannelSteps(){
         return this.steps[this.channel];
@@ -55,10 +56,79 @@ class Sequencer{
     setStepPlaying(step){
         this.stepPlaying = step;
     }
+    getStepPlaying(){
+        return this.stepPlaying;
+    }
 }
 
 class Channel{
+    constructor(){
+        this.steps = [];
+        for (let i = 0; i <= 15; i++) {
+            this.steps[i] = new Step();           
+        }
+    }
+    getChannel(){
+        return this.steps;
+    }
+}
+
+class Step{
+    constructor(){
+        this.stepPlaying = 0;
+        this.osc_param = Defaults.osc_param;
+        this.filter_param = Defaults.filter_param;
+        this.LFO = Defaults.LFO;
+        this.adsr_mix = Defaults.adsr_mix;
+        this.adsr_filter = Defaults.adsr_filter;
+        this.flanger_param = Defaults.flanger_param;
+    }
+
+    //getters
+    getStepPlaying(){
+        return this.stepPlaying;
+    }
+    getOscParam(){
+        return this.osc_param;
+    }
+    getFilterParam(){
+        return this.filter_param;
+    }
+    getLFO(){
+        return this.LFO;
+    }
+    getAdsrMix(){
+        return this.adsr_mix;
+    }
+    getAdsrFilter(){
+        return this.adsr_filter;
+    }
+    getFlangerParam(){
+        return this.flanger_param;
+    }
     
+    //setters
+    setStepPlaying(value){
+        this.stepPlaying = value;
+    }
+    setOscParam(value){
+        this.osc_param = value;
+    }
+    setFilterParam(value){
+        this.filter_param = value;
+    }
+    setLFO(value){
+        this.LFO = value;
+    }
+    setAdsrMix(value){
+        this.adsr_mix = value;
+    }
+    setAdsrFilter(value){
+        this.adsr_filter = value;
+    }
+    setFlangerParam(value){
+        this.flanger_param = value;
+    }
 }
 
 class Synth{
