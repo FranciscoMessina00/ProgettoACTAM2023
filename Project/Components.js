@@ -117,7 +117,7 @@ function drawSequencer(){
     var scale = 0.3;
     for (var i = 0; i < 16; i++) {
         // drawStep((100  + i * 220 + 10) * scale, (100 + 10) * scale, scale, steps[i], i == selected);
-        drawStep((100 + 27.08/2) * 0.3 + (canvas.width / 16) * i, canvas.height - canvas.height/2, scale, steps[i], i == selected)
+        drawStep((100 + 50/2) * 0.3 + (canvas.width / 16) * i, canvas.height - canvas.height/2, scale, steps[i], i == selected)
     }
     requestAnimationFrame(drawSequencer);
 }
@@ -212,14 +212,6 @@ function normalizeToValue(value, label){
     var min = parseFloat(label.min);
     var normalizedValue = (value + 170) * (max - min) / 340 + min;
     return normalizedValue;
-}
-function rotateKnob(knob, label){
-    var event;
-    knob.addEventListener("mousedown", function(e){
-        event = e;
-        document.addEventListener("mousemove", onMouseMove);
-    });
-    document.addEventListener("mouseup", onMouseUp);
 }
 function focusInput(){
     console.log(label);
@@ -331,8 +323,7 @@ var getRadiansInDegrees;
 var finalAngleInDegrees;
 
 var scale = 0.3;
-var lengthSequencer = (100 + 15 * 220 + 100 + 20) * scale;
-canvas.width  = 1090;
+canvas.width  = 1200;
 canvas.height = 86;
 requestAnimationFrame(drawSequencer);
 detectClick();
