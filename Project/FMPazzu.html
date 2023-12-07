@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-jduERlz7En1IUZR54bqzpNI64AbffZWR//KJgF71SJ8D8/liKFZ+s1RxmUmB+bhCnIfzebdZsULwOrbVB5f3nQ==" crossorigin="anonymous" referrerpolicy="no-referrer">import * as Tone from "tone";</script>
-        <script src="synth.js"></script>
+        <!-- <script src="synth.js"></script> -->
         <script src="Model/Defaults.js" defer></script>
         <script src="Classes.js" defer></script>
         <script src="Model/Model knobs.js" defer></script>
@@ -18,12 +18,59 @@
     <body>
         <div id="tot">
             <div id="wholeContainer">
-                <div id="filter1" class="blockSection">
-                    <div class="bigTitle">Filter</div>
+                <div style="width:100%; text-align: center;" class="bigTitle"><button>prev</button>Channel 1<button>next</button></div>
+                <!-- Oscillator section -->
+                <div id="oscillator" class="blockSection">
+                    <div class="bigTitle">Oscillator</div>
                     <div class="knobContainer">
                         <div id="wavTypeContainer" class="container">
                             <div class="waveType"></div>
-                            <div id="wavType" onclick="focusInput()" class="label"><input onfocus="this.select()" type="text" value="Lowpass"></div>
+                            <div id="wavType" onclick="focusInput()" class="label"><input onfocus="this.select()" type="text" value="Sine"></div>
+                        </div>
+                        <div id="frequencyContainer" class="container">
+                            <div class="knob"><div class="dot"></div></div>
+                            <div id="frequency" onclick="focusInput()" class="label">Frequency: <input onfocus="this.select()" type="number" value="440" step="1" min="0" max="10000">Hz</div>
+                        </div>
+                        <div id="harmonicityContainer" class="container">
+                            <div class="knob"><div class="dot"></div></div>
+                            <div id="harmonicity" onclick="focusInput()" class="label">Harmonicity: <input onfocus="this.select()" type="number" step="0.1" value="1.0" min="1" max="10"></div>
+                        </div>
+                        <div id="modTypeContainer" class="container">
+                            <div class="waveType"></div>
+                            <div id="modType" onclick="focusInput()" class="label">Mod type: <input onfocus="this.select()" type="text" value="Sine"></div>
+                        </div>
+                        <div id="modAmtContainer" class="container">
+                            <div class="knob"><div class="dot"></div></div>
+                            <div id="modAmt" onclick="focusInput()" class="label">Mod amount: <input onfocus="this.select()" type="number" step="1" value="50" min="10" max="800"></div>
+                        </div>
+                    </div>
+                    <div class="smallTitle">Oscillator envelope</div>
+                    <div class="knobContainer">
+                        <div id="oscillatorAttackContainer" class="container largerContainer">
+                            <div class="knob"><div class="dot"></div></div>
+                            <div id="oscillatorAttack" onclick="focusInput()" class="label">Attack: <input onfocus="this.select()" type="number" value="0" step="1" min="0" max="3000">ms</div>
+                        </div>
+                        <div id="oscillatorDecayContainer" class="container largerContainer">
+                            <div class="knob"><div class="dot"></div></div>
+                            <div id="oscillatorDecay" onclick="focusInput()" class="label">Decay: <input onfocus="this.select()" type="number" step="1" value="0" min="0" max="3000">ms</div>
+                        </div>
+                        <div id="oscillatorSustainContainer" class="container largerContainer">
+                            <div class="knob"><div class="dot"></div></div>
+                            <div id="oscillatorSustain" onclick="focusInput()" class="label">Sustain: <input onfocus="this.select()" type="number" step="1" value="0" min="0" max="3000">ms</div>
+                        </div>
+                        <div id="oscillatorReleaseContainer" class="container largerContainer">
+                            <div class="knob"><div class="dot"></div></div>
+                            <div id="oscillatorRelease" onclick="focusInput()" class="label">Release: <input onfocus="this.select()" type="number" step="1" value="0" min="0" max="3000">ms</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Filter section -->
+                <div id="filter1" class="blockSection">
+                    <div class="bigTitle">Filter</div>
+                    <div class="knobContainer">
+                        <div id="filtTypeContainer" class="container">
+                            <div class="waveType"></div>
+                            <div id="filtType" onclick="focusInput()" class="label"><input onfocus="this.select()" type="text" value="Lowpass"></div>
                         </div>
                         <div id="cutoffContainer" class="container">
                             <div class="knob"><div class="dot"></div></div>
@@ -66,8 +113,13 @@
                             <div id="filterRelease" onclick="focusInput()" class="label">Release: <input onfocus="this.select()" type="number" step="1" value="0" min="0" max="1000">ms</div>
                         </div>
                     </div>
-
-                    
+                </div>
+                <div id="controlBlock" style="width:100%; text-align: center;">
+                    <button>Yeah baby</button>
+                    <button>Stop</button>
+                    <button>Hear</button>
+                    <button>Copy to all</button>
+                    <input type="range" min="30" max="300">
                 </div>
                 <div id="containerSequencer">
                     <div id="canvasContainer" class="separationSteps"><canvas id="step" ></canvas></div>

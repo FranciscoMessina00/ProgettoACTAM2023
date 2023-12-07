@@ -47,6 +47,9 @@ input::-webkit-inner-spin-button {
     height: auto;
     background-color: #3C3C48;
     border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 #tot{
     display:flex;
@@ -55,6 +58,9 @@ input::-webkit-inner-spin-button {
     height: 100%;
 }
 #filter1{
+    width: 400px;
+}
+#oscillator{
     width: 400px;
 }
 .knobContainer{
@@ -72,7 +78,7 @@ input::-webkit-inner-spin-button {
     align-content: center;
     flex-direction: column;
     text-align: center;
-    padding: 10px 0px;
+    padding: 10px 5px;
 }
 .largerContainer{
     min-width: 150px;
@@ -115,7 +121,7 @@ input::-webkit-inner-spin-button {
     border: 1px solid #44116C;
     background: rgba(217, 217, 217, 0.15);
     padding: 5px;
-    margin:10px;
+    margin: 5px;
 }
 .label{
     width:auto;
