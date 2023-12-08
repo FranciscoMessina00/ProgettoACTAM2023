@@ -24,7 +24,6 @@ function setSingleKnobValues(kn){
             for (const [key, value] of Object.entries(defaults[i + 1])){
                 if(key == spl[1]){
                     def_value = value;
-                    console.log(def_value);
                 }
             }
         }
@@ -122,7 +121,8 @@ function onMouseMove(event){
 
 function onMouseUp(){ 
     // label.value = normalizeToValue(finalAngleInDegrees, label);
-    
+    updateParamValue()
+    //console.log(label)
     resizeInput(label);
     document.removeEventListener("mousemove", onMouseMove); //stop drag
 }

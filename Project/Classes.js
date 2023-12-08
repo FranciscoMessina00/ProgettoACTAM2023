@@ -20,9 +20,9 @@ class Sequencer{
             this.channel = channel;
         }
     }
-    getChannel(){
-        return this.channel;
-    }
+    // getChannel(){
+    //     return this.channel;
+    // }
     triggerStep(step){
         var curr_channel = this.steps[this.channel].getChannel()
         curr_channel[step].setToPlay(1-curr_channel[step].getToPlay());  
@@ -82,6 +82,8 @@ class Step{
         this.adsr_mix = adsr_mix;
         this.adsr_filter = adsr_filter;
         this.flanger_param = flanger_param;
+        this.params = ["osc_param", osc_param, "filter_param", filter_param, "LFO", LFO, "adsr_mix", adsr_mix, "adsr_filter", adsr_filter,  
+        "flanger_param", flanger_param];
     }
 
     //getters
@@ -106,10 +108,13 @@ class Step{
     getFlangerParam(){
         return this.flanger_param;
     }
+    getParams(){
+        return this.params; 
+    }
     
     //setters
     setToPlay(value){
-        console.log("hello!")
+        // console.log("hello!")
         this.toPlay = value;
     }
     setOscParam(value){
