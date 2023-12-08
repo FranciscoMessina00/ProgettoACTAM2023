@@ -14,6 +14,25 @@ function setSingleKnobValues(kn){
     // a for loop that checks every dictionary and if the parameter is not in the dictionary it will
     // go to the next one until it finds the right one. This means that we need to put each dictionary into
     // an array and then loop through the array.
+
+    spl = label.parentNode.id.split(".")
+
+    var def_value = 0;
+
+    for (let i = 0; i < defaults.length; i++) {
+        if(defaults[i] == spl[0]){
+            for (const [key, value] of Object.entries(defaults[i + 1])){
+                if(key == spl[1]){
+                    def_value = value;
+                    console.log(def_value);
+                }
+            }
+        }
+   
+    }
+
+    label.value = def_value;
+
     resizeInput(label);
     // we get maximum and minimum values of label and normalize the range from -170 to 170
     if (knob != null){
@@ -21,6 +40,7 @@ function setSingleKnobValues(kn){
         knob.style.rotate = normalizedValue + "deg";
     }
 }
+
 function normalizeToAngle(label){
     var max = parseFloat(label.max);
     var min = parseFloat(label.min);
@@ -102,6 +122,7 @@ function onMouseMove(event){
 
 function onMouseUp(){ 
     // label.value = normalizeToValue(finalAngleInDegrees, label);
+    
     resizeInput(label);
     document.removeEventListener("mousemove", onMouseMove); //stop drag
 }

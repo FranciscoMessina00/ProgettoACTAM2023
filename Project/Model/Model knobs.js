@@ -18,3 +18,7 @@ var knobCenterY;
 var oppositeSide;
 var getRadiansInDegrees;
 var finalAngleInDegrees;
+
+// function updateParamValue(value){
+//     seq.steps[n]
+// }

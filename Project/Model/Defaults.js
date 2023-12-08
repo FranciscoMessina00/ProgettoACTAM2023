@@ -1,10 +1,10 @@
 osc_param = {
     freq : 440,  
     type : "sine", 
-    modtype: "sine", 
+    modType: "sine", 
     harm : 1.3, 
     mod : 1,
-    LFOamt: 1000,
+    //LFOamt: 1000,
 }
 // var global = {
 //     glide : 0,
@@ -14,7 +14,7 @@ osc_param = {
 // }
 
 var filter_param = {
-    cutoff: 3000, //20-20000 Hz
+    cutoff: 1000, //20-20000 Hz
     resonance : 0, //0-10
     // keyboard_tracking : 0,
     type : 'lowpass',
@@ -30,18 +30,18 @@ var LFO = {
 
 var adsr_mix = {
     is_ar : false,
-    attack : 0.5,
-    decay : 0.5,
-    sustain: 0.5,
-    release : 2 
+    attack : 500,
+    decay : 500,
+    sustain: 500,
+    release : 2000 
 }
 
 var adsr_filter = {
     is_ar : false,
-    attack : 1,
-    decay : 0.6,
-    sustain: 0.5,
-    release : 1
+    attack : 1000,
+    decay : 600,
+    sustain: 500,
+    release : 500
 }
 
 var flanger_param = {
@@ -53,3 +53,6 @@ var flanger_param = {
     dw: 0.5,
     color: 1000
 }
+
+defaults = ["osc_param", osc_param, "filter_param", filter_param, "LFO", LFO, "adsr_mix", adsr_mix, "adsr_filter", adsr_filter,  
+"flanger_param", flanger_param];
