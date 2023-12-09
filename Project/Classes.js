@@ -20,9 +20,9 @@ class Sequencer{
             this.channel = channel;
         }
     }
-    // getChannel(){
-    //     return this.channel;
-    // }
+    getChannel(){
+        return this.channel;
+    }
     triggerStep(step){
         var curr_channel = this.steps[this.channel].getChannel()
         curr_channel[step].setToPlay(1-curr_channel[step].getToPlay());  

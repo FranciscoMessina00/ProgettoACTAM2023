@@ -19,6 +19,9 @@ input[type="number"], input[type="text"]{
     border: none;
     padding: 0;
 }
+input[type="text"]{
+    text-transform: capitalize;
+}
 input:hover {
     cursor: default;
 }
@@ -31,6 +34,18 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+img{
+    width: 40px;
+    height: 40px;
+    pointer-events: none;
+}
+button{
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
 }
 #canvasContainer{
     position: relative;
@@ -62,6 +77,15 @@ input::-webkit-inner-spin-button {
 }
 #oscillator{
     width: 400px;
+}
+#titleContainer{
+    width:100%;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
 }
 .knobContainer{
     display: flex;
@@ -109,7 +133,7 @@ input::-webkit-inner-spin-button {
 .waveType{
     display:flex;
     justify-content: center;
-    /* align-items: center; */
+    align-items: center;
     border-radius: 50%;
     width: var(--size-knob);
     height: var(--size-knob);
@@ -147,3 +171,41 @@ input::-webkit-inner-spin-button {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
+
+.arrow-up {
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    
+    border-bottom: 10px solid #D9D9D9;
+  }
+  
+  .arrow-down {
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    
+    border-top: 10px solid #D9D9D9;
+  }
+  
+  .arrow-right {
+    width: 0; 
+    height: 0; 
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    
+    border-left: 10px solid #D9D9D9;
+    margin-left: 10px;
+  }
+  
+  .arrow-left {
+    width: 0; 
+    height: 0; 
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent; 
+    
+    border-right: 10px solid #D9D9D9;
+    margin-right: 10px;
+  }

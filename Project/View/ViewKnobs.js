@@ -32,12 +32,13 @@ function setSingleKnobValues(kn){
 
     label.value = def_value;
 
-    resizeInput(label);
+    
     // we get maximum and minimum values of label and normalize the range from -170 to 170
     if (knob != null){
         normalizedValue = normalizeToAngle(label);
         knob.style.rotate = normalizedValue + "deg";
     }
+    resizeInput(label);
 }
 
 function normalizeToAngle(label){

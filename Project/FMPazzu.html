@@ -10,6 +10,7 @@
         <!-- <script src="Model/Model synth.js" defer></script> -->
         <script src="View/ViewKnobs.js" defer></script>
         <script src="View/ViewSequencer.js" defer></script>
+        <script src="View/ViewChannels.js" defer></script>
         <script src="Controller/Controller knobs.js" defer></script>
         <!-- <script src="Controller/Controller player.js" defer></script> -->
         <script src="Controller/Controller sequencer.js" defer></script>
@@ -18,13 +19,13 @@
     <body>
         <div id="tot">
             <div id="wholeContainer">
-                <div style="width:100%; text-align: center;" class="bigTitle"><button>prev</button>Channel 1<button>next</button></div>
+                <div id="titleContainer" ><button class="arrow-left" onclick="changeChannelLeft()"></button><div id="channelName" class="bigTitle">Channel 1</div><button class="arrow-right" onclick="changeChannelRight()"></button></div>
                 <!-- Oscillator section -->
                 <div id="oscillator" class="blockSection">
                     <div class="bigTitle">Oscillator</div>
                     <div class="knobContainer">
                         <div id="wavTypeContainer" class="container">
-                            <div class="waveType"></div>
+                            <div class="waveType"><img src="View/Images/Sine.png" alt="Wave type"></div>
                             <div id="osc_param.type" onclick="focusInput()" class="label"><input onfocus="this.select()" type="text" value="Sine"></div>
                         </div>
                         <div id="frequencyContainer" class="container">
@@ -36,7 +37,7 @@
                             <div id="osc_param.harm" onclick="focusInput()" class="label">Harmonicity: <input onfocus="this.select()" type="number" step="0.1" value="1.0" min="1" max="10"></div>
                         </div>
                         <div id="modTypeContainer" class="container">
-                            <div class="waveType"></div>
+                            <div class="waveType"><img src="View/Images/Sine.png" alt="Wave type"></div>
                             <div id="osc_param.modType" onclick="focusInput()" class="label">Mod type: <input onfocus="this.select()" type="text" value="Sine"></div>
                         </div>
                         <div id="modAmtContainer" class="container">
@@ -69,7 +70,7 @@
                     <div class="bigTitle">Filter</div>
                     <div class="knobContainer">
                         <div id="filtTypeContainer" class="container">
-                            <div class="waveType"></div>
+                            <div class="waveType"><img src="View/Images/Lowpass.png" alt="Wave type"></div>
                             <div id="filter_param.type" onclick="focusInput()" class="label"><input onfocus="this.select()" type="text" value="Lowpass"></div>
                         </div>
                         <div id="cutoffContainer" class="container">
