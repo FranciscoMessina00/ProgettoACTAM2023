@@ -63,6 +63,7 @@ class Sequencer{
 
 class Channel{
     constructor(){
+        this.instrument = new Tone.Synth().toDestination();
         this.steps = [];
         for (let i = 0; i <= 15; i++) {
             this.steps[i] = new Step();           
@@ -72,7 +73,7 @@ class Channel{
         return this.steps;
     }
     playChannel(note, time){
-        this.steps[seq.getStepPlaying()].playSound(note, time);      
+        this.steps[seq.getStepPlaying()].playSound(note, time, this.instrument);      
     }
 }
 
@@ -88,10 +89,10 @@ class Step{
         this.params = ["osc_param", osc_param, "filter_param", filter_param, "LFO", LFO, "adsr_mix", adsr_mix, "adsr_filter", adsr_filter,  
         "flanger_param", flanger_param];
     }
-    playSound(note, time){
+    playSound(note, time, instrument){
         if(this.toPlay == 1){
             console.log(seq.getStepPlaying());
-            player.synth.triggerAttackRelease(note, "16n", time);
+            instrument.triggerAttackRelease(note, "16n", time);
         }
     }
     //getters
@@ -211,7 +212,7 @@ class Synth{
 
 class Player{
     constructor(){
-        this.synth = new Tone.Synth().toDestination();
+        
     }
     start(sequencer){
         sequencer.play();
