@@ -71,6 +71,9 @@ class Channel{
     getChannel(){
         return this.steps;
     }
+    playChannel(note, time){
+        this.steps[seq.getStepPlaying()].playSound(note, time);      
+    }
 }
 
 class Step{
@@ -85,7 +88,12 @@ class Step{
         this.params = ["osc_param", osc_param, "filter_param", filter_param, "LFO", LFO, "adsr_mix", adsr_mix, "adsr_filter", adsr_filter,  
         "flanger_param", flanger_param];
     }
-
+    playSound(note, time){
+        if(this.toPlay == 1){
+            console.log(seq.getStepPlaying());
+            player.synth.triggerAttackRelease(note, "16n", time);
+        }
+    }
     //getters
     getToPlay(){
         return this.toPlay;
@@ -198,5 +206,27 @@ class Synth{
             waveform: LFO.waveform,
         });
         return LFO;
+    }
+}
+
+class Player{
+    constructor(){
+        this.synth = new Tone.Synth().toDestination();
+    }
+    start(sequencer){
+        sequencer.play();
+        Tone.Transport.start();
+    }
+    stop(sequencer){
+        Tone.Transport.stop();
+        sequencer.stop();
+        sequencer.setStepPlaying(0);
+    }
+    playSound(time){
+        var notes = ["C4", "E4", "G4", "B4"];
+        var channels = seq.getAllSteps();
+        for (var i = 0; i < 4; i++) {
+            channels[i].playChannel(notes[i], time);
+        }
     }
 }

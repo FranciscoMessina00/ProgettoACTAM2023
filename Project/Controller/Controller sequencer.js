@@ -41,5 +41,11 @@ function detectClick(){
   });
 }
 
+Tone.Transport.scheduleRepeat(function(time){
+  //do something with the time
+  player.playSound(time);
+  seq.updateStep();
+}, "16n");
+
 requestAnimationFrame(drawSequencer);
 detectClick();

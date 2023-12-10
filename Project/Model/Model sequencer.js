@@ -1,4 +1,5 @@
 var seq = new Sequencer();
+var player = new Player();
 var canvas = document.getElementById("step");
 var ctx = canvas.getContext("2d");
 var scale = 0.3;

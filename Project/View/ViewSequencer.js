@@ -33,7 +33,9 @@ function drawRect(step, index, stepPlaying){
     ctx.globalAlpha = 0.75;
     ctx.strokeStyle = "transparent";
     ctx.lineWidth = 0;
-    if(step == 1){
+    if(index == stepPlaying && seq.isPlaying()){
+        ctx.fillStyle = "#6C3D11";
+    }else if(step == 1){
         ctx.fillStyle = "#C80000";
     }
     else{
