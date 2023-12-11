@@ -43,8 +43,8 @@ function detectClick(){
 
 Tone.Transport.scheduleRepeat(function(time){
   //do something with the time
-  player.playSound(time);
   seq.updateStep();
+  player.playSound(time);
 }, "16n");
 
 requestAnimationFrame(drawSequencer);

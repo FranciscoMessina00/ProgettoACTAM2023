@@ -9,7 +9,7 @@ class Sequencer{
                     ];
         this.selected = 0;
         this.playing = false;
-        this.stepPlaying = 0;
+        this.stepPlaying = 15;
     }
     setChannel(channel){
         if(channel < 0){
@@ -221,7 +221,7 @@ class Player{
     stop(sequencer){
         Tone.Transport.stop();
         sequencer.stop();
-        sequencer.setStepPlaying(0);
+        sequencer.setStepPlaying(15);
     }
     playSound(time){
         var notes = ["C4", "E4", "G4", "B4"];
