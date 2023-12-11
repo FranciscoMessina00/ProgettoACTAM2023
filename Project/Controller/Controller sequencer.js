@@ -32,8 +32,9 @@ function detectClick(){
       case 2:
         // right clicked
         if((Math.abs(posX) - i < 100*scale/widthCell) && (Math.abs(posY) - j < 100*scale/heightCell)){
-            console.log(i);
+            // console.log(i);
             seq.setSelected(i);
+            knobs.forEach(kn => updateKnobView(kn));
             // selected = i;
         }
         break;

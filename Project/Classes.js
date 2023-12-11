@@ -80,14 +80,14 @@ class Channel{
 class Step{
     constructor(){
         this.toPlay = 0;
-        this.osc_param = osc_param;
-        this.filter_param = filter_param;
-        this.LFO = LFO;
-        this.adsr_mix = adsr_mix;
-        this.adsr_filter = adsr_filter;
-        this.flanger_param = flanger_param;
-        this.params = ["osc_param", osc_param, "filter_param", filter_param, "LFO", LFO, "adsr_mix", adsr_mix, "adsr_filter", adsr_filter,  
-        "flanger_param", flanger_param];
+        this.osc_param = {...osc_param};
+        this.filter_param = {...filter_param};
+        this.LFO = {...LFO};
+        this.adsr_mix = {...adsr_mix};
+        this.adsr_filter = {...adsr_filter};
+        this.flanger_param = {...flanger_param};
+        this.params = ["osc_param", this.osc_param, "filter_param", this.filter_param, "LFO", this.LFO, "adsr_mix", 
+                        this.adsr_mix, "adsr_filter", this.adsr_filter, "flanger_param", this.flanger_param];
     }
     playSound(note, time, instrument){
         if(this.toPlay == 1){
@@ -143,6 +143,9 @@ class Step{
     }
     setFlangerParam(value){
         this.flanger_param = value;
+    }
+    setParams(value){
+        this.params = value;
     }
 }
 
