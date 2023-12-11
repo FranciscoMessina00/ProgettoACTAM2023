@@ -75,8 +75,25 @@ function updateKnobView(kn){
             normalizedValue = normalizeToAngle(label);
             knob.style.rotate = normalizedValue + "deg";
         }
+        updateWaveTypes();
         resizeInput(label);
     }
+}
+function updateWaveTypes(){
+    var stp = seq.getChannelSteps();
+    var params = stp[seq.getSelected()].getParams();
+    var waveType = document.getElementById("oscImg");
+    var file = "View/Images/" + params[1].type + ".png";
+    waveType.src = file;
+
+    var modType = document.getElementById("modImg");
+    var file = "View/Images/" + params[1].modType + ".png";
+    modType.src = file;
+    
+    var filtType = document.getElementById("filtImg");
+    var file = "View/Images/" + params[3].type + ".png";
+    filtType.src = file;
+
 }
 
 function normalizeToAngle(label){
@@ -107,12 +124,13 @@ function focusInput(){
     console.log(label);
     knobToChange = knob;
     labelToChange = label;
-    labelToChange.style.width = 5 + "ch";
+    // labelToChange.style.width = 5 + "ch";
     labelToChange.dispatchEvent(enterKey);
     labelToChange.focus();
 }
 function updateKnob(){
     labelToChange.blur();
+    updateParamValue();
     resizeInput(labelToChange);
     // we get maximum and minimum values of label and normalize the range from -170 to 170
     normalizedValue = normalizeToAngle(labelToChange);
@@ -166,5 +184,100 @@ function onMouseUp(){
     document.removeEventListener("mousemove", onMouseMove); //stop drag
 }
 function resizeInput(input) {
+    // console.log(input);
     input.style.width = input.value.length + "ch";
+}
+
+function changeLeft(category){
+    console.log("called");
+    if(category == "oscillator"){
+        var type = document.getElementById("oscType");
+        var condition = (element) => element == type.value;
+
+        var index = waveTypes.findIndex(condition);
+        index--;
+        if(index < 0){
+            index = 3;
+        }
+        type.value = waveTypes[index].toLowerCase();
+        var file = "View/Images/" + waveTypes[index] + ".png";
+        document.getElementById("oscImg").src = file;
+        
+        resizeInput(type);
+        
+    }
+    else if(category == "filter"){
+        var type = document.getElementById("filtType");
+        var condition = (element) => element == type.value;
+
+        var index = filterTypes.findIndex(condition);
+        index--;
+        if(index < 0){
+            index = 2;
+        }
+        type.value = filterTypes[index].toLowerCase();
+        var file = "View/Images/" + filterTypes[index] + ".png";
+        document.getElementById("filtImg").src = file;
+        
+        resizeInput(type);
+    }
+    else if(category == "modulation"){
+        var type = document.getElementById("modType");
+        var condition = (element) => element == type.value;
+
+        var index = waveTypes.findIndex(condition);
+        index--;
+        if(index < 0){
+            index = 3;
+        }
+        type.value = waveTypes[index].toLowerCase();
+        var file = "View/Images/" + waveTypes[index] + ".png";
+        document.getElementById("modImg").src = file;
+        
+        resizeInput(type);
+    }
+    updateParamValue()
+}
+function changeRight(category){
+    console.log("called: ", category);
+    if(category == "oscillator"){
+        console.log("inside")
+        var type = document.getElementById("oscType");
+        console.log(type.value);
+        var condition = (element) => element == type.value;
+
+        var index = waveTypes.findIndex(condition);
+        console.log(index)
+        index = (index + 1) % 4;
+        type.value = waveTypes[index].toLowerCase();
+        var file = "View/Images/" + waveTypes[index] + ".png";
+        document.getElementById("oscImg").src = file;
+
+        resizeInput(type);
+    }
+    else if(category == "filter"){
+        var type = document.getElementById("filtType");
+        var condition = (element) => element == type.value;
+
+        var index = filterTypes.findIndex(condition);
+        index = (index + 1) % 3;
+        type.value = filterTypes[index].toLowerCase();
+        var file = "View/Images/" + filterTypes[index] + ".png";
+        document.getElementById("filtImg").src = file;
+        
+        resizeInput(type);
+    }
+    else if(category == "modulation"){
+        var type = document.getElementById("modType");
+        var condition = (element) => element == type.value;
+
+        var index = waveTypes.findIndex(condition);
+        index = (index + 1) % 4;
+        type.value = waveTypes[index].toLowerCase();
+        var file = "View/Images/" + waveTypes[index] + ".png";
+        document.getElementById("modImg").src = file;
+
+        resizeInput(type);
+    }
+    updateParamValue()
 }

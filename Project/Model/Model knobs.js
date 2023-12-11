@@ -19,6 +19,9 @@ var oppositeSide;
 var getRadiansInDegrees;
 var finalAngleInDegrees;
 
+var waveTypes = ["sine", "square", "triangle", "sawtooth"];
+var filterTypes = ["lowpass", "highpass", "bandpass"];
+
 function updateParamValue(){
     spl = label.parentNode.id.split(".");
     var lbl_value = label.value;
@@ -27,6 +30,9 @@ function updateParamValue(){
         for (const [key, value] of Object.entries(tmp)){
             if(key == spl[1]){
                 tmp[key] = lbl_value;
+            }
+            if(key == "bpm"){
+                Tone.Transport.bpm.value = tmp[key];
             }
         }
         seq.setGlobals(tmp);
