@@ -1,6 +1,7 @@
 class Sequencer{
     constructor(){
         this.channel = 0;
+        this.bpm = bpm;
         this.steps = [
                         new Channel(),
                         new Channel(),
@@ -11,21 +12,14 @@ class Sequencer{
         this.playing = false;
         this.stepPlaying = 15;
     }
-    setChannel(channel){
-        if(channel < 0){
-            this.channel = 3;
-        } else if(channel > 3){
-            this.channel = 0;
-        } else {
-            this.channel = channel;
-        }
+    
+    // getters
+
+    getBPM(){
+        return this.bpm;
     }
     getChannel(){
         return this.channel;
-    }
-    triggerStep(step){
-        var curr_channel = this.steps[this.channel].getChannel()
-        curr_channel[step].setToPlay(1-curr_channel[step].getToPlay());  
     }
     getChannelSteps(){
         return this.steps[this.channel].getChannel();
@@ -36,9 +30,31 @@ class Sequencer{
     getSelected(){
         return this.selected;
     }
+    getStepPlaying(){
+        return this.stepPlaying;
+    }
+
+    //setters
+    setBPM(value){
+        this.bpm = value;
+    }
+    setChannel(channel){
+        if(channel < 0){
+            this.channel = 3;
+        } else if(channel > 3){
+            this.channel = 0;
+        } else {
+            this.channel = channel;
+        }
+    }
     setSelected(selected){
         this.selected = selected;
     }
+    setStepPlaying(step){
+        this.stepPlaying = step;
+    }
+    
+    
     play(){
         this.playing = true;
     }
@@ -53,12 +69,11 @@ class Sequencer{
             this.stepPlaying = (this.stepPlaying + 1) % 16;
         }
     }
-    setStepPlaying(step){
-        this.stepPlaying = step;
+    triggerStep(step){
+        var curr_channel = this.steps[this.channel].getChannel()
+        curr_channel[step].setToPlay(1-curr_channel[step].getToPlay());  
     }
-    getStepPlaying(){
-        return this.stepPlaying;
-    }
+    
 }
 
 class Channel{
@@ -68,7 +83,21 @@ class Channel{
         for (let i = 0; i <= 15; i++) {
             this.steps[i] = new Step();           
         }
+
+        // Parameters for the synth
+        this.filter = Synth.createFilter(filter_param, adsr_filter);
+        this.ampEnv = Synth.createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
+        this.oscillator = Synth.createOscillator(osc_param);
+        this.LFO = Synth.createLFO(LFO);
+        // Connections
+        this.oscillator.fmOsc.chain(this.ampEnv, this.filter.filter, Tone.Destination);
+        this.filter.env.chain(this.filter.envAmount, this.filter.filter.frequency);
+        this.LFO.chain(this.filter.LFOAmt, this.filter.filter.frequency);
+        this.LFO.chain(this.oscillator.LFOModFm, this.oscillator.fmOsc.modulationIndex);
     }
+
+    
+
     getChannel(){
         return this.steps;
     }
@@ -153,10 +182,10 @@ class Synth{
     static createAmpEnv(a, d, s, r) { 
         var ampEnv = new Tone.AmplitudeEnvelope();
         ampEnv.set({
-        attack: a,
-        decay: d,
-        sustain: s,
-        release: r,
+        attack: a/1000,
+        decay: d/1000,
+        sustain: s/1000,
+        release: r/1000,
         })               
         return ampEnv;     
     }
@@ -167,7 +196,7 @@ class Synth{
         fmOsc.set({
             frequency: osc_param.freq,
             type: osc_param.type,
-            modulationType: osc_param.modtype,
+            modulationType: osc_param.modType,
             harmonicity: osc_param.harm,
             modulationIndex: osc_param.mod,
         })
@@ -196,10 +225,10 @@ class Synth{
     
     static createFilterEnv(a, d, s, r) {
         var FilterEnv = new Tone.Envelope({
-        attack: a,
-        decay: d,
-        sustain: s,
-        release: r,
+        attack: a/1000,
+        decay: d/1000,
+        sustain: s/1000,
+        release: r/1000,
         });
         return FilterEnv;
     }

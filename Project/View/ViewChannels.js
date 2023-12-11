@@ -5,6 +5,7 @@ function changeChannelLeft(){
     var channelName = document.getElementById("channelName");
     channelName.innerHTML = "Channel " + (seq.getChannel() + 1);
     updateColorChannel(seq.getChannel());
+    knobs.forEach(kn => updateKnobView(kn));
 }
 function changeChannelRight(){
     var channel = seq.getChannel();
@@ -13,6 +14,7 @@ function changeChannelRight(){
     var channelName = document.getElementById("channelName");
     channelName.innerHTML = "Channel " + (seq.getChannel() + 1);
     updateColorChannel(seq.getChannel());
+    knobs.forEach(kn => updateKnobView(kn));
 }
 
 function updateColorChannel(channel){

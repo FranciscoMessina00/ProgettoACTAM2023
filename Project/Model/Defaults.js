@@ -1,7 +1,9 @@
+var bpm = 120;
+
 osc_param = {
     freq : 440,  
-    type : "sine", 
-    modType: "sine", 
+    type : 'sine', 
+    modType: 'sine',
     harm : 1.3, 
     mod : 1,
     //LFOamt: 1000,
