@@ -1,4 +1,6 @@
-var bpm = 120;
+var globals = {
+    bpm: 120,
+}
 
 osc_param = {
     freq : 440,  
@@ -56,5 +58,5 @@ var flanger_param = {
     color: 1000
 }
 
-defaults = ["osc_param", osc_param, "filter_param", filter_param, "LFO", LFO, "adsr_mix", adsr_mix, "adsr_filter", adsr_filter,  
+defaults = ["globals", globals, "osc_param", osc_param, "filter_param", filter_param, "LFO", LFO, "adsr_mix", adsr_mix, "adsr_filter", adsr_filter,  
 "flanger_param", flanger_param];

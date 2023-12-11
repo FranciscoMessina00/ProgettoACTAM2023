@@ -12,7 +12,6 @@
         <script src="View/ViewSequencer.js" defer></script>
         <script src="View/ViewChannels.js" defer></script>
         <script src="Controller/Controller knobs.js" defer></script>
-        <!-- <script src="Controller/Controller player.js" defer></script> -->
         <script src="Controller/Controller sequencer.js" defer></script>
         <link rel="stylesheet" href="elements.css"></style>
     </head>
@@ -115,12 +114,16 @@
                         </div>
                     </div>
                 </div>
-                <div id="controlBlock" style="width:100%; text-align: center;">
-                    <button>Yeah baby</button>
-                    <button>Stop</button>
+                <div id="controlBlock" class="blockSection">
+                    <div class="bigTitle">Global controls</div>
+                    <button onclick="player.start(seq)">Yeah baby</button>
+                    <button onclick="player.stop(seq)">Stop</button>
                     <button>Hear</button>
                     <button>Copy to all</button>
-                    <input type="range" min="30" max="300">
+                    <div id="bpmContainer" class="container">
+                        <div class="knob"><div class="dot"></div></div>
+                        <div id="globals.bpm" onclick="focusInput()" class="label">BPM: <input onfocus="this.select()" type="number" step="1" value="120" min="30" max="300"></div>
+                    </div>
                 </div>
                 <div id="containerSequencer">
                     <div id="canvasContainer" class="separationSteps"><canvas id="step" ></canvas></div>

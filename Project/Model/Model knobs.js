@@ -20,35 +20,46 @@ var getRadiansInDegrees;
 var finalAngleInDegrees;
 
 function updateParamValue(){
-    stp = seq.getChannelSteps();
-    // console.log(stp[seq.getSelected()])
-
-    params = stp[seq.getSelected()].getParams();
-
     spl = label.parentNode.id.split(".");
-
-    //console.log(spl)
-
-    var def_value = label.value;
-
-
-    //console.log(def_value);
-
-    for (let i = 0; i < params.length; i++) {
-        if(params[i] == spl[0]){
-            // console.log("yao");
-            tmp_dict = params[i+1];
-            for (var [key, value] of Object.entries(params[i + 1])){
-                if(key == spl[1]){
-                    value = def_value;
-                    tmp_dict[key] = value;
-                    params[i+1] = tmp_dict;
-                    //console.log(tmp_dict);
-                }
+    var lbl_value = label.value;
+    if (spl[0] == "globals"){
+        tmp = {...globals}
+        for (const [key, value] of Object.entries(tmp)){
+            if(key == spl[1]){
+                tmp[key] = lbl_value;
             }
         }
-   
-    }
+        seq.setGlobals(tmp);
+    }else{
+        stp = seq.getChannelSteps();
+        // console.log(stp[seq.getSelected()])
 
-    stp[seq.getSelected()].setParams(params)
+        params = stp[seq.getSelected()].getParams();
+
+        
+        //console.log(spl)
+
+
+
+        //console.log(def_value);
+
+        for (let i = 0; i < params.length; i++) {
+            if(params[i] == spl[0]){
+                // console.log("yao");
+                tmp_dict = params[i+1];
+                for (var [key, value] of Object.entries(params[i + 1])){
+                    if(key == spl[1]){
+                        
+                        tmp_dict[key] = lbl_value;
+                        params[i+1] = tmp_dict;
+                        //console.log(tmp_dict);
+                    }
+                }
+            }
+    
+        }
+
+        stp[seq.getSelected()].setParams(params)
+    }
+    
 }

@@ -1,7 +1,7 @@
 class Sequencer{
     constructor(){
         this.channel = 0;
-        this.bpm = bpm;
+        this.globals = {...globals};
         this.steps = [
                         new Channel(),
                         new Channel(),
@@ -15,8 +15,8 @@ class Sequencer{
     
     // getters
 
-    getBPM(){
-        return this.bpm;
+    getGlobals(){
+        return this.globals.bpm;
     }
     getChannel(){
         return this.channel;
@@ -35,8 +35,8 @@ class Sequencer{
     }
 
     //setters
-    setBPM(value){
-        this.bpm = value;
+    setGlobals(value){
+        this.globals.bpm = value;
     }
     setChannel(channel){
         if(channel < 0){
