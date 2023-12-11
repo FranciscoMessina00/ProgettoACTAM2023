@@ -45,34 +45,38 @@ function updateKnobView(kn){
     knob = kn.querySelector(".knob");
     label = kn.querySelector("input");
 
-    stp = seq.getChannelSteps();
-    params = stp[seq.getSelected()].getParams();
-
     spl = label.parentNode.id.split(".")
 
-    var def_value = 0;
+    if(spl[0] == "globals"){
+            console.log(spl[0]);
+    }
 
-    for (let i = 0; i < params.length; i++) {
-        if(params[i] == spl[0]){
-            for (const [key, value] of Object.entries(params[i + 1])){
-                if(key == spl[1]){
-                    def_value = value;
+    else{
+        stp = seq.getChannelSteps();
+        params = stp[seq.getSelected()].getParams();
+        
+        var def_value = 0;
+        
+        for (let i = 0; i < params.length; i++) {
+            if(params[i] == spl[0]){
+                for (const [key, value] of Object.entries(params[i + 1])){
+                    if(key == spl[1]){
+                        def_value = value;
+                    }
                 }
             }
-        }
-   
-    }
-
-    label.value = def_value;
-
     
-    // we get maximum and minimum values of label and normalize the range from -170 to 170
-    if (knob != null){
-        normalizedValue = normalizeToAngle(label);
-        knob.style.rotate = normalizedValue + "deg";
-    }
-    resizeInput(label);
+        }
+    
+        label.value = def_value;
 
+        // we get maximum and minimum values of label and normalize the range from -170 to 170
+        if (knob != null){
+            normalizedValue = normalizeToAngle(label);
+            knob.style.rotate = normalizedValue + "deg";
+        }
+        resizeInput(label);
+    }
 }
 
 function normalizeToAngle(label){
