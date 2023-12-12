@@ -34,15 +34,15 @@ var LFO = {
 
 var adsr_mix = {
     is_ar : false,
-    attack : 500,
-    decay : 500,
+    attack : 200,
+    decay : 200,
     sustain: 500,
     release : 2000 
 }
 
 var adsr_filter = {
     is_ar : false,
-    attack : 1000,
+    attack : 500,
     decay : 600,
     sustain: 500,
     release : 500

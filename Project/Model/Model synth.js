@@ -49,15 +49,72 @@
 //     release : 1
 // }
 // Parameters for the synth
-var filter = Synth.createFilter(filter_param, adsr_filter);
-var ampEnv = Synth.createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
-var oscillator = Synth.createOscillator(osc_param);
-var LFO = Synth.createLFO(LFO);
-// Connections
-oscillator.fmOsc.chain(ampEnv, filter.filter, Tone.Destination);
-filter.env.chain(filter.envAmount, filter.filter.frequency);
-LFO.chain(filter.LFOAmt, filter.filter.frequency);
-LFO.chain(oscillator.LFOModFm, oscillator.fmOsc.modulationIndex);
-// Start
-LFO.start();
-oscillator.fmOsc.start();
+// var filter = Synth.createFilter(filter_param, adsr_filter);
+// var ampEnv = Synth.createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
+// var oscillator = Synth.createOscillator(osc_param);
+// var LFO = Synth.createLFO(LFO);
+// // Connections
+// oscillator.fmOsc.chain(ampEnv, filter.filter, Tone.Destination);
+// filter.env.chain(filter.envAmount, filter.filter.frequency);
+// LFO.chain(filter.LFOAmt, filter.filter.frequency);
+// LFO.chain(oscillator.LFOModFm, oscillator.fmOsc.modulationIndex);
+// // Start
+// LFO.start();
+// oscillator.fmOsc.start();
+
+function updateSynthParams(){
+    var playing = seq.getStepPlaying();
+    var chn = seq.getChannel();
+    var stp = chn.getChannel()[playing];
+
+    console.log(chn.getFilter().filter.frequency.value)
+
+    updateOscillator(chn.getOscillator(), stp.osc_param);
+    updateEnv(chn.getAmpEnv(), stp.adsr_mix);
+    updateFilter(chn.getFilter(), stp.filter_param);
+    updateEnv(chn.getFilterEnv(), stp.adsr_filter);
+    updateLFO(chn.getLFO(), stp.LFO);
+}
+
+function updateOscillator(osc, par){
+
+    osc.fmOsc.set({
+        frequency: par.freq,
+        type: par.type,
+        modulationType: par.modType,
+        harmonicity: par.harm,
+        modulationIndex: par.mod
+    })
+}
+
+function updateEnv(env, par){
+
+    env.set({
+        attack: par.attack/1000,
+        decay: par.decay/1000,
+        sustain: par.sustain/1000,
+        release: par.release/1000
+    })
+}
+
+function updateFilter(fil, par){
+    // fil.set({
+    //     frequency : par.cutoff,
+    //     Q : par.resonance,
+    //     type : par.type
+    // })
+    fil.filter.frequency = par.cutoff,
+    fil.filter.Q = par.resonance,
+    fil.filter.type = par.type
+
+    fil.envAmount.gain.value = par.env_amount;
+    fil.LFOAmt.gain.value = par.LFO_amount;
+}
+
+function updateLFO(lfo, par){
+
+    lfo.set({
+        frequency: par.rate,
+        waveform: par.waveform
+    })
+}
