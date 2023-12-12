@@ -6,7 +6,7 @@ var canvas = document.getElementById("step");
 var ctx = canvas.getContext("2d");
 var scale = 0.3;
 canvas.width  = 1200;
-canvas.height = 86;
+canvas.height = 80;
 
 var dodecagon = [
     {x: 0   , y: -100},

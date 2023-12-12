@@ -132,3 +132,9 @@ function drawSequencer(){
     }
     requestAnimationFrame(drawSequencer);
 }
+
+function drawLittleSteps(channel, index){
+    for(var i = 0; i < 16; i++){
+        channel.innerHTML += '<span id="'+ index + i +'" class="littleStep"></span>';
+    }
+}

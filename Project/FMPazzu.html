@@ -18,7 +18,7 @@
     <body>
         <div id="tot">
             <div id="wholeContainer">
-                <div id="titleContainer"><button class="arrow-left" onclick="changeChannelLeft()"></button><div id="channelName" class="bigTitle">Channel 1</div><button class="arrow-right" onclick="changeChannelRight()"></button></div>
+                <div id="titleContainer" style="display: none;"><button class="arrow-left" onclick="changeChannelLeft()"></button><div id="channelName" class="bigTitle">Channel 1</div><button class="arrow-right" onclick="changeChannelRight()"></button></div>
                 <!-- Oscillator section -->
                 <div id="oscillator" class="blockSection">
                     <div class="bigTitle">Oscillator</div>
@@ -126,7 +126,11 @@
                     </div>
                 </div>
                 <div id="containerSequencer">
-                    <div id="canvasContainer" class="separationSteps"><canvas id="step" ></canvas></div>
+                    <div class="separationSteps ch1" id="ch1"><div class="littleSteps"></div></div>
+                    <div id="canvasContainer" class="separationSteps active"><canvas id="step" ></canvas></div>
+                    <div class="separationSteps ch2" id="ch2"><div class="littleSteps"></div></div>
+                    <div class="separationSteps ch3" id="ch3"><div class="littleSteps"></div></div>
+                    <div class="separationSteps ch4" id="ch4"><div class="littleSteps"></div></div>
                 </div>
             </div>
         </div>

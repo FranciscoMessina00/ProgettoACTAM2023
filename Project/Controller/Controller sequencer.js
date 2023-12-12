@@ -50,3 +50,9 @@ Tone.Transport.scheduleRepeat(function(time){
 
 requestAnimationFrame(drawSequencer);
 detectClick();
+visualizeChannels();
+for (var i = 0; i < 4; i++) {
+  var ch = document.getElementById('ch' + (i + 1)).firstChild;
+  console.log(ch)
+  drawLittleSteps(ch, i);
+}

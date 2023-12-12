@@ -10,7 +10,7 @@ class Sequencer{
                     ];
         this.selected = 0;
         this.playing = false;
-        this.stepPlaying = 15;
+        this.stepPlaying = -1;
     }
     
     // getters
@@ -287,7 +287,8 @@ class Player{
     stop(sequencer){
         Tone.Transport.stop();
         sequencer.stop();
-        sequencer.setStepPlaying(15);
+        sequencer.setStepPlaying(-1);
+        changeBorders();
     }
     playSound(time){
         // var notes = ["C4", "E4", "G4", "B4"];
@@ -296,5 +297,6 @@ class Player{
             // channels[i].playChannel(notes[i], time);
             channels[i].playChannel(time);
         }
+        changeBorders();
     }
 }
