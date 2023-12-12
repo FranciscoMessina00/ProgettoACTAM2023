@@ -1,19 +1,19 @@
 function changeChannelLeft(){
-    var channel = seq.getChannel();
+    var channel = seq.getChannelIndex();
     channel--;
     seq.setChannel(channel);
     var channelName = document.getElementById("channelName");
-    channelName.innerHTML = "Channel " + (seq.getChannel() + 1);
-    updateColorChannel(seq.getChannel());
+    channelName.innerHTML = "Channel " + (seq.getChannelIndex() + 1);
+    updateColorChannel(seq.getChannelIndex());
     knobs.forEach(kn => updateKnobView(kn));
 }
 function changeChannelRight(){
-    var channel = seq.getChannel();
+    var channel = seq.getChannelIndex();
     channel++;
     seq.setChannel(channel);
     var channelName = document.getElementById("channelName");
-    channelName.innerHTML = "Channel " + (seq.getChannel() + 1);
-    updateColorChannel(seq.getChannel());
+    channelName.innerHTML = "Channel " + (seq.getChannelIndex() + 1);
+    updateColorChannel(seq.getChannelIndex());
     knobs.forEach(kn => updateKnobView(kn));
 }
 

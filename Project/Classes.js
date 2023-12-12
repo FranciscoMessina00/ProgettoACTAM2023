@@ -18,6 +18,9 @@ class Sequencer{
     getGlobals(){
         return this.globals.bpm;
     }
+    getChannelIndex(){
+        return this.channel;
+    }
     getChannel(){
         return this.steps[this.channel];
     }
