@@ -67,7 +67,7 @@ function updateSynthParams(){
     var chn = seq.getChannel();
     var stp = chn.getChannel()[playing];
 
-    console.log(chn.getFilter().filter.frequency.value)
+    console.log(chn.getFilter())
 
     updateOscillator(chn.getOscillator(), stp.osc_param);
     updateEnv(chn.getAmpEnv(), stp.adsr_mix);
@@ -103,12 +103,13 @@ function updateFilter(fil, par){
     //     Q : par.resonance,
     //     type : par.type
     // })
-    fil.filter.frequency = par.cutoff,
-    fil.filter.Q = par.resonance,
-    fil.filter.type = par.type
-
-    fil.envAmount.gain.value = par.env_amount;
-    fil.LFOAmt.gain.value = par.LFO_amount;
+    fil.filter.set({
+        frequency : par.cutoff,
+        Q : par.resonance,
+        type : par.type
+    })
+    fil.envAmount.set({gain : par.env_amount});
+    fil.LFOAmt.set({gain : par.LFO_amount});
 }
 
 function updateLFO(lfo, par){

@@ -48,7 +48,7 @@ function updateKnobView(kn){
     spl = label.parentNode.id.split(".")
 
     if(spl[0] == "globals"){
-            console.log(spl[0]);
+            // console.log(spl[0]);
     }
 
     else{
@@ -121,7 +121,7 @@ function normalizeToValue(value, label){
     return normalizedValue;
 }
 function focusInput(){
-    console.log(label);
+    // console.log(label);
     knobToChange = knob;
     labelToChange = label;
     // labelToChange.style.width = 5 + "ch";
@@ -189,7 +189,7 @@ function resizeInput(input) {
 }
 
 function changeLeft(category){
-    console.log("called");
+    // console.log("called");
     if(category == "oscillator"){
         var type = document.getElementById("oscType");
         var condition = (element) => element == type.value;
@@ -239,15 +239,15 @@ function changeLeft(category){
     updateParamValue()
 }
 function changeRight(category){
-    console.log("called: ", category);
+    // console.log("called: ", category);
     if(category == "oscillator"){
-        console.log("inside")
+        // console.log("inside")
         var type = document.getElementById("oscType");
-        console.log(type.value);
+        // console.log(type.value);
         var condition = (element) => element == type.value;
 
         var index = waveTypes.findIndex(condition);
-        console.log(index)
+        // console.log(index)
         index = (index + 1) % 4;
         type.value = waveTypes[index].toLowerCase();
         var file = "View/Images/" + waveTypes[index] + ".png";

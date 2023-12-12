@@ -125,7 +125,7 @@ class Channel{
     //     this.steps[seq.getStepPlaying()].playSound(note, time, this.ampEnv);     
     // }
     playChannel(time){
-        this.steps[seq.getStepPlaying()].playSound(time, this.ampEnv);
+        this.steps[seq.getStepPlaying()].playSound(time, this.ampEnv, this.filter.env);
     }
 }
 
@@ -149,12 +149,13 @@ class Step{
     //         // instrument.triggerAttackRelease("16n");
     //     }
     // }
-    playSound(time, instrument){
+    playSound(time, ampEnv, filter){
         if(this.toPlay == 1){
             updateSynthParams()
             // console.log(seq.getStepPlaying());
             // instrument.triggerAttackRelease(note, "16n", time);
-            instrument.triggerAttackRelease("16n");
+            ampEnv.triggerAttackRelease("16n");
+            filter.triggerAttackRelease("16n");
         }
     }
     //getters
