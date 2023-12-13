@@ -25,7 +25,7 @@ class Sequencer{
         return this.steps[this.channel];
     }
     getChannelSteps(){
-        return this.steps[this.channel].getChannel();
+        return this.steps[this.channel].getSteps();
     }
     getAllSteps(){
         return this.steps;
@@ -73,7 +73,7 @@ class Sequencer{
         }
     }
     triggerStep(step){
-        var curr_channel = this.steps[this.channel].getChannel()
+        var curr_channel = this.steps[this.channel].getSteps()
         curr_channel[step].setToPlay(1-curr_channel[step].getToPlay());  
     }
     
@@ -119,7 +119,7 @@ class Channel{
         return this.LFO;
     }
     
-    getChannel(){
+    getSteps(){
         return this.steps;
     }
     // playChannel(note, time){

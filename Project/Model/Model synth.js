@@ -67,7 +67,7 @@ function updateSynthParams(){
     var playing = seq.getStepPlaying();
     var chn = seq.getAllSteps();
     for(var i = 0; i < chn.length; i++){
-        var stp = chn[i].getChannel()[playing];
+        var stp = chn[i].getSteps()[playing];
         if(stp.toPlay == 1){
             updateOscillator(chn[i].getOscillator(), stp.osc_param);
             updateEnv(chn[i].getAmpEnv(), stp.adsr_mix);
