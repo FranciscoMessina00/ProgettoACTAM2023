@@ -5,11 +5,11 @@
 
     
     <script>
-        const c = new AudioContext();
+         const c = new AudioContext();
         c.resume();
         Tone.context = c;
 
-        osc_param = {
+        var osc_param = {
             freq : 440,         //20-20000 Hz
             type : "sine", 
             modtype: "sine", 
@@ -20,8 +20,8 @@
         var global = {
             glide : 0,
             vibrato : 0,
-            position: 0.2,
-            //LFOpos: 1,
+            position: 0,        //-1, 1 posizione left-right
+            LFOpos: 0,          //0-1 LFO sposta la posizione
         }
 
         var filter_param = {
@@ -33,9 +33,9 @@
             LFO_amount : 100,     //0-10000, per avere tutto il range di freq: cutoff a 10 kHz e LFO che va da -10000 a +10000
         }
 
-        var LFO = {             // tutti gli LFO implementati in questo synth sono bipolari (-1,1) e arrivano in banda audio
-            waveform : 'triangle',
-            rate : 2, //0.1-20000 Hz
+        var LFO = {             // tutti gli LFO implementati in questo synth sono bipolari (-1,1) e arrivano in banda audio. Ogni volta che si usa un nodo di gain per controllare la modulazione se si utilizzano valori negativi si inverte la forma d'onda (utile per passare da dente a rampa)
+            waveform : 'square',
+            rate : 1, //0.1-20000 Hz
             sync : false,
         }
 
@@ -58,12 +58,12 @@
         var flanger_param = {   // Notare che spostare l'overdive prima o dopo il nodo di feedback cambia il timbro. Anche cambiare la funzione del waveshaper ha un effetto pesante. Bisogna scegliere.
             rate : 0.3,           //0.1-20000 Hz
             type : 'sine',
-            depth: 0.5,         //0.1-1    Attenua l'uscita della delay line
-            feedback : 0.7,     //0-1      Regola il feedback (1 è abbastanza sgravato)
-            width : 0.011,      //0-0.015  Osserva i valori della delay line!
-            dw: 0.5,            //0-1      Semplice DryWet
-            color: 2.5,           //0-3      Quantità di distorsione. 0-1 no dist, 1-2 soft, 2-3 hard, >3 self-oscillation (potremmo spostare l'ampEnv dopo il flanger e sfruttare questo comportamento)
-            stereo: 1            
+            depth: 0.3,         //0.1-1    Attenua l'uscita delle delay line
+            feedback : 0.9,     //0-1      Regola il feedback (1 è abbastanza sgravato). Notare l'implementazione di un percorso di crossfeedback (il feedback di destra va al canale sinistro e viceversa, vedi createFlanger)
+            width : 0.010,      //0-0.015  Osserva i valori delle delay line!
+            dw: 0.5,              //0-1      Semplice DryWet
+            color: 0.3,         //0-1      Quantità di distorsione. Questo comportamento è fortemente influenzato dal valore di feedback (vedi createFlanger per vedere come i due parametri sono relazionati)
+            stereo: 1           //0-1      Crea delle differenze tra il canale di destra e sinistra (vedi createFlanger)   
         }
 
 
@@ -134,11 +134,11 @@
         function createFlanger(flanger_param) {
 
             var LFOl = new Tone.Oscillator(flanger_param.rate, flanger_param.type);
-            var LFOr = new Tone.Oscillator(flanger_param.rate + flanger_param.stereo/2, flanger_param.type);
+            var LFOr = new Tone.Oscillator(flanger_param.rate + flanger_param.stereo, flanger_param.type);  // Il parametro stereo alza la frequenza di uno dei due LFO
             var modl = new Tone.Gain(flanger_param.width);
-            var modr = new Tone.Gain(flanger_param.width + flanger_param.stereo*0.005);
+            var modr = new Tone.Gain(flanger_param.width - flanger_param.stereo*0.005);  // Il parametro stereo abbassa la quantità di modulazione dell'LFO
             var dlyl = new Tone.Delay(0.015, 0.030);
-            var dlyr = new Tone.Delay(0.015 + flanger_param.stereo*0.005, 0.035);
+            var dlyr = new Tone.Delay(0.015 - flanger_param.stereo*0.005, 0.035);  // Il parametro stereo abbassa il ritardo iniziale di una delle due linee di ritardo
             var feedbackl = new Tone.Gain(flanger_param.feedback);
             var feedbackr = new Tone.Gain(flanger_param.feedback);
             var range_depthl = new Tone.Gain(flanger_param.depth);
@@ -146,15 +146,17 @@
             var crossFadel = new Tone.CrossFade(0.5);
             var crossFader = new Tone.CrossFade(0.5);
             var dryWet = new Tone.CrossFade(flanger_param.dw);
+            var colorl = new Tone.CrossFade(flanger_param.color);  // I due color verranno utilizzati per creare una specie di drywet interno al flanger per gestire la quantità di distorsione
+            var colorr = new Tone.CrossFade(flanger_param.color);
             var overdrivel = new Tone.WaveShaper(function (val) {
 
-                var amt = flanger_param.color;
+                var amt = 3 - flanger_param.feedback;  // Bisogna abbassare l'amt di distorsione perché con valori di feedback troppo alti si rischia l'auto-oscillazione del flanger. Il carattere della distorsione dipende tantissimo dal feedback e non solo per l'operazione di sottrazione ma soprattutto per come questo cambia il flusso del segnale audio
                 return Math.tanh(2^(amt*val));  //tanh e 2^val sono funzioni utilizzate nel design di distorsori. Io le ho combinate, se volete sperimentate altre funzioni.
                 }, 2048);
 
             var overdriver = new Tone.WaveShaper(function (val) {
 
-                var amt = flanger_param.color;
+                var amt = 3 - flanger_param.feedback;
                 return Math.tanh(2^(amt*val));  //tanh e 2^val sono funzioni utilizzate nel design di distorsori. Io le ho combinate, se volete sperimentate altre funzioni.
                 }, 2048);    
 
@@ -163,15 +165,19 @@
             s.connect(crossFadel.a, 0, 0);
             crossFadel.connect(dlyl, 0, 0);
             dlyl.connect(overdrivel, 0, 0);
-            overdrivel.connect(feedbackl, 0, 0);
-            feedbackl.connect(crossFadel.b, 0, 0);
+            dlyl.connect(colorl.a, 0, 0);
+            overdrivel.connect(colorl.b, 0, 0);
+            colorl.connect(feedbackl, 0, 0);
+            feedbackl.connect(crossFader.b, 0, 0);  // Qui (e nel punto simmetrico nel canale r) avviene la connessione incrociata dei percorsi di feedback
             dlyl.connect(range_depthl, 0, 0)
             LFOl.chain(modl, dlyl.delayTime);
             s.connect(crossFader.a, 1, 0);
             crossFader.connect(dlyr, 0, 0);
             dlyr.connect(overdriver, 0, 0);
-            overdriver.connect(feedbackr, 0, 0)
-            feedbackr.connect(crossFader.b, 0, 0);
+            dlyr.connect(colorr.a, 0, 0);
+            overdriver.connect(colorr.b, 0, 0);
+            colorr.connect(feedbackr, 0, 0);
+            feedbackr.connect(crossFadel.b, 0, 0);
             dlyr.connect(range_depthr, 0, 0)
             LFOr.chain(modr, dlyr.delayTime);
             range_depthl.connect(m, 0, 0);
@@ -193,24 +199,19 @@
         var LFO = createLFO(LFO);
         var pan = new Tone.Panner(global.position);
         var LFOpan = new Tone.Gain(global.LFOpos);
-        var compressor = new Tone.Compressor();
+        var limiter = new Tone.Limiter(0);  // Secondo voi va bene questa scelta?
 
         oscillator.fmOsc.chain(ampEnv, filter.filter, pan, flanger.s);
         pan.connect(flanger.dryWet.a)
-        flanger.dryWet.chain(compressor, Tone.Destination);
-        filter.filter.connect(flanger.dryWet.a);
+        flanger.dryWet.chain(limiter, Tone.Destination);
         filter.env.chain(filter.envAmount, filter.filter.frequency);
         LFO.chain(filter.LFOAmt, filter.filter.frequency);
         LFO.chain(oscillator.LFOModFm, oscillator.fmOsc.modulationIndex);
-        //LFO.chain(LFOpan, pan.pan);
+        LFO.chain(LFOpan, pan.pan);
 
         LFO.start();
         oscillator.fmOsc.start();
     
-
-
-
-        
     </script>
 
 
