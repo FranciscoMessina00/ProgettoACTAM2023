@@ -36,15 +36,15 @@ var adsr_mix = {
     is_ar : false,
     attack : 200,
     decay : 200,
-    sustain: 500,
-    release : 2000 
+    sustain: 0.5,
+    release : 200 
 }
 
 var adsr_filter = {
     is_ar : false,
     attack : 500,
     decay : 600,
-    sustain: 500,
+    sustain: 0.5,
     release : 500
 }
 

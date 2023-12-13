@@ -86,18 +86,19 @@ class Channel{
         for (let i = 0; i <= 15; i++) {
             this.steps[i] = new Step();           
         }
-
+        this.limiter = new Tone.Limiter(-1);
+        this.limiter.connect(Tone.Destination);
         // Parameters for the synth
         this.filter = Synth.createFilter(filter_param, adsr_filter);
         this.ampEnv = Synth.createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
         this.oscillator = Synth.createOscillator(osc_param);
         this.LFO = Synth.createLFO(LFO);
         // Connections
-        this.oscillator.fmOsc.chain(this.ampEnv, this.filter.filter, Tone.Destination);
+        this.oscillator.fmOsc.chain(this.ampEnv, this.filter.filter, this.limiter);
         this.filter.env.chain(this.filter.envAmount, this.filter.filter.frequency);
         this.LFO.chain(this.filter.LFOAmt, this.filter.filter.frequency);
         this.LFO.chain(this.oscillator.LFOModFm, this.oscillator.fmOsc.modulationIndex);
-        
+        this.LFO.start()
         // this.instrument = new Tone.Synth().toDestination();
         this.oscillator.fmOsc.start()
     }
@@ -125,7 +126,7 @@ class Channel{
     //     this.steps[seq.getStepPlaying()].playSound(note, time, this.ampEnv);     
     // }
     playChannel(time){
-        this.steps[seq.getStepPlaying()].playSound(time, this.ampEnv, this.filter.env);
+        this.steps[seq.getStepPlaying()].playSound(time, this.ampEnv, this.filter.env, this.oscillator.fmOsc);
     }
 }
 
@@ -149,13 +150,18 @@ class Step{
     //         // instrument.triggerAttackRelease("16n");
     //     }
     // }
-    playSound(time, ampEnv, filter){
+    playSound(time, ampEnv, filter, osc){
         if(this.toPlay == 1){
             updateSynthParams()
             // console.log(seq.getStepPlaying());
             // instrument.triggerAttackRelease(note, "16n", time);
-            ampEnv.triggerAttackRelease("16n");
-            filter.triggerAttackRelease("16n");
+            console.log(Tone.Transport.ticks);
+            console.log(time);
+            ampEnv.cancel(time, 0.05);
+            filter.cancel(time, 0.05);
+            ampEnv.triggerAttackRelease(ampEnv.attack, time + 0.08);
+            filter.triggerAttackRelease(filter.attack, time + 0.08);
+            
         }
     }
     //getters
@@ -218,7 +224,7 @@ class Synth{
         ampEnv.set({
             attack: a/1000,
             decay: d/1000,
-            sustain: s/1000,
+            sustain: s,
             release: r/1000,
         })               
         return ampEnv;     
@@ -261,7 +267,7 @@ class Synth{
         var FilterEnv = new Tone.Envelope({
         attack: a/1000,
         decay: d/1000,
-        sustain: s/1000,
+        sustain: s,
         release: r/1000,
         });
         return FilterEnv;
@@ -282,6 +288,7 @@ class Player{
     }
     start(sequencer){
         sequencer.play();
+        Tone.start();
         Tone.Transport.start();
     }
     stop(sequencer){

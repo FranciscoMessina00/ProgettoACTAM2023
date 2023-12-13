@@ -3,7 +3,7 @@ document.addEventListener('contextmenu', event => event.preventDefault());
 function detectClick(){
   const widthCell = (canvas.width / 16);
   const heightCell = canvas.height;
-  canvas.addEventListener("mouseup", (e) => {
+  canvas.addEventListener("mousedown", (e) => {
     var rect = canvas.getBoundingClientRect();
     var x = e.clientX - rect.left;
     var y = e.clientY - rect.top;

@@ -1,6 +1,7 @@
 // const c = new AudioContext();
 // c.resume();
-// Tone.context = c;
+Tone.setContext(new Tone.Context({ latencyHint : "playback" }))
+Tone.context.lookAhead = 0.2;
 
 // var osc_param = {
 //     freq : 440, 
@@ -64,16 +65,17 @@
 
 function updateSynthParams(){
     var playing = seq.getStepPlaying();
-    var chn = seq.getChannel();
-    var stp = chn.getChannel()[playing];
-
-    console.log(chn.getFilter())
-
-    updateOscillator(chn.getOscillator(), stp.osc_param);
-    updateEnv(chn.getAmpEnv(), stp.adsr_mix);
-    updateFilter(chn.getFilter(), stp.filter_param);
-    updateEnv(chn.getFilterEnv(), stp.adsr_filter);
-    updateLFO(chn.getLFO(), stp.LFO);
+    var chn = seq.getAllSteps();
+    for(var i = 0; i < chn.length; i++){
+        var stp = chn[i].getChannel()[playing];
+        if(stp.toPlay == 1){
+            updateOscillator(chn[i].getOscillator(), stp.osc_param);
+            updateEnv(chn[i].getAmpEnv(), stp.adsr_mix);
+            updateFilter(chn[i].getFilter(), stp.filter_param);
+            updateEnv(chn[i].getFilterEnv(), stp.adsr_filter);
+            updateLFO(chn[i].getLFO(), stp.LFO);
+        }
+    }
 }
 
 function updateOscillator(osc, par){
@@ -92,7 +94,7 @@ function updateEnv(env, par){
     env.set({
         attack: par.attack/1000,
         decay: par.decay/1000,
-        sustain: par.sustain/1000,
+        sustain: par.sustain,
         release: par.release/1000
     })
 }
