@@ -18,7 +18,8 @@ var knobCenterY;
 var oppositeSide;
 var getRadiansInDegrees;
 var finalAngleInDegrees;
-
+var minAngle = 170; 
+var maxAngle = -170;
 var waveTypes = ["sine", "square", "triangle", "sawtooth"];
 var filterTypes = ["lowpass", "highpass", "bandpass"];
 

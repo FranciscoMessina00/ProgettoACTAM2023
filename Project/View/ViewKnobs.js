@@ -35,7 +35,9 @@ function setSingleKnobValues(kn){
     
     // we get maximum and minimum values of label and normalize the range from -170 to 170
     if (knob != null){
-        normalizedValue = normalizeToAngle(label);
+        isLabelFrequency = label.parentNode.id.includes("freq") || label.parentNode.id.includes("cutoff") || label.parentNode.id.includes("rate");
+        console.log(isLabelFrequency);
+        normalizedValue = normalizeToAngle(label, isLabelFrequency);
         knob.style.rotate = normalizedValue + "deg";
     }
     resizeInput(label);
@@ -72,7 +74,8 @@ function updateKnobView(kn){
 
         // we get maximum and minimum values of label and normalize the range from -170 to 170
         if (knob != null){
-            normalizedValue = normalizeToAngle(label);
+            isLabelFrequency = label.parentNode.id.includes("freq") || label.parentNode.id.includes("cutoff") || label.parentNode.id.includes("rate");
+            normalizedValue = normalizeToAngle(label, isLabelFrequency);
             knob.style.rotate = normalizedValue + "deg";
         }
         updateWaveTypes();
@@ -96,16 +99,17 @@ function updateWaveTypes(){
 
 }
 
-function normalizeToAngle(label){
+function normalizeToAngle(label, frequency=false){
     var max = parseFloat(label.max);
     var min = parseFloat(label.min);
     var value = parseFloat(label.value);
-    if (value > max) {
-        label.value = max;
-    }else if (value < min) {
-        label.value = min;
+    
+    if(frequency){
+        var scaler = (Math.log(max)-Math.log(min)) / (maxAngle-minAngle); 
+        var normalizedValue = -(Math.log(value)-Math.log(min)+scaler*minAngle)/scaler;
+    }else{
+        var normalizedValue = (value - min) * 340 / (max - min) - 170;
     }
-    var normalizedValue = (value - min) * 340 / (max - min) - 170;
     if(normalizedValue < -170){
         normalizedValue = -170;
     }else if(normalizedValue > 170){
@@ -113,12 +117,19 @@ function normalizeToAngle(label){
     }
     return normalizedValue;
 }
-function normalizeToValue(value, label){
+function normalizeToValue(value, label, frequency=false){
     // we get from -170 to 170 values and normalize the range to the min of the label and max of the label
     var max = parseFloat(label.max);
     var min = parseFloat(label.min);
-    var normalizedValue = (value + 170) * (max - min) / 340 + min;
+    // we get from -170 to 170 values and normalize the range to the min of the label and max of the label but in a logarithmic way base 10
+    if(frequency){
+        var scaler = (Math.log(max)-Math.log(min)) / (maxAngle-minAngle); 
+        var normalizedValue = Math.exp(Math.log(min) + scaler * (-value - minAngle));
+    }else{
+        var normalizedValue = (value + 170) * (max - min) / 340 + min;
+    }
     return normalizedValue;
+
 }
 function focusInput(){
     // console.log(label);
@@ -133,13 +144,14 @@ function updateKnob(){
     updateParamValue();
     resizeInput(labelToChange);
     // we get maximum and minimum values of label and normalize the range from -170 to 170
-    normalizedValue = normalizeToAngle(labelToChange);
+    isLabelFrequency = labelToChange.parentNode.id.includes("freq") || labelToChange.parentNode.id.includes("cutoff") || labelToChange.parentNode.id.includes("rate");
+    normalizedValue = normalizeToAngle(labelToChange, isLabelFrequency);
     knob.style.rotate = normalizedValue + "deg";
 }
 function onMouseMove(event){
     // console.log(parseInt(label.value));
     if(knob.classList.contains("knob")){
-        lastCurrentRadiansAngle = normalizeToAngle(label);
+        lastCurrentRadiansAngle = parseFloat(knob.style.rotate);
         if(event.shiftKey){
             scaling = 0.1;
         }
@@ -165,10 +177,13 @@ function onMouseMove(event){
             finalAngleInDegrees = 170;
         }
 
+        isLabelFrequency = label.parentNode.id.includes("freq") || label.parentNode.id.includes("cutoff") || label.parentNode.id.includes("rate");
+
+        // console.log(isLabelFrequency)
         if(label.step.length != 1){
-            label.value = normalizeToValue(finalAngleInDegrees, label).toFixed(label.step.length - 2);
+            label.value = normalizeToValue(finalAngleInDegrees, label, isLabelFrequency).toFixed(label.step.length - 2);
         } else{
-            label.value = normalizeToValue(finalAngleInDegrees, label).toFixed(0);
+            label.value = normalizeToValue(finalAngleInDegrees, label, isLabelFrequency).toFixed(0);
         }
         
         resizeInput(label);
