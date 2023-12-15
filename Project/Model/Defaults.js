@@ -37,7 +37,9 @@ var adsr_mix = {
     attack : 200,
     decay : 200,
     sustain: 0.5,
-    release : 200 
+    release : 200,
+    tmp_decay : 0,
+    tmp_sustain : 0
 }
 
 var adsr_filter = {
@@ -45,7 +47,9 @@ var adsr_filter = {
     attack : 500,
     decay : 600,
     sustain: 0.5,
-    release : 500
+    release : 500,
+    tmp_decay : 0,
+    tmp_sustain : 0
 }
 
 var flanger_param = {

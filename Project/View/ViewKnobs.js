@@ -62,7 +62,7 @@ function updateKnobView(kn){
         params = stp[seq.getSelected()].getParams();
         // we initialize the default value to set to the parameter to 0
         var def_value = 0;
-        // we loop through the defaults.js file to get the default value of the parameter
+        // we loop through the defaults.js file to get the current value of the parameter
         for (let i = 0; i < params.length; i++) {
             if(params[i] == spl[0]){
                 for (const [key, value] of Object.entries(params[i + 1])){
@@ -173,7 +173,7 @@ function onMouseMove(event){
     // when we move the mouse after we clicked on the knob we update the value of the parameter
     // we check if the knob is of the type knob so it can rotate (thi is because we have other types of knobs
     // like the ones of the wave type)
-    if(knob.classList.contains("knob")){
+    if(knob.classList.contains("knob") && !(knob.classList.contains("is_ar"))){
         // we get the current angle of the knob
         lastCurrentRadiansAngle = parseFloat(knob.style.rotate);
         // we check if the shift key is pressed or not, in order to change the speed of the knob
@@ -322,4 +322,53 @@ function changeRight(category){
         resizeInput(type);
     }
     updateParamValue()
+}
+
+
+function sw_ar(id_ck, id_d, id_s){
+    var ck = document.getElementById(id_ck);
+    var ids = [id_d, id_s];
+
+    var lbl;
+    var stp = seq.getChannelSteps()[seq.getSelected()];
+
+    if(ck.value){
+        ids.forEach(i => {
+            lbl = document.getElementById(ids[i]);
+            lbl.children[0].disabled = true;
+            lbl.parentNode.children[0].classList.toggle("is_ar");
+
+            if(id_d.split(".")[0] == "adsr_mix"){
+                stp.getAdsrMix().tmp_decay = stp.getAdsrMix().decay;
+                stp.getAdsrMix().decay = 0;
+                stp.getAdsrMix().tmp_sustain = stp.getAdsrMix().sustain;
+                stp.getAdsrMix().sustain = 0;
+            }
+            else{
+                stp.getAdsrFilter().tmp_decay = stp.getAdsrMix().decay;
+                stp.getAdsrFilter().decay = 0;
+                stp.getAdsrFilter().tmp_sustain = stp.getAdsrMix().sustain;
+                stp.getAdsrFilter().sustain = 0;
+            }
+            
+        })
+    }
+    else{
+        lbl = document.getElementById(ids[i]);
+        lbl.children[0].disabled = false;
+        lbl.parentNode.children[0].classList.toggle("is_ar");
+
+        if(id_d.split(".")[0] == "adsr_mix"){
+            stp.getAdsrMix().decay = stp.getAdsrMix().tmp_decay;
+            stp.getAdsrMix().tmp_decay = 0;
+            stp.getAdsrMix().sustain = stp.getAdsrMix().tmp_sustain ;
+            stp.getAdsrMix().tmp_sustain = 0;
+        }
+        else{
+            stp.getAdsrFilter().decay = stp.getAdsrMix().tmp_decay;
+            stp.getAdsrFilter().tmp_decay = 0;
+            stp.getAdsrFilter().sustain = stp.getAdsrMix().tmp_sustain ;
+            stp.getAdsrFilter().tmp_sustain = 0;
+        }
+    }
 }
