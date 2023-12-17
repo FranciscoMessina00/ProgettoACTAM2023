@@ -21,15 +21,47 @@ function updateColorChannel(channel){
     switch(channel){
         case 0:
             document.getElementById("wholeContainer").style.backgroundColor = "#3C3C48";
+            document.querySelectorAll(".dot").forEach(el => el.style.backgroundColor = "#44116C");
+            document.querySelectorAll(".knob").forEach(el => el.style.borderColor = "#44116C");
+            document.querySelectorAll("label").forEach(el => el.style.backgroundColor = "#44116C");
+            document.querySelectorAll("input:checked + label").forEach(el => el.style.backgroundColor = "grey");
+            document.querySelectorAll(".blockSection").forEach(el => el.style.borderColor = "#44116C");
+            colorDodOnOut = '#8951FF';
+            colorDodOnIn = '#BE6AFF';
+            colorRectOffSel = '#FF9CD2';
             break;
         case 1:
             document.getElementById("wholeContainer").style.backgroundColor = "#56243C";
+            document.querySelectorAll(".dot").forEach(el => el.style.backgroundColor = "#77005D");
+            document.querySelectorAll(".knob").forEach(el => el.style.borderColor = "#77005D");
+            document.querySelectorAll("label").forEach(el => el.style.backgroundColor = "#77005D");
+            document.querySelectorAll("input:checked + label").forEach(el => el.style.backgroundColor = "#808080");
+            document.querySelectorAll(".blockSection").forEach(el => el.style.borderColor = "#77005D");
+            colorDodOnOut = '#FF51EE';
+            colorDodOnIn = '#FF6AA9';
+            colorRectOffSel = '#FD9CFF';
             break;
         case 2:
             document.getElementById("wholeContainer").style.backgroundColor = "#1D571C";
+            document.querySelectorAll(".dot").forEach(el => el.style.backgroundColor = "#066004");
+            document.querySelectorAll(".knob").forEach(el => el.style.borderColor = "#066004");
+            document.querySelectorAll("label").forEach(el => el.style.backgroundColor = "#066004");
+            document.querySelectorAll("input:checked + label").forEach(el => el.style.backgroundColor = "grey");
+            document.querySelectorAll(".blockSection").forEach(el => el.style.borderColor = "#066004");
+            colorDodOnOut = '#7EFF51';
+            colorDodOnIn = '#6AFF70';
+            colorRectOffSel = '#34A72A';
             break;
         case 3:
             document.getElementById("wholeContainer").style.backgroundColor = "#6D1111";
+            document.querySelectorAll(".dot").forEach(el => el.style.backgroundColor = "#580C0C");
+            document.querySelectorAll(".knob").forEach(el => el.style.borderColor = "#580C0C");
+            document.querySelectorAll("label").forEach(el => el.style.backgroundColor = "#580C0C");
+            document.querySelectorAll("input:checked + label").forEach(el => el.style.backgroundColor = "grey");
+            document.querySelectorAll(".blockSection").forEach(el => el.style.borderColor = "#580C0C");
+            colorDodOnOut = '#FF5151';
+            colorDodOnIn = '#FF6A6A';
+            colorRectOffSel = '#FF9CD2';
             break;
     }
 }
@@ -102,7 +134,7 @@ function changeBorders(){
             if(j == seq.getStepPlaying() && seq.isPlaying()){
                 childrenList[0].children[j].style.backgroundColor = "#6C3D11";
             }else{
-                if(allSteps[i].getChannel()[j].getToPlay() == 1){
+                if(allSteps[i].getSteps()[j].getToPlay() == 1){
                     childrenList[0].children[j].style.backgroundColor = "#C80000";
                 }else{
                     childrenList[0].children[j].style.backgroundColor = "#D9D9D9";

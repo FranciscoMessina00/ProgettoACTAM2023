@@ -331,10 +331,11 @@ function sw_ar(id_ck, id_d, id_s){
 
     var lbl;
     var stp = seq.getChannelSteps()[seq.getSelected()];
-
+    updateColorChannel(seq.getChannelIndex());
     if(ck.value){
         ids.forEach(i => {
-            lbl = document.getElementById(ids[i]);
+            lbl = document.getElementById(i);
+            console.log(lbl)
             lbl.children[0].disabled = true;
             lbl.parentNode.children[0].classList.toggle("is_ar");
 

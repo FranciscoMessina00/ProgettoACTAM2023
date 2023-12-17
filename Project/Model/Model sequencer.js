@@ -36,5 +36,5 @@ var colorRectOffNotSel = '#7B7B7B';
 var colorRectOffSel = '#FF9CD2';
 var colorRectOn = '#C80000';
 
-var strokeNotPlaying = '#44116C';
+var strokeNotPlaying = '#343434';
 var strokePlaying = '#6C3D11';

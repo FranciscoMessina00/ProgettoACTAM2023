@@ -259,3 +259,55 @@ button{
     opacity: 0.85;
     margin: 0 7.5px;
 }
+.is_ar{
+    opacity: 30%;
+}
+
+input[type=checkbox]{
+	height: 0;
+	width: 0;
+	visibility: hidden;
+    margin: 0;
+}
+
+label {
+	rotate: 90deg;
+	cursor: pointer;
+	text-indent: -5px;
+	width: 50px;
+	height: 25px;
+	background: #45116c;
+	display: block;
+	border-radius: 10px;
+	position: relative;
+    /* top: -10px;
+    left: -15px */
+}
+
+label:after {
+	content: '';
+	position: absolute;
+	top: 1.25px;
+	left: 1.25px;
+	width: 22.5px;
+	height: 22.5px;
+	background: #D9D9D9;
+	border-radius: 22.5px;
+	transition: 0.3s;
+}
+
+input:checked + label {
+	background: rgb(128, 128, 128);
+}
+
+input:checked + label:after {
+	left: calc(100% - 1.25px);
+	transform: translateX(-100%);
+}
+
+label:active:after {
+	width: 32.5px;
+}
+.ar_box, .adsr_box{
+    margin:13px 0px;
+}

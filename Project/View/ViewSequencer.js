@@ -39,7 +39,7 @@ function drawRect(step, index, stepPlaying){
         ctx.fillStyle = "#C80000";
     }
     else{
-        ctx.fillStyle = !(index == seq.getSelected()) ? "#7B7B7B" : "#FF9CD2";
+        ctx.fillStyle = !(index == seq.getSelected()) ? colorRectOffNotSel : colorRectOffSel;
     }
     
     ctx.roundRect(-sideRect/2, yPos, sideRect, heightRect, rad);
