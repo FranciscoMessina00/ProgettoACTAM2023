@@ -70,9 +70,10 @@ function updateKnobView(kn){
             if(sw_o.checked != stp[seq.getSelected()].getAdsrMix().is_ar){
                 sw_o.checked = stp[seq.getSelected()].getAdsrMix().is_ar
                 
+                updateColorChannel(seq.getChannelIndex());
                 //change switch color
-                if(sw_o.checked == false){sw_o.labels[0].style.background = "#45116c"}
-                else{sw_o.labels[0].style.background = "rgb(128, 128, 128)"}
+                // if(sw_o.checked == false){sw_o.labels[0].style.background = "#45116c"}
+                // else{sw_o.labels[0].style.background = "rgb(128, 128, 128)"}
                 
                 label.parentNode.parentNode.parentNode.children[1].children[0].classList.toggle("is_ar")
                 label.parentNode.parentNode.parentNode.children[1].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrMix().is_ar
@@ -82,9 +83,10 @@ function updateKnobView(kn){
             if(sw_f.checked != stp[seq.getSelected()].getAdsrFilter().is_ar){
                 sw_f.checked = stp[seq.getSelected()].getAdsrFilter().is_ar
 
+                updateColorChannel(seq.getChannelIndex());
                 //change switch color
-                if(sw_f.checked == false){sw_f.labels[0].style.background = "#45116c"}
-                else{sw_f.labels[0].style.background = "rgb(128, 128, 128)"}
+                // if(sw_f.checked == false){sw_f.labels[0].style.background = "#45116c"}
+                // else{sw_f.labels[0].style.background = "rgb(128, 128, 128)"}
                 
                 label.parentNode.parentNode.parentNode.children[1].children[0].classList.toggle("is_ar")
                 label.parentNode.parentNode.parentNode.children[1].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrFilter().is_ar
@@ -104,7 +106,7 @@ function updateKnobView(kn){
         params = stp[seq.getSelected()].getParams();
         // we initialize the default value to set to the parameter to 0
         var def_value = 0;
-        // we loop through the defaults.js file to get the current value of the parameter
+        // we loop through the params of step file to get the current value of the parameter
         for (let i = 0; i < params.length; i++) {
             if(params[i] == spl[0]){
                 for (const [key, value] of Object.entries(params[i + 1])){
