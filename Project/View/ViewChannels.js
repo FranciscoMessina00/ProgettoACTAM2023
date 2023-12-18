@@ -29,6 +29,10 @@ function updateColorChannel(channel){
             colorDodOnOut = '#8951FF';
             colorDodOnIn = '#BE6AFF';
             colorRectOffSel = '#FF9CD2';
+
+            document.getElementById("oscillator").style.display = "block";
+            document.getElementById("filter1").style.display = "block";
+            document.getElementById("drumSection").style.display = "none";
             break;
         case 1:
             document.getElementById("wholeContainer").style.backgroundColor = "#56243C";
@@ -40,6 +44,10 @@ function updateColorChannel(channel){
             colorDodOnOut = '#FF51EE';
             colorDodOnIn = '#FF6AA9';
             colorRectOffSel = '#FD9CFF';
+
+            document.getElementById("oscillator").style.display = "block";
+            document.getElementById("filter1").style.display = "block";
+            document.getElementById("drumSection").style.display = "none";
             break;
         case 2:
             document.getElementById("wholeContainer").style.backgroundColor = "#1D571C";
@@ -51,6 +59,10 @@ function updateColorChannel(channel){
             colorDodOnOut = '#7EFF51';
             colorDodOnIn = '#6AFF70';
             colorRectOffSel = '#34A72A';
+
+            document.getElementById("oscillator").style.display = "block";
+            document.getElementById("filter1").style.display = "block";
+            document.getElementById("drumSection").style.display = "none";
             break;
         case 3:
             document.getElementById("wholeContainer").style.backgroundColor = "#6D1111";
@@ -62,6 +74,10 @@ function updateColorChannel(channel){
             colorDodOnOut = '#FF5151';
             colorDodOnIn = '#FF6A6A';
             colorRectOffSel = '#FF9CD2';
+
+            document.getElementById("oscillator").style.display = "none";
+            document.getElementById("filter1").style.display = "none";
+            document.getElementById("drumSection").style.display = "flex";
             break;
     }
 }

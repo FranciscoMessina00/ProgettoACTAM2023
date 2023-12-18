@@ -6,7 +6,7 @@ function setInitialKnobValues(){
 //init of knobs based on Default.js values
 function setSingleKnobValues(kn){
     knob = kn.querySelector(".knob");
-    label = kn.querySelector("input");
+    label = kn.querySelector(".inputEl");
     // to get the id of the parameter connected to the div
     // var parameter = label.parentNode.id;
     // then because we have a string as an output to call the model in Defaults.js
@@ -53,7 +53,7 @@ function updateKnobView(kn){
         
     // we get the knob and the label of the knob
     knob = kn.querySelector(".knob");
-    label = kn.querySelector("input");
+    label = kn.querySelector(".inputEl");
     // we split the id of the label to get the parameter name and the parameter type
     spl = label.parentNode.id.split(".")
 
@@ -160,8 +160,8 @@ function normalizeToAngle(label, frequency=false){
     // minimum and maximum rotation of the knob. We will map it in a logarithmic way base 10
     // if the knob is a frequency knob, otherwise we will map it in a linear way
     if(frequency){
-        var scaler = (Math.log(max)-Math.log(min)) / (maxAngle-minAngle); 
-        var normalizedValue = -(Math.log(value)-Math.log(min)+scaler*minAngle)/scaler;
+        var scaler = (Math.log2(max)-Math.log2(min)) / (maxAngle-minAngle); 
+        var normalizedValue = -(Math.log2(value)-Math.log2(min)+scaler*minAngle)/scaler;
     }else{
         var normalizedValue = (value - min) * 340 / (max - min) - 170;
     }
@@ -184,8 +184,8 @@ function normalizeToValue(value, label, frequency=false){
     // minimum and maximum values of the parameter. We will map it in a logarithmic way base 10
     // if the knob is a frequency knob, otherwise we will map it in a linear way
     if(frequency){
-        var scaler = (Math.log(max)-Math.log(min)) / (maxAngle-minAngle); 
-        var normalizedValue = Math.exp(Math.log(min) + scaler * (-value - minAngle));
+        var scaler = (Math.log2(max)-Math.log2(min)) / (maxAngle-minAngle); 
+        var normalizedValue = 2**(Math.log2(min) + scaler * (-value - minAngle));
     }else{
         var normalizedValue = (value + 170) * (max - min) / 340 + min;
     }

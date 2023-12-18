@@ -8,7 +8,7 @@ function detectKnob(){
         if(knob == null){
             knob = c.querySelector(".waveType");
         }
-        label = c.querySelector("input");
+        label = c.querySelector(".inputEl");
         document.addEventListener("mousemove", onMouseMove);
         document.addEventListener("mouseup", onMouseUp);
         label.addEventListener("change", updateKnob);

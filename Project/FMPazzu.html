@@ -25,23 +25,31 @@
                     <div class="knobContainer">
                         <div id="wavTypeContainer" class="container arrows">
                             <button class="arrow-left" onclick="changeLeft('oscillator')"></button><div class="waveType"><img id="oscImg" src="View/Images/Sine.png" alt="Wave type"></div><button class="arrow-right" onclick="changeRight('oscillator')"></button>
-                            <div id="osc_param.type" class="label"><input disabled id="oscType" type="text" value="sine"></div>
+                            <div id="osc_param.type" class="label"><input class="inputEl" disabled id="oscType" type="text" value="sine"></div>
                         </div>
                         <div id="frequencyContainer" class="container">
-                            <div class="knob"><div class="dot"></div></div>
-                            <div id="osc_param.freq" onclick="focusInput()" class="label">Frequency: <input onfocus="this.select()" type="number" value="440" step="1" min="20" max="20000">Hz</div>
+                            <div style="display:inline-flex">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div style="display: flex;margin: auto;align-items: center;flex-direction: column;position: relative;"><input type="checkbox" id="ch_freq" onchange=""/><label for="ch_freq"></label></div>    
+                            </div>
+                            <div id="osc_param.freq" onclick="focusInput()" class="label">Frequency: <input class="inputEl" onfocus="this.select()" type="number" value="440" step="1" min="20" max="20000">Hz</div>
+                        
                         </div>
                         <div id="harmonicityContainer" class="container">
                             <div class="knob"><div class="dot"></div></div>
-                            <div id="osc_param.harm" onclick="focusInput()" class="label">Harmonicity: <input onfocus="this.select()" type="number" step="0.1" value="0.6" min="0" max="30"></div>
+                            <div id="osc_param.harm" onclick="focusInput()" class="label">Harmonicity: <input class="inputEl" onfocus="this.select()" type="number" step="0.1" value="0.6" min="0" max="30"></div>
                         </div>
                         <div id="modTypeContainer" class="container arrows">
                             <button class="arrow-left" onclick="changeLeft('modulation')"></button><div class="waveType"><img id="modImg" src="View/Images/Sine.png" alt="Wave type"></div><button class="arrow-right" onclick="changeRight('modulation')"></button>
-                            <div id="osc_param.modType" class="label">Mod type: <input id="modType" type="text" value="Sine"></div>
+                            <div id="osc_param.modType" class="label">Mod type: <input class="inputEl" id="modType" type="text" value="Sine"></div>
                         </div>
                         <div id="modAmtContainer" class="container">
                             <div class="knob"><div class="dot"></div></div>
-                            <div id="osc_param.mod" onclick="focusInput()" class="label">Mod amount: <input onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            <div id="osc_param.mod" onclick="focusInput()" class="label">Mod amount: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                        </div>
+                        <div id="lfoAmtContainer" class="container">
+                            <div class="knob"><div class="dot"></div></div>
+                            <div id="osc_param.LFOamt" onclick="focusInput()" class="label">LFO amount: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
                         </div>
                     </div>
                     <div class="smallTitle">Oscillator envelope</div>
@@ -49,19 +57,19 @@
                         <div class="knobContainer">
                             <div id="oscillatorAttackContainer" class="container largerContainer">
                                 <div class="knob"><div class="dot"></div></div>
-                                <div id="adsr_mix.attack" onclick="focusInput()" class="label">Attack: <input onfocus="this.select()" type="number" value="500" step="1" min="0" max="3000">ms</div>
+                                <div id="adsr_mix.attack" onclick="focusInput()" class="label">Attack: <input class="inputEl" onfocus="this.select()" type="number" value="500" step="1" min="0" max="3000">ms</div>
                             </div>
                             <div id="oscillatorDecayContainer" class="container largerContainer">
                                 <div class="knob"><div class="dot"></div></div>
-                                <div id="adsr_mix.decay" onclick="focusInput()" class="label">Decay: <input onfocus="this.select()" type="number" step="1" value="500" min="0" max="3000">ms</div>
+                                <div id="adsr_mix.decay" onclick="focusInput()" class="label">Decay: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="500" min="0" max="3000">ms</div>
                             </div>
                             <div id="oscillatorReleaseContainer" class="container largerContainer">
                                 <div class="knob"><div class="dot"></div></div>
-                                <div id="adsr_mix.release" onclick="focusInput()" class="label">Release: <input onfocus="this.select()" type="number" step="1" value="500" min="0" max="3000">ms</div>
+                                <div id="adsr_mix.release" onclick="focusInput()" class="label">Release: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="500" min="0" max="3000">ms</div>
                             </div>
                             <div id="oscillatorSustainContainer" class="container largerContainer">
                                 <div class="knob"><div class="dot"></div></div>
-                                <div id="adsr_mix.sustain" onclick="focusInput()" class="label">Sustain: <input onfocus="this.select()" type="number" step="0.01" value="0.5" min="0" max="1"></div>
+                                <div id="adsr_mix.sustain" onclick="focusInput()" class="label">Sustain: <input class="inputEl" onfocus="this.select()" type="number" step="0.01" value="0.5" min="0" max="1"></div>
                             </div>
                         </div>
                         <div style="left: -22px;display: flex;margin: auto;align-items: center;flex-direction: column;position: relative;"><div class="adsr_box">ADSR</div><input type="checkbox" id="ch_osc" onchange="sw_ar('ch_osc', 'adsr_mix.decay', 'adsr_mix.sustain')"/><label for="ch_osc"></label><div class="ar_box">AR</div></div>
@@ -73,27 +81,27 @@
                     <div class="knobContainer">
                         <div id="filtTypeContainer" class="container arrows">
                             <button class="arrow-left" onclick="changeLeft('filter')"></button><div class="waveType"><img id="filtImg" src="View/Images/Lowpass.png" alt="Wave type"></div><button class="arrow-right" onclick="changeRight('filter')"></button>
-                            <div id="filter_param.type" class="label"><input id="filtType" type="text" value="Lowpass"></div>
+                            <div id="filter_param.type" class="label"><input class="inputEl" id="filtType" type="text" value="Lowpass"></div>
                         </div>
                         <div id="cutoffContainer" class="container">
                             <div class="knob"><div class="dot"></div></div>
-                            <div id="filter_param.cutoff" onclick="focusInput()" class="label">Cutoff: <input onfocus="this.select()" type="number" value="20000" step="1" min="20" max="20000">Hz</div>
+                            <div id="filter_param.cutoff" onclick="focusInput()" class="label">Cutoff: <input class="inputEl" onfocus="this.select()" type="number" value="20000" step="1" min="20" max="20000">Hz</div>
                         </div>
                         <div id="resonanceContainer" class="container">
                             <div class="knob"><div class="dot"></div></div>
-                            <div id="filter_param.resonance" onclick="focusInput()" class="label">Resonance: <input onfocus="this.select()" type="number" step="0.1" value="10.0" min="0" max="10"></div>
+                            <div id="filter_param.resonance" onclick="focusInput()" class="label">Resonance: <input class="inputEl" onfocus="this.select()" type="number" step="0.1" value="10.0" min="0" max="10"></div>
                         </div>
                         <div id="envAmtContainer" class="container">
                             <div class="knob"><div class="dot"></div></div>
-                            <div id="filter_param.env_amount" onclick="focusInput()" class="label">Env amount: <input onfocus="this.select()" type="number" step="1" value="0" min="0" max="20000"></div>
+                            <div id="filter_param.env_amount" onclick="focusInput()" class="label">Env amount: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="0" min="0" max="20000"></div>
                         </div>
                         <div id="lfoAmtContainer" class="container">
                             <div class="knob"><div class="dot"></div></div>
-                            <div id="filter_param.LFO_amount" onclick="focusInput()" class="label">LFO amount: <input onfocus="this.select()" type="number" step="1" value="0" min="0" max="1000"></div>
+                            <div id="filter_param.LFO_amount" onclick="focusInput()" class="label">LFO amount: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="0" min="0" max="1000"></div>
                         </div>
                         <div id="filterRateContainer" class="container">
                             <div class="knob"><div class="dot"></div></div>
-                            <div id="LFO.rate" onclick="focusInput()" class="label">LFO rate: <input onfocus="this.select()" type="number" value="2" step="0.1" min="0.1" max="200">Hz</div>
+                            <div id="LFO.rate" onclick="focusInput()" class="label">LFO rate: <input class="inputEl" onfocus="this.select()" type="number" value="2" step="0.1" min="0.1" max="200">Hz</div>
                         </div>
                     </div>
 
@@ -102,24 +110,144 @@
                         <div class="knobContainer">
                             <div id="filterAttackContainer" class="container largerContainer">
                                 <div class="knob"><div class="dot"></div></div>
-                                <div id="adsr_filter.attack" onclick="focusInput()" class="label">Attack: <input onfocus="this.select()" type="number" value="1000" step="1" min="0" max="3000">ms</div>
+                                <div id="adsr_filter.attack" onclick="focusInput()" class="label">Attack: <input class="inputEl" onfocus="this.select()" type="number" value="1000" step="1" min="0" max="3000">ms</div>
                             </div>
                             <div id="filterDecayContainer" class="container largerContainer">
                                 <div class="knob"><div class="dot"></div></div>
-                                <div id="adsr_filter.decay" onclick="focusInput()" class="label">Decay: <input onfocus="this.select()" type="number" step="1" value="600" min="0" max="3000">ms</div>
+                                <div id="adsr_filter.decay" onclick="focusInput()" class="label">Decay: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="600" min="0" max="3000">ms</div>
                             </div>
                             <div id="filterReleaseContainer" class="container largerContainer">
                                 <div class="knob"><div class="dot"></div></div>
-                                <div id="adsr_filter.release" onclick="focusInput()" class="label">Release: <input onfocus="this.select()" type="number" step="1" value="1000" min="0" max="3000">ms</div>
+                                <div id="adsr_filter.release" onclick="focusInput()" class="label">Release: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="1000" min="0" max="3000">ms</div>
                             </div>
                             <div id="filterSustainContainer" class="container largerContainer">
                                 <div class="knob"><div class="dot"></div></div>
-                                <div id="adsr_filter.sustain" onclick="focusInput()" class="label">Sustain: <input onfocus="this.select()" type="number" step="0.01" value="0.5" min="0" max="1"></div>
+                                <div id="adsr_filter.sustain" onclick="focusInput()" class="label">Sustain: <input class="inputEl" onfocus="this.select()" type="number" step="0.01" value="0.5" min="0" max="1"></div>
                             </div>
                         </div>
                         <div style="left: -22px;display: flex;margin: auto;align-items: center;flex-direction: column;position: relative;"><div class="adsr_box">ADSR</div><input type="checkbox" id="ch_filter" onchange="sw_ar('ch_filter', 'adsr_filter.decay', 'adsr_filter.sustain')"/><label for="ch_filter"></label><div class="ar_box">AR</div></div>
                     </div>
                 </div>
+                <!-- Drum elements -->
+                <div id="drumSection">
+                    <div id="kick" class="blockSection limitWidth">
+                        <div class="bigTitle">Kick</div>
+                        <div class="knobContainer">
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="snare" class="blockSection limitWidth">
+                        <div class="smallTitle">Snare</div>
+                        <div class="knobContainer">
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="hihat" class="blockSection limitWidth">
+                        <div class="smallTitle">Hi-hat</div>
+                        <div class="knobContainer">
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tom" class="blockSection limitWidth">
+                        <div class="smallTitle">Tom</div>
+                        <div class="knobContainer">
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                            <div id="param" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="kick1" onclick="focusInput()" class="label">Param: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Global controls -->
                 <div id="controlBlock" class="blockSection">
                     <div class="bigTitle">Global controls</div>
                     <button onclick="player.start(seq)">Yeah baby</button>
@@ -128,7 +256,7 @@
                     <button>Copy to all</button>
                     <div id="bpmContainer" class="container">
                         <div class="knob"><div class="dot"></div></div>
-                        <div id="globals.bpm" onclick="focusInput()" class="label">BPM: <input onfocus="this.select()" type="number" step="1" value="120" min="30" max="300"></div>
+                        <div id="globals.bpm" onclick="focusInput()" class="label">BPM: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="120" min="30" max="300"></div>
                     </div>
                 </div>
                 <div id="containerSequencer">

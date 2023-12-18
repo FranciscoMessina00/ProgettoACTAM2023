@@ -51,6 +51,9 @@ button{
     margin: 0;
     cursor: pointer;
 }
+#controlBlock{
+    width: 330px;
+}
 #canvasContainer{
     position: relative;
     width: 100%;
@@ -79,9 +82,11 @@ button{
 }
 #filter1{
     width: 400px;
+    display: block;
 }
 #oscillator{
     width: 400px;
+    display: block;
 }
 #titleContainer{
     width:100%;
@@ -91,6 +96,13 @@ button{
     align-content: center;
     align-items: center;
     justify-content: center;
+}
+#drumSection{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 845px;
+    display: none;
 }
 .knobContainer{
     display: flex;
@@ -310,4 +322,11 @@ label:active:after {
 }
 .ar_box, .adsr_box{
     margin:13px 0px;
+}
+.note_box, .hz_box{
+    margin:13px 0px;
+}
+
+.limitWidth{
+    max-width: 400px;
 }
