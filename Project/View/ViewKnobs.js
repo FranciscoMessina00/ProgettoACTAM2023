@@ -48,6 +48,9 @@ function setSingleKnobValues(kn){
 
 //update of knob values based on model values
 function updateKnobView(kn){
+    sw_o = document.getElementById("ch_osc")
+    sw_f = document.getElementById("ch_filter")
+        
     // we get the knob and the label of the knob
     knob = kn.querySelector(".knob");
     label = kn.querySelector("input");
@@ -61,6 +64,33 @@ function updateKnobView(kn){
     else{
         // we get the steps of the current selected channel
         stp = seq.getChannelSteps();
+
+        if(spl[1] == "decay" || spl[1] == "release"){
+            if(sw_o.checked != stp[seq.getSelected()].getAdsrMix().is_ar){
+                sw_o.checked = stp[seq.getSelected()].getAdsrMix().is_ar
+                
+                label.parentNode.parentNode.parentNode.children[1].children[0].classList.toggle("is_ar")
+                label.parentNode.parentNode.parentNode.children[1].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrMix().is_ar
+                label.parentNode.parentNode.parentNode.children[3].children[0].classList.toggle("is_ar")
+                label.parentNode.parentNode.parentNode.children[3].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrMix().is_ar  
+            }
+            if(sw_f.checked != stp[seq.getSelected()].getAdsrFilter().is_ar){
+                sw_f.checked = stp[seq.getSelected()].getAdsrFilter().is_ar
+                
+                label.parentNode.parentNode.parentNode.children[1].children[0].classList.toggle("is_ar")
+                label.parentNode.parentNode.parentNode.children[1].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrFilter().is_ar
+                label.parentNode.parentNode.parentNode.children[3].children[0].classList.toggle("is_ar")
+                label.parentNode.parentNode.parentNode.children[3].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrFilter().is_ar  
+            }
+        }
+        // if(spl[0] == "adsr_filter"){
+        //     // if(sw_f.checked != stp[seq.getSelected()].getAdsrFilter().is_ar){
+        //     //     sw_f.checked = stp[seq.getSelected()].getAdsrFilter().is_ar
+        //     //     label.parentNode.parentNode.parentNode.children[1].children[1].disabled = stp[seq.getSelected()].getAdsrFilter().is_ar
+        //     //     label.parentNode.parentNode.parentNode.children[3].children[1].disabled = stp[seq.getSelected()].getAdsrFilter().is_ar  
+        //     // }
+        // }
+        // console.log(stp)
         // we get the parameters of the current selected channel
         params = stp[seq.getSelected()].getParams();
         // we initialize the default value to set to the parameter to 0
@@ -339,17 +369,16 @@ function sw_ar(id_ck, id_d, id_s){
     if(ck.checked){
         ids.forEach(i => {
             lbl = document.getElementById(i);
-            console.log(lbl)
+            // console.log(lbl)
             lbl.children[0].disabled = true;
             lbl.parentNode.children[0].classList.toggle("is_ar");
 
 
             if(i.split(".")[0] == "adsr_mix"){
                 // console.log(stp.getAdsrMix().decay)
-
+                stp.getAdsrMix().is_ar = true;
                 if(i.split(".")[1] == "decay"){
-                    stp.getAdsrMix().tmp_decay = stp.getAdsrMix().decay;
-                    
+                    stp.getAdsrMix().tmp_decay = stp.getAdsrMix().decay;                    
                     stp.getAdsrMix().decay = 0;
                 }
                 else{
@@ -359,28 +388,30 @@ function sw_ar(id_ck, id_d, id_s){
                 
                 
             }
-            else{
+            else{ //if(i.split(".")[0] == "adsr_filter"){
+                stp.getAdsrFilter().is_ar = true;
                 if(i.split(".")[1] == "decay"){
-                    stp.getAdsrFilter().tmp_decay = stp.getAdsrMix().decay;
+                    stp.getAdsrFilter().tmp_decay = stp.getAdsrFilter().decay;
                     stp.getAdsrFilter().decay = 0;
                 }
                 else{
-                    stp.getAdsrFilter().tmp_sustain = stp.getAdsrMix().sustain;
+                    stp.getAdsrFilter().tmp_sustain = stp.getAdsrFilter().sustain;
                     stp.getAdsrFilter().sustain = 0;
                 }
             }
-            
+            updateKnobView(lbl.parentNode)
         })
     }
     else{
         ids.forEach(i => {
             lbl = document.getElementById(i);
-            console.log(lbl)
+            // console.log(i.split("."))
             lbl.children[0].disabled = false;
             lbl.parentNode.children[0].classList.toggle("is_ar");
 
-            if(i.split(".")[1] == "adsr_mix"){
-                if(i.split(".") == "decay"){
+            if(i.split(".")[0] == "adsr_mix"){
+                stp.getAdsrMix().is_ar = false;
+                if(i.split(".")[1] == "decay"){
                     stp.getAdsrMix().decay = stp.getAdsrMix().tmp_decay;
                     stp.getAdsrMix().tmp_decay = 0;
                 }
@@ -391,15 +422,19 @@ function sw_ar(id_ck, id_d, id_s){
                 
             }
             else{
+                stp.getAdsrFilter().is_ar = false;
                 if(i.split(".")[1] == "decay"){
-                    stp.getAdsrFilter().decay = stp.getAdsrMix().tmp_decay;
+                    stp.getAdsrFilter().decay = stp.getAdsrFilter().tmp_decay;
                     stp.getAdsrFilter().tmp_decay = 0;
                 }
                 else{
-                    stp.getAdsrFilter().sustain = stp.getAdsrMix().tmp_sustain ;
+                    stp.getAdsrFilter().sustain = stp.getAdsrFilter().tmp_sustain ;
                     stp.getAdsrFilter().tmp_sustain = 0;
                 }
             }
+            updateKnobView(lbl.parentNode)
         }) 
     }
+    // console.log(lbl.parentNode)
+    // updateKnobView(lbl.parentNode)
 }
