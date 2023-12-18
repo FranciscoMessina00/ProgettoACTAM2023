@@ -65,9 +65,14 @@ function updateKnobView(kn){
         // we get the steps of the current selected channel
         stp = seq.getChannelSteps();
 
+        //check if adsr-ar switch has been changed previously for this step; if so updates view 
         if(spl[1] == "decay" || spl[1] == "release"){
             if(sw_o.checked != stp[seq.getSelected()].getAdsrMix().is_ar){
                 sw_o.checked = stp[seq.getSelected()].getAdsrMix().is_ar
+                
+                //change switch color
+                if(sw_o.checked == false){sw_o.labels[0].style.background = "#45116c"}
+                else{sw_o.labels[0].style.background = "rgb(128, 128, 128)"}
                 
                 label.parentNode.parentNode.parentNode.children[1].children[0].classList.toggle("is_ar")
                 label.parentNode.parentNode.parentNode.children[1].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrMix().is_ar
@@ -76,6 +81,10 @@ function updateKnobView(kn){
             }
             if(sw_f.checked != stp[seq.getSelected()].getAdsrFilter().is_ar){
                 sw_f.checked = stp[seq.getSelected()].getAdsrFilter().is_ar
+
+                //change switch color
+                if(sw_f.checked == false){sw_f.labels[0].style.background = "#45116c"}
+                else{sw_f.labels[0].style.background = "rgb(128, 128, 128)"}
                 
                 label.parentNode.parentNode.parentNode.children[1].children[0].classList.toggle("is_ar")
                 label.parentNode.parentNode.parentNode.children[1].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrFilter().is_ar
