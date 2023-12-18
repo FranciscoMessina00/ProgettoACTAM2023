@@ -2,6 +2,8 @@ function setInitialKnobValues(){
     // We get all the knobs in the page and set their values to the default values
     knobs.forEach(kn => setSingleKnobValues(kn));
 }
+
+//init of knobs based on Default.js values
 function setSingleKnobValues(kn){
     knob = kn.querySelector(".knob");
     label = kn.querySelector("input");
@@ -44,6 +46,7 @@ function setSingleKnobValues(kn){
     resizeInput(label);
 }
 
+//update of knob values based on model values
 function updateKnobView(kn){
     // we get the knob and the label of the knob
     knob = kn.querySelector(".knob");
@@ -328,48 +331,75 @@ function changeRight(category){
 function sw_ar(id_ck, id_d, id_s){
     var ck = document.getElementById(id_ck);
     var ids = [id_d, id_s];
-
     var lbl;
     var stp = seq.getChannelSteps()[seq.getSelected()];
+    
     updateColorChannel(seq.getChannelIndex());
-    if(ck.value){
+    
+    if(ck.checked){
         ids.forEach(i => {
             lbl = document.getElementById(i);
             console.log(lbl)
             lbl.children[0].disabled = true;
             lbl.parentNode.children[0].classList.toggle("is_ar");
 
-            if(id_d.split(".")[0] == "adsr_mix"){
-                stp.getAdsrMix().tmp_decay = stp.getAdsrMix().decay;
-                stp.getAdsrMix().decay = 0;
-                stp.getAdsrMix().tmp_sustain = stp.getAdsrMix().sustain;
-                stp.getAdsrMix().sustain = 0;
+
+            if(i.split(".")[0] == "adsr_mix"){
+                // console.log(stp.getAdsrMix().decay)
+
+                if(i.split(".")[1] == "decay"){
+                    stp.getAdsrMix().tmp_decay = stp.getAdsrMix().decay;
+                    
+                    stp.getAdsrMix().decay = 0;
+                }
+                else{
+                    stp.getAdsrMix().tmp_sustain = stp.getAdsrMix().sustain;
+                    stp.getAdsrMix().sustain = 0;
+                }
+                
+                
             }
             else{
-                stp.getAdsrFilter().tmp_decay = stp.getAdsrMix().decay;
-                stp.getAdsrFilter().decay = 0;
-                stp.getAdsrFilter().tmp_sustain = stp.getAdsrMix().sustain;
-                stp.getAdsrFilter().sustain = 0;
+                if(i.split(".")[1] == "decay"){
+                    stp.getAdsrFilter().tmp_decay = stp.getAdsrMix().decay;
+                    stp.getAdsrFilter().decay = 0;
+                }
+                else{
+                    stp.getAdsrFilter().tmp_sustain = stp.getAdsrMix().sustain;
+                    stp.getAdsrFilter().sustain = 0;
+                }
             }
             
         })
     }
     else{
-        lbl = document.getElementById(ids[i]);
-        lbl.children[0].disabled = false;
-        lbl.parentNode.children[0].classList.toggle("is_ar");
+        ids.forEach(i => {
+            lbl = document.getElementById(i);
+            console.log(lbl)
+            lbl.children[0].disabled = false;
+            lbl.parentNode.children[0].classList.toggle("is_ar");
 
-        if(id_d.split(".")[0] == "adsr_mix"){
-            stp.getAdsrMix().decay = stp.getAdsrMix().tmp_decay;
-            stp.getAdsrMix().tmp_decay = 0;
-            stp.getAdsrMix().sustain = stp.getAdsrMix().tmp_sustain ;
-            stp.getAdsrMix().tmp_sustain = 0;
-        }
-        else{
-            stp.getAdsrFilter().decay = stp.getAdsrMix().tmp_decay;
-            stp.getAdsrFilter().tmp_decay = 0;
-            stp.getAdsrFilter().sustain = stp.getAdsrMix().tmp_sustain ;
-            stp.getAdsrFilter().tmp_sustain = 0;
-        }
+            if(i.split(".")[1] == "adsr_mix"){
+                if(i.split(".") == "decay"){
+                    stp.getAdsrMix().decay = stp.getAdsrMix().tmp_decay;
+                    stp.getAdsrMix().tmp_decay = 0;
+                }
+                else{
+                    stp.getAdsrMix().sustain = stp.getAdsrMix().tmp_sustain ;
+                    stp.getAdsrMix().tmp_sustain = 0;
+                }
+                
+            }
+            else{
+                if(i.split(".")[1] == "decay"){
+                    stp.getAdsrFilter().decay = stp.getAdsrMix().tmp_decay;
+                    stp.getAdsrFilter().tmp_decay = 0;
+                }
+                else{
+                    stp.getAdsrFilter().sustain = stp.getAdsrMix().tmp_sustain ;
+                    stp.getAdsrFilter().tmp_sustain = 0;
+                }
+            }
+        }) 
     }
 }
