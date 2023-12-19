@@ -1,21 +1,21 @@
-function changeChannelLeft(){
-    var channel = seq.getChannelIndex();
-    channel--;
-    seq.setChannel(channel);
-    var channelName = document.getElementById("channelName");
-    channelName.innerHTML = "Channel " + (seq.getChannelIndex() + 1);
-    updateColorChannel(seq.getChannelIndex());
-    knobs.forEach(kn => updateKnobView(kn));
-}
-function changeChannelRight(){
-    var channel = seq.getChannelIndex();
-    channel++;
-    seq.setChannel(channel);
-    var channelName = document.getElementById("channelName");
-    channelName.innerHTML = "Channel " + (seq.getChannelIndex() + 1);
-    updateColorChannel(seq.getChannelIndex());
-    knobs.forEach(kn => updateKnobView(kn));
-}
+// function changeChannelLeft(){
+//     var channel = seq.getChannelIndex();
+//     channel--;
+//     seq.setChannel(channel);
+//     var channelName = document.getElementById("channelName");
+//     channelName.innerHTML = "Channel " + (seq.getChannelIndex() + 1);
+//     updateColorChannel(seq.getChannelIndex());
+//     knobs.forEach(kn => updateKnobView(kn));
+// }
+// function changeChannelRight(){
+//     var channel = seq.getChannelIndex();
+//     channel++;
+//     seq.setChannel(channel);
+//     var channelName = document.getElementById("channelName");
+//     channelName.innerHTML = "Channel " + (seq.getChannelIndex() + 1);
+//     updateColorChannel(seq.getChannelIndex());
+//     knobs.forEach(kn => updateKnobView(kn));
+// }
 
 function updateColorChannel(channel){
     switch(channel){
@@ -144,7 +144,7 @@ function visualizeChannels(){
 
 function changeBorders(){
     var allSteps = seq.getAllSteps();
-    for(var i = 0; i < 4; i++){
+    for(var i = 0; i < seq.getNChannels(); i++){
         var childrenList = document.getElementById("ch" + (i+1)).children;
         for(var j = 0; j < 16; j++){
             if(j == seq.getStepPlaying() && seq.isPlaying()){

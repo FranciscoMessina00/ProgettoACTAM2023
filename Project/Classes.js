@@ -11,6 +11,7 @@ class Sequencer{
         this.selected = 0;
         this.playing = false;
         this.stepPlaying = -1;
+        this.nChannels = this.steps.length;
     }
     
     // getters
@@ -36,7 +37,9 @@ class Sequencer{
     getStepPlaying(){
         return this.stepPlaying;
     }
-
+    getNChannels(){
+        return this.nChannels;
+    }
     //setters
     setGlobals(value){
         this.globals.bpm = value;
@@ -81,7 +84,6 @@ class Sequencer{
 
 class Channel{
     constructor(){
-        
         this.steps = [];
         for (let i = 0; i <= 15; i++) {
             this.steps[i] = new Step();           
@@ -126,7 +128,9 @@ class Channel{
     //     this.steps[seq.getStepPlaying()].playSound(note, time, this.ampEnv);     
     // }
     playChannel(time){
-        this.steps[seq.getStepPlaying()].playSound(time, this.ampEnv, this.filter.env, this.oscillator.fmOsc);
+        if(seq.getStepPlaying() != -1){
+            this.steps[seq.getStepPlaying()].playSound(time, this.ampEnv, this.filter.env, this.oscillator.fmOsc);
+        }
     }
 }
 
@@ -141,27 +145,14 @@ class Step{
         this.flanger_param = {...flanger_param};
         this.params = ["osc_param", this.osc_param, "filter_param", this.filter_param, "LFO", this.LFO, "adsr_mix", 
                         this.adsr_mix, "adsr_filter", this.adsr_filter, "flanger_param", this.flanger_param];
+        
     }
-    // playSound(note, time, instrument){
-    //     if(this.toPlay == 1){
-    //         // updateSynthParams()
-    //         console.log(seq.getStepPlaying());
-    //         instrument.triggerAttackRelease(note, "16n", time);
-    //         // instrument.triggerAttackRelease("16n");
-    //     }
-    // }
+
     playSound(time, ampEnv, filter, osc){
         if(this.toPlay == 1){
-            updateSynthParams()
-            // console.log(seq.getStepPlaying());
-            // instrument.triggerAttackRelease(note, "16n", time);
-            console.log(Tone.Transport.ticks);
-            console.log(time);
-            ampEnv.cancel(time, 0.05);
-            filter.cancel(time, 0.05);
-            ampEnv.triggerAttackRelease(ampEnv.attack, time + 0.08);
-            filter.triggerAttackRelease(filter.attack, time + 0.08);
-            
+            Tone.Transport.schedule(updateSynthParams(), time);
+            ampEnv.triggerAttackRelease(ampEnv.attack, time + 0.05);
+            filter.triggerAttackRelease(filter.attack, time + 0.05);
         }
     }
     //getters
@@ -300,7 +291,7 @@ class Player{
     playSound(time){
         // var notes = ["C4", "E4", "G4", "B4"];
         var channels = seq.getAllSteps();
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < seq.getNChannels(); i++) {
             // channels[i].playChannel(notes[i], time);
             channels[i].playChannel(time);
         }

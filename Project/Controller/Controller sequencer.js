@@ -58,9 +58,9 @@ function detectClick(){
 Tone.Transport.scheduleRepeat(function(time){
   // we schedule the metronome of the sequencer with beats every 16th of a note
   // we update the step
-  seq.updateStep();
+  Tone.Transport.schedule(seq.updateStep(), time);
   // we play the step at that specific time
-  player.playSound(time);
+  player.playSound(time + 0.01);
 }, "16n");
 
 // draw the sequencer
@@ -69,7 +69,7 @@ detectClick();
 // we draw the channels
 visualizeChannels();
 // we draw the little steps in the HTML file
-for (var i = 0; i < 4; i++) {
+for (var i = 0; i < seq.getNChannels(); i++) {
   var ch = document.getElementById('ch' + (i + 1)).firstChild;
   drawLittleSteps(ch, i);
 }
