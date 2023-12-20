@@ -30,12 +30,12 @@
             // keyboard_tracking : 0,
             type : 'lowpass',
             env_amount : 0,     //0-20000, caso limie: parto da 0 Hz e l'inviluppo mi fa arrivare a 20 kHz
-            LFO_amount : 100,     //0-10000, per avere tutto il range di freq: cutoff a 10 kHz e LFO che va da -10000 a +10000
+            LFO_amount : 500,     //0-10000, per avere tutto il range di freq: cutoff a 10 kHz e LFO che va da -10000 a +10000
         }
 
         var LFO = {             // tutti gli LFO implementati in questo synth sono bipolari (-1,1) e arrivano in banda audio. Ogni volta che si usa un nodo di gain per controllare la modulazione se si utilizzano valori negativi si inverte la forma d'onda (utile per passare da dente a rampa)
             waveform : 'square',
-            rate : 1, //0.1-20000 Hz
+            rate : 10000, //0.1-20000 Hz
             sync : false,
         }
 
@@ -58,11 +58,11 @@
         var flanger_param = {   // Notare che spostare l'overdive prima o dopo il nodo di feedback cambia il timbro. Anche cambiare la funzione del waveshaper ha un effetto pesante. Bisogna scegliere.
             rate : 0.3,           //0.1-20000 Hz
             type : 'sine',
-            depth: 0.3,         //0.1-1    Attenua l'uscita delle delay line
-            feedback : 0.9,     //0-1      Regola il feedback (1 è abbastanza sgravato). Notare l'implementazione di un percorso di crossfeedback (il feedback di destra va al canale sinistro e viceversa, vedi createFlanger)
+            depth: 0.5,         //0.1-1    Attenua l'uscita delle delay line
+            feedback : 0.7,     //0-1      Regola il feedback (1 è abbastanza sgravato). Notare l'implementazione di un percorso di crossfeedback (il feedback di destra va al canale sinistro e viceversa, vedi createFlanger)
             width : 0.010,      //0-0.015  Osserva i valori delle delay line!
             dw: 0.5,              //0-1      Semplice DryWet
-            color: 0.3,         //0-1      Quantità di distorsione. Questo comportamento è fortemente influenzato dal valore di feedback (vedi createFlanger per vedere come i due parametri sono relazionati)
+            color: 1,         //0-1      Quantità di distorsione. Questo comportamento è fortemente influenzato dal valore di feedback (vedi createFlanger per vedere come i due parametri sono relazionati)
             stereo: 1           //0-1      Crea delle differenze tra il canale di destra e sinistra (vedi createFlanger)   
         }
 
