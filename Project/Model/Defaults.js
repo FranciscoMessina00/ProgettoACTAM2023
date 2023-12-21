@@ -8,7 +8,7 @@ osc_param = {
     modType: 'sine',
     harm : 1.3, 
     mod : 1,
-    //LFOamt: 1000,
+    LFOamt: 50,
 }
 // var global = {
 //     glide : 0,

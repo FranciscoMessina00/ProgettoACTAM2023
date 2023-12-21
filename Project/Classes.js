@@ -96,13 +96,13 @@ class Channel{
         this.oscillator = Synth.createOscillator(osc_param);
         this.LFO = Synth.createLFO(LFO);
         // Connections
-        this.oscillator.fmOsc.chain(this.ampEnv, this.filter.filter, this.limiter);
-        this.filter.env.chain(this.filter.envAmount, this.filter.filter.frequency);
+        this.oscillator.fmOsc.chain(this.ampEnv, this.limiter);
+        // this.filter.env.chain(this.filter.envAmount, this.filter.filter.frequency);
         this.LFO.chain(this.filter.LFOAmt, this.filter.filter.frequency);
         this.LFO.chain(this.oscillator.LFOModFm, this.oscillator.fmOsc.modulationIndex);
         this.LFO.start()
         // this.instrument = new Tone.Synth().toDestination();
-        this.oscillator.fmOsc.start()
+        
     }
 
     getOscillator(){
@@ -143,16 +143,17 @@ class Step{
         this.adsr_mix = {...adsr_mix};
         this.adsr_filter = {...adsr_filter};
         this.flanger_param = {...flanger_param};
-        this.params = ["osc_param", this.osc_param, "filter_param", this.filter_param, "LFO", this.LFO, "adsr_mix", 
-                        this.adsr_mix, "adsr_filter", this.adsr_filter, "flanger_param", this.flanger_param];
+        this.params = ["osc_param", this.osc_param, "filter_param", this.filter_param, "LFO", this.LFO, "adsr_mix", this.adsr_mix, "adsr_filter", this.adsr_filter, "flanger_param", this.flanger_param];
         
     }
 
     playSound(time, ampEnv, filter, osc){
         if(this.toPlay == 1){
+            osc.stop(time);
             Tone.Transport.schedule(updateSynthParams(), time);
+            osc.start(time + 0.04);
             ampEnv.triggerAttackRelease(ampEnv.attack, time + 0.05);
-            filter.triggerAttackRelease(filter.attack, time + 0.05);
+            // filter.triggerAttackRelease(filter.attack, time + 0.05);
         }
     }
     //getters

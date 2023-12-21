@@ -60,7 +60,7 @@ Tone.Transport.scheduleRepeat(function(time){
   // we update the step
   Tone.Transport.schedule(seq.updateStep(), time);
   // we play the step at that specific time
-  player.playSound(time + 0.01);
+  player.playSound(time);
 }, "16n");
 
 // draw the sequencer

@@ -326,7 +326,17 @@ label:active:after {
 .note_box, .hz_box{
     margin:13px 0px;
 }
+.open_box, .closed_box{
+    margin:0px 9px;
+}
 
 .limitWidth{
     max-width: 400px;
+}
+.switch{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
 }
