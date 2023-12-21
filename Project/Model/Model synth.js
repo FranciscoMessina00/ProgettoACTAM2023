@@ -71,8 +71,8 @@ function updateSynthParams(){
         if(stp.toPlay == 1){
             updateOscillator(chn[i].getOscillator(), stp.osc_param);
             updateEnv(chn[i].getAmpEnv(), stp.adsr_mix);
-            updateFilter(chn[i].getFilter(), stp.filter_param);
-            updateEnv(chn[i].getFilterEnv(), stp.adsr_filter);
+            // updateFilter(chn[i].getFilter(), stp.filter_param);
+            // updateEnv(chn[i].getFilterEnv(), stp.adsr_filter);
             updateLFO(chn[i].getLFO(), stp.LFO);
         }
     }

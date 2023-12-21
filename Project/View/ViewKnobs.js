@@ -49,7 +49,7 @@ function setSingleKnobValues(kn){
 //update of knob values based on model values
 function updateKnobView(kn){
     sw_o = document.getElementById("ch_osc")
-    sw_f = document.getElementById("ch_filter")
+    // sw_f = document.getElementById("ch_filter")
         
     // we get the knob and the label of the knob
     knob = kn.querySelector(".knob");
@@ -66,34 +66,34 @@ function updateKnobView(kn){
         stp = seq.getChannelSteps();
 
         //check if adsr-ar switch has been changed previously for this step; if so updates view 
-        if(spl[1] == "decay" || spl[1] == "release"){
-            if(sw_o.checked != stp[seq.getSelected()].getAdsrMix().is_ar){
-                sw_o.checked = stp[seq.getSelected()].getAdsrMix().is_ar
+        // if(spl[1] == "decay" || spl[1] == "release"){
+        //     if(sw_o.checked != stp[seq.getSelected()].getAdsrMix().is_ar){
+        //         sw_o.checked = stp[seq.getSelected()].getAdsrMix().is_ar
                 
-                updateColorChannel(seq.getChannelIndex());
-                //change switch color
-                // if(sw_o.checked == false){sw_o.labels[0].style.background = "#45116c"}
-                // else{sw_o.labels[0].style.background = "rgb(128, 128, 128)"}
+        //         updateColorChannel(seq.getChannelIndex());
+        //         //change switch color
+        //         // if(sw_o.checked == false){sw_o.labels[0].style.background = "#45116c"}
+        //         // else{sw_o.labels[0].style.background = "rgb(128, 128, 128)"}
                 
-                label.parentNode.parentNode.parentNode.children[1].children[0].classList.toggle("is_ar")
-                label.parentNode.parentNode.parentNode.children[1].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrMix().is_ar
-                label.parentNode.parentNode.parentNode.children[3].children[0].classList.toggle("is_ar")
-                label.parentNode.parentNode.parentNode.children[3].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrMix().is_ar  
-            }
-            if(sw_f.checked != stp[seq.getSelected()].getAdsrFilter().is_ar){
-                sw_f.checked = stp[seq.getSelected()].getAdsrFilter().is_ar
+        //         label.parentNode.parentNode.parentNode.children[1].children[0].classList.toggle("is_ar")
+        //         label.parentNode.parentNode.parentNode.children[1].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrMix().is_ar
+        //         label.parentNode.parentNode.parentNode.children[3].children[0].classList.toggle("is_ar")
+        //         label.parentNode.parentNode.parentNode.children[3].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrMix().is_ar  
+        //     }
+        //     if(sw_f.checked != stp[seq.getSelected()].getAdsrFilter().is_ar){
+        //         sw_f.checked = stp[seq.getSelected()].getAdsrFilter().is_ar
 
-                updateColorChannel(seq.getChannelIndex());
-                //change switch color
-                // if(sw_f.checked == false){sw_f.labels[0].style.background = "#45116c"}
-                // else{sw_f.labels[0].style.background = "rgb(128, 128, 128)"}
+        //         updateColorChannel(seq.getChannelIndex());
+        //         //change switch color
+        //         // if(sw_f.checked == false){sw_f.labels[0].style.background = "#45116c"}
+        //         // else{sw_f.labels[0].style.background = "rgb(128, 128, 128)"}
                 
-                label.parentNode.parentNode.parentNode.children[1].children[0].classList.toggle("is_ar")
-                label.parentNode.parentNode.parentNode.children[1].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrFilter().is_ar
-                label.parentNode.parentNode.parentNode.children[3].children[0].classList.toggle("is_ar")
-                label.parentNode.parentNode.parentNode.children[3].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrFilter().is_ar  
-            }
-        }
+        //         label.parentNode.parentNode.parentNode.children[1].children[0].classList.toggle("is_ar")
+        //         label.parentNode.parentNode.parentNode.children[1].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrFilter().is_ar
+        //         label.parentNode.parentNode.parentNode.children[3].children[0].classList.toggle("is_ar")
+        //         label.parentNode.parentNode.parentNode.children[3].children[1].children[0].disabled = stp[seq.getSelected()].getAdsrFilter().is_ar  
+        //     }
+        // }
         // if(spl[0] == "adsr_filter"){
         //     // if(sw_f.checked != stp[seq.getSelected()].getAdsrFilter().is_ar){
         //     //     sw_f.checked = stp[seq.getSelected()].getAdsrFilter().is_ar
@@ -143,11 +143,6 @@ function updateWaveTypes(){
     var modType = document.getElementById("modImg");
     var file = "View/Images/" + params[1].modType + ".png";
     modType.src = file;
-    
-    var filtType = document.getElementById("filtImg");
-    var file = "View/Images/" + params[3].type + ".png";
-    filtType.src = file;
-
 }
 
 function normalizeToAngle(label, frequency=false){
@@ -294,21 +289,6 @@ function changeLeft(category){
         
         resizeInput(type);
         
-    }
-    else if(category == "filter"){
-        var type = document.getElementById("filtType");
-        var condition = (element) => element == type.value;
-
-        var index = filterTypes.findIndex(condition);
-        index--;
-        if(index < 0){
-            index = 2;
-        }
-        type.value = filterTypes[index].toLowerCase();
-        var file = "View/Images/" + filterTypes[index] + ".png";
-        document.getElementById("filtImg").src = file;
-        
-        resizeInput(type);
     }
     else if(category == "modulation"){
         var type = document.getElementById("modType");

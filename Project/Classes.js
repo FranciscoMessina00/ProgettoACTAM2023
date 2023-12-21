@@ -5,8 +5,8 @@ class Sequencer{
         this.steps = [
                         new Channel(),
                         new Channel(),
-                        new Channel(),
-                        new Channel()
+                        // new Channel(),
+                        // new Channel()
                     ];
         this.selected = 0;
         this.playing = false;
@@ -91,18 +91,18 @@ class Channel{
         this.limiter = new Tone.Limiter(-1);
         this.limiter.connect(Tone.Destination);
         // Parameters for the synth
-        this.filter = Synth.createFilter(filter_param, adsr_filter);
+        // this.filter = Synth.createFilter(filter_param, adsr_filter);
         this.ampEnv = Synth.createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
         this.oscillator = Synth.createOscillator(osc_param);
         this.LFO = Synth.createLFO(LFO);
         // Connections
         this.oscillator.fmOsc.chain(this.ampEnv, this.limiter);
         // this.filter.env.chain(this.filter.envAmount, this.filter.filter.frequency);
-        this.LFO.chain(this.filter.LFOAmt, this.filter.filter.frequency);
+        // this.LFO.chain(this.filter.LFOAmt, this.filter.filter.frequency);
         this.LFO.chain(this.oscillator.LFOModFm, this.oscillator.fmOsc.modulationIndex);
         this.LFO.start()
         // this.instrument = new Tone.Synth().toDestination();
-        
+        this.oscillator.fmOsc.start();
     }
 
     getOscillator(){
@@ -111,12 +111,12 @@ class Channel{
     getAmpEnv(){
         return this.ampEnv;
     }
-    getFilter(){
-        return this.filter;
-    }
-    getFilterEnv(){
-        return this.filter.env;
-    }
+    // getFilter(){
+    //     return this.filter;
+    // }
+    // getFilterEnv(){
+    //     return this.filter.env;
+    // }
     getLFO(){
         return this.LFO;
     }
@@ -129,7 +129,7 @@ class Channel{
     // }
     playChannel(time){
         if(seq.getStepPlaying() != -1){
-            this.steps[seq.getStepPlaying()].playSound(time, this.ampEnv, this.filter.env, this.oscillator.fmOsc);
+            this.steps[seq.getStepPlaying()].playSound(time, this.ampEnv, this.oscillator.fmOsc);
         }
     }
 }
@@ -138,21 +138,19 @@ class Step{
     constructor(){
         this.toPlay = 0;
         this.osc_param = {...osc_param};
-        this.filter_param = {...filter_param};
+        // this.filter_param = {...filter_param};
         this.LFO = {...LFO};
         this.adsr_mix = {...adsr_mix};
-        this.adsr_filter = {...adsr_filter};
+        // this.adsr_filter = {...adsr_filter};
         this.flanger_param = {...flanger_param};
-        this.params = ["osc_param", this.osc_param, "filter_param", this.filter_param, "LFO", this.LFO, "adsr_mix", this.adsr_mix, "adsr_filter", this.adsr_filter, "flanger_param", this.flanger_param];
+        this.params = ["osc_param", this.osc_param, "LFO", this.LFO, "adsr_mix", this.adsr_mix, "flanger_param", this.flanger_param];
         
     }
 
-    playSound(time, ampEnv, filter, osc){
+    playSound(time, ampEnv, osc){
         if(this.toPlay == 1){
-            osc.stop(time);
             Tone.Transport.schedule(updateSynthParams(), time);
-            osc.start(time + 0.04);
-            ampEnv.triggerAttackRelease(ampEnv.attack, time + 0.05);
+            ampEnv.triggerAttackRelease(ampEnv.attack, time + 0.1);
             // filter.triggerAttackRelease(filter.attack, time + 0.05);
         }
     }
@@ -163,18 +161,18 @@ class Step{
     getOscParam(){
         return this.osc_param;
     }
-    getFilterParam(){
-        return this.filter_param;
-    }
+    // getFilterParam(){
+    //     return this.filter_param;
+    // }
     getLFO(){
         return this.LFO;
     }
     getAdsrMix(){
         return this.adsr_mix;
     }
-    getAdsrFilter(){
-        return this.adsr_filter;
-    }
+    // getAdsrFilter(){
+    //     return this.adsr_filter;
+    // }
     getFlangerParam(){
         return this.flanger_param;
     }
@@ -190,18 +188,18 @@ class Step{
     setOscParam(value){
         this.osc_param = value;
     }
-    setFilterParam(value){
-        this.filter_param = value;
-    }
+    // setFilterParam(value){
+    //     this.filter_param = value;
+    // }
     setLFO(value){
         this.LFO = value;
     }
     setAdsrMix(value){
         this.adsr_mix = value;
     }
-    setAdsrFilter(value){
-        this.adsr_filter = value;
-    }
+    // setAdsrFilter(value){
+    //     this.adsr_filter = value;
+    // }
     setFlangerParam(value){
         this.flanger_param = value;
     }
@@ -237,33 +235,33 @@ class Synth{
             LFOModFm: LFOModFm};
     }
     
-    static createFilter(filter_param, adsr_filter){
-        var filter = new Tone.Filter()
-        filter.set({
-            frequency : filter_param.cutoff,
-            Q : filter_param.resonance,
-            type : filter_param.type,
-        })
-        var env = Synth.createFilterEnv(adsr_filter.attack,adsr_filter.decay,adsr_filter.sustain,adsr_filter.release);
-        var envAmount = new Tone.Gain(filter_param.env_amount);
-        var LFOAmt = new Tone.Gain(filter_param.LFO_amount);
+    // static createFilter(filter_param, adsr_filter){
+    //     var filter = new Tone.Filter()
+    //     filter.set({
+    //         frequency : filter_param.cutoff,
+    //         Q : filter_param.resonance,
+    //         type : filter_param.type,
+    //     })
+    //     var env = Synth.createFilterEnv(adsr_filter.attack,adsr_filter.decay,adsr_filter.sustain,adsr_filter.release);
+    //     var envAmount = new Tone.Gain(filter_param.env_amount);
+    //     var LFOAmt = new Tone.Gain(filter_param.LFO_amount);
         
-        return {
-            filter: filter,
-            env: env, 
-            envAmount: envAmount, 
-            LFOAmt: LFOAmt};
-    }
+    //     return {
+    //         filter: filter,
+    //         env: env, 
+    //         envAmount: envAmount, 
+    //         LFOAmt: LFOAmt};
+    // }
     
-    static createFilterEnv(a, d, s, r) {
-        var FilterEnv = new Tone.Envelope({
-        attack: a/1000,
-        decay: d/1000,
-        sustain: s,
-        release: r/1000,
-        });
-        return FilterEnv;
-    }
+    // static createFilterEnv(a, d, s, r) {
+    //     var FilterEnv = new Tone.Envelope({
+    //     attack: a/1000,
+    //     decay: d/1000,
+    //     sustain: s,
+    //     release: r/1000,
+    //     });
+    //     return FilterEnv;
+    // }
     
     static createLFO(LFO) {
         var LFO = new Tone.Oscillator({

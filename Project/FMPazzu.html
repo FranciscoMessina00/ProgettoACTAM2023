@@ -47,85 +47,34 @@
                             <div class="knob"><div class="dot"></div></div>
                             <div id="osc_param.mod" onclick="focusInput()" class="label">Mod amount: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
                         </div>
-                        <div id="lfoAmtContainer" class="container">
-                            <div class="knob"><div class="dot"></div></div>
-                            <div id="osc_param.LFOamt" onclick="focusInput()" class="label">LFO amount: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
-                        </div>
                     </div>
-                    <div class="smallTitle">Oscillator envelope</div>
-                    <div style="display: flex; align-items: flex-start;">
+                    <div class="smallTitle">Amplitude properties</div>
+                    <div style="display: flex;align-items: center;justify-content: center;">
                         <div class="knobContainer">
                             <div id="oscillatorAttackContainer" class="container largerContainer">
                                 <div class="knob"><div class="dot"></div></div>
                                 <div id="adsr_mix.attack" onclick="focusInput()" class="label">Attack: <input class="inputEl" onfocus="this.select()" type="number" value="500" step="1" min="0" max="3000">ms</div>
                             </div>
-                            <div id="oscillatorDecayContainer" class="container largerContainer">
-                                <div class="knob"><div class="dot"></div></div>
-                                <div id="adsr_mix.decay" onclick="focusInput()" class="label">Decay: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="500" min="0" max="3000">ms</div>
-                            </div>
                             <div id="oscillatorReleaseContainer" class="container largerContainer">
                                 <div class="knob"><div class="dot"></div></div>
                                 <div id="adsr_mix.release" onclick="focusInput()" class="label">Release: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="500" min="0" max="3000">ms</div>
                             </div>
-                            <div id="oscillatorSustainContainer" class="container largerContainer">
+                            <div id="LFORateContainer" class="container largerContainer">
                                 <div class="knob"><div class="dot"></div></div>
-                                <div id="adsr_mix.sustain" onclick="focusInput()" class="label">Sustain: <input class="inputEl" onfocus="this.select()" type="number" step="0.01" value="0.5" min="0" max="1"></div>
+                                <div id="LFO.rate" onclick="focusInput()" class="label">LFO rate: <input class="inputEl" onfocus="this.select()" type="number" value="2" step="0.1" min="0.1" max="200">Hz</div>
+                            </div>
+                            <div id="lfoAmtContainer" class="container largerContainer">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="osc_param.LFOamt" onclick="focusInput()" class="label">LFO amount: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="3" min="0" max="100"></div>
                             </div>
                         </div>
-                        <div style="left: -22px;display: flex;margin: auto;align-items: center;flex-direction: column;position: relative;"><div class="adsr_box">ADSR</div><input type="checkbox" id="ch_osc" onchange="sw_ar('ch_osc', 'adsr_mix.decay', 'adsr_mix.sustain')"/><label for="ch_osc"></label><div class="ar_box">AR</div></div>
                     </div>
                 </div>
                 <!-- Filter section -->
                 <div id="filter1" class="blockSection">
                     <div class="bigTitle">Filter</div>
                     <div class="knobContainer">
-                        <div id="filtTypeContainer" class="container arrows">
-                            <button class="arrow-left" onclick="changeLeft('filter')"></button><div class="waveType"><img id="filtImg" src="View/Images/Lowpass.png" alt="Wave type"></div><button class="arrow-right" onclick="changeRight('filter')"></button>
-                            <div id="filter_param.type" class="label"><input class="inputEl" id="filtType" type="text" value="Lowpass"></div>
-                        </div>
-                        <div id="cutoffContainer" class="container">
-                            <div class="knob"><div class="dot"></div></div>
-                            <div id="filter_param.cutoff" onclick="focusInput()" class="label">Cutoff: <input class="inputEl" onfocus="this.select()" type="number" value="20000" step="1" min="20" max="20000">Hz</div>
-                        </div>
-                        <div id="resonanceContainer" class="container">
-                            <div class="knob"><div class="dot"></div></div>
-                            <div id="filter_param.resonance" onclick="focusInput()" class="label">Resonance: <input class="inputEl" onfocus="this.select()" type="number" step="0.1" value="10.0" min="0" max="10"></div>
-                        </div>
-                        <div id="envAmtContainer" class="container">
-                            <div class="knob"><div class="dot"></div></div>
-                            <div id="filter_param.env_amount" onclick="focusInput()" class="label">Env amount: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="0" min="0" max="20000"></div>
-                        </div>
-                        <div id="lfoAmtContainer" class="container">
-                            <div class="knob"><div class="dot"></div></div>
-                            <div id="filter_param.LFO_amount" onclick="focusInput()" class="label">LFO amount: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="0" min="0" max="1000"></div>
-                        </div>
-                        <div id="LFORateContainer" class="container">
-                            <div class="knob"><div class="dot"></div></div>
-                            <div id="LFO.rate" onclick="focusInput()" class="label">LFO rate: <input class="inputEl" onfocus="this.select()" type="number" value="2" step="0.1" min="0.1" max="200">Hz</div>
-                        </div>
-                    </div>
-
-                    <div class="smallTitle">Filter envelope</div>
-                    <div style="display: flex; align-items: flex-start;">
-                        <div class="knobContainer">
-                            <div id="filterAttackContainer" class="container largerContainer">
-                                <div class="knob"><div class="dot"></div></div>
-                                <div id="adsr_filter.attack" onclick="focusInput()" class="label">Attack: <input class="inputEl" onfocus="this.select()" type="number" value="1000" step="1" min="0" max="3000">ms</div>
-                            </div>
-                            <div id="filterDecayContainer" class="container largerContainer">
-                                <div class="knob"><div class="dot"></div></div>
-                                <div id="adsr_filter.decay" onclick="focusInput()" class="label">Decay: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="600" min="0" max="3000">ms</div>
-                            </div>
-                            <div id="filterReleaseContainer" class="container largerContainer">
-                                <div class="knob"><div class="dot"></div></div>
-                                <div id="adsr_filter.release" onclick="focusInput()" class="label">Release: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="1000" min="0" max="3000">ms</div>
-                            </div>
-                            <div id="filterSustainContainer" class="container largerContainer">
-                                <div class="knob"><div class="dot"></div></div>
-                                <div id="adsr_filter.sustain" onclick="focusInput()" class="label">Sustain: <input class="inputEl" onfocus="this.select()" type="number" step="0.01" value="0.5" min="0" max="1"></div>
-                            </div>
-                        </div>
-                        <div style="left: -22px;display: flex;margin: auto;align-items: center;flex-direction: column;position: relative;"><div class="adsr_box">ADSR</div><input type="checkbox" id="ch_filter" onchange="sw_ar('ch_filter', 'adsr_filter.decay', 'adsr_filter.sustain')"/><label for="ch_filter"></label><div class="ar_box">AR</div></div>
+                        
                     </div>
                 </div>
                 <!-- Drum elements -->
@@ -253,9 +202,9 @@
                 <div id="containerSequencer">
                     <div class="separationSteps ch1" id="ch1"><div class="littleSteps"></div></div>
                     <div id="canvasContainer" class="separationSteps active"><canvas id="step" ></canvas></div>
-                    <div class="separationSteps ch2" id="ch2"><div class="littleSteps"></div></div>
-                    <div class="separationSteps ch3" id="ch3"><div class="littleSteps"></div></div>
-                    <div class="separationSteps ch4" id="ch4"><div class="littleSteps"></div></div>
+                    <!-- <div class="separationSteps ch2" id="ch2"><div class="littleSteps"></div></div>
+                    <div class="separationSteps ch3" id="ch3"><div class="littleSteps"></div></div> -->
+                    <div class="separationSteps ch4" id="ch2"><div class="littleSteps"></div></div>
                 </div>
             </div>
         </div>

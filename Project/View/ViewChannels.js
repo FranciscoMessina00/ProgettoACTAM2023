@@ -35,36 +35,6 @@ function updateColorChannel(channel){
             document.getElementById("drumSection").style.display = "none";
             break;
         case 1:
-            document.getElementById("wholeContainer").style.backgroundColor = "#56243C";
-            document.querySelectorAll(".dot").forEach(el => el.style.backgroundColor = "#77005D");
-            document.querySelectorAll(".knob").forEach(el => el.style.borderColor = "#77005D");
-            document.querySelectorAll("label").forEach(el => el.style.backgroundColor = "#77005D");
-            document.querySelectorAll("input:checked + label").forEach(el => el.style.backgroundColor = "#808080");
-            document.querySelectorAll(".blockSection").forEach(el => el.style.borderColor = "#77005D");
-            colorDodOnOut = '#FF51EE';
-            colorDodOnIn = '#FF6AA9';
-            colorRectOffSel = '#FD9CFF';
-
-            document.getElementById("oscillator").style.display = "block";
-            document.getElementById("filter1").style.display = "block";
-            document.getElementById("drumSection").style.display = "none";
-            break;
-        case 2:
-            document.getElementById("wholeContainer").style.backgroundColor = "#1D571C";
-            document.querySelectorAll(".dot").forEach(el => el.style.backgroundColor = "#066004");
-            document.querySelectorAll(".knob").forEach(el => el.style.borderColor = "#066004");
-            document.querySelectorAll("label").forEach(el => el.style.backgroundColor = "#066004");
-            document.querySelectorAll("input:checked + label").forEach(el => el.style.backgroundColor = "grey");
-            document.querySelectorAll(".blockSection").forEach(el => el.style.borderColor = "#066004");
-            colorDodOnOut = '#7EFF51';
-            colorDodOnIn = '#6AFF70';
-            colorRectOffSel = '#34A72A';
-
-            document.getElementById("oscillator").style.display = "block";
-            document.getElementById("filter1").style.display = "block";
-            document.getElementById("drumSection").style.display = "none";
-            break;
-        case 3:
             document.getElementById("wholeContainer").style.backgroundColor = "#6D1111";
             document.querySelectorAll(".dot").forEach(el => el.style.backgroundColor = "#580C0C");
             document.querySelectorAll(".knob").forEach(el => el.style.borderColor = "#580C0C");
@@ -118,18 +88,8 @@ function visualizeChannels(){
                         seq.setChannel(0);
                         canvCont.style.backgroundColor = updateColorChannel(seq.getChannelIndex());
                         break;
-                    case 1:
-                        break;
                     case 2:
                         seq.setChannel(1);
-                        canvCont.style.backgroundColor = updateColorChannel(seq.getChannelIndex());
-                        break;
-                    case 3:
-                        seq.setChannel(2);
-                        canvCont.style.backgroundColor = updateColorChannel(seq.getChannelIndex());
-                        break;
-                    case 4:
-                        seq.setChannel(3);
                         canvCont.style.backgroundColor = updateColorChannel(seq.getChannelIndex());
                         canvCont.style.borderBottomRightRadius = "10px";
                         canvCont.style.borderBottomLeftRadius = "10px";
