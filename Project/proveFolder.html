@@ -24,25 +24,40 @@
                 return val * amt;
             }
         }
+
+        function brutalize(block, fold_amt, dist_amt, drywet) {
+            var folder = new Tone.WaveShaper(function (val) {
+                return foldaLaMamma(fold_amt, val);
+            }, 2048);
+
+            var dist = new Tone.WaveShaper(function (val) {
+                
+                var amt = dist_amt;
+            
+                return Math.tanh(val*amt);    
+                }, 2048);
+
+            var drywet = new Tone.CrossFade(drywet);
+            
+            block.connect(folder);
+            folder.chain(dist, drywet.b);
+            folder.connect(drywet.a);
+            
+            return drywet
+        }
     
         var amt = 5;
         var o = new Tone.Oscillator(100, "sine");
-        var folder = new Tone.WaveShaper(function (val) {
-            return foldaLaMamma(amt, val);
-        }, 2048);
 
-    var drywet = new Tone.CrossFade(0);
-    var dist = new Tone.WaveShaper(function (val) {
-            
-    var amt = 50;
 
-    return Math.tanh(val*amt);    
-    }, 2048);
-    o.connect(folder);
-    folder.chain(dist, drywet.b);
-    folder.connect(drywet.a);
-    drywet.toDestination();
-    o.start();
+
+        var drywet = brutalize(o, 7, 5, 0.5);
+        
+        drywet.toDestination();
+        o.start();
+
+
+       
     </script>
 
 
