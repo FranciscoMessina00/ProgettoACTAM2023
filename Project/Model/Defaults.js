@@ -93,5 +93,4 @@ var flanger_param = {     // Questi parametri sono gli stessi di synth.js
 }
 
 
-defaults = ["globals", globals, "osc_param", osc_param, "filter_param", filter_param, "LFO", LFO, "adsr_mix", adsr_mix, "adsr_filter", adsr_filter,  
-"flanger_param", flanger_param];
+defaults = ["globals", globals, "osc_param", osc_param, "LFO", LFO, "adsr_mix", adsr_mix, "flanger_param", flanger_param];

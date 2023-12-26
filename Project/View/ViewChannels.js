@@ -79,7 +79,7 @@ function visualizeChannels(){
                 // Reinsert canvasContainer in place of hidden channel
                 const clickedIndex = Array.from(channelDivs).indexOf(div);
                 container.insertBefore(detachedCanvas, container.children[clickedIndex]);
-                console.log(clickedIndex)
+                // console.log(clickedIndex)
                 var canvCont = document.getElementById("canvasContainer");
                 canvCont.style.borderBottomRightRadius = "0px";
                 canvCont.style.borderBottomLeftRadius = "0px";

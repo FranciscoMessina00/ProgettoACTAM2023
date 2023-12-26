@@ -104,16 +104,36 @@ button{
     width: 845px;
     display: none;
 }
+#play {
+    width: 0;
+    height: 0;
+    border-top: 16px solid transparent;
+    border-left: 24px solid #44116C;
+    border-bottom: 16px solid transparent;
+    margin: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+#stop {
+    width: 25px;
+    height: 25px;
+    background-color: #44116C;
+    margin: 5px;
+    /* margin-left: 10px; */
+    cursor: pointer;
+    border-radius: 2px;
+}
 .knobContainer{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
-.container{
+.container, .containerControl{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    /* height: 100%; */
     /* width: auto; */
     min-width: 120px;
     align-content: center;
@@ -127,10 +147,20 @@ button{
 .smallerContainer{
     min-width: 120px;
 }
+.control{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: var(--size-knob);
+    height: var(--size-knob);
+    border: 1px solid #44116C;
+    background-color: #D9D9D9;
+    cursor: pointer;
+}
 .knob{
     display:flex;
     justify-content: center;
-    /* align-items: center; */
     border-radius: 50%;
     width: var(--size-knob);
     height: var(--size-knob);

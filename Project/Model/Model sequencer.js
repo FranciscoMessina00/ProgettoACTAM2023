@@ -4,23 +4,25 @@ var seq = new Sequencer();
 var player = new Player();
 var canvas = document.getElementById("step");
 var ctx = canvas.getContext("2d");
-var scale = 0.3;
+const scale = 0.3;
 canvas.width  = 1200;
 canvas.height = 80;
+const space = ((canvas.width - (200 * 16 * scale)) / 16) / scale;
+const heightShift = canvas.height - canvas.height/2;
 
 var dodecagon = [
-    {x: 0   , y: -100},
-    {x: -50 , y: -87 },
-    {x: -87 , y: -50 },
-    {x: -100, y: 0   },
-    {x: -87 , y: 50  },
-    {x: -50 , y: 87  },
-    {x: 0   , y: 100 },
-    {x: 50  , y: 87  },
-    {x: 87  , y: 50  },
-    {x: 100 , y: 0   },
-    {x: 87  , y: -50 },
-    {x: 50  , y: -87 },
+    {x: 0*scale   , y: -100*scale},
+    {x: -50*scale , y: -87*scale },
+    {x: -87*scale , y: -50*scale },
+    {x: -100*scale, y: 0*scale   },
+    {x: -87*scale , y: 50*scale  },
+    {x: -50*scale , y: 87*scale  },
+    {x: 0*scale   , y: 100*scale },
+    {x: 50*scale  , y: 87*scale  },
+    {x: 87*scale  , y: 50*scale  },
+    {x: 100*scale , y: 0*scale   },
+    {x: 87*scale  , y: -50*scale },
+    {x: 50*scale  , y: -87*scale },
 ]
 
 var colorDodOffOut = '#D9D9D9';

@@ -1,5 +1,6 @@
 // we don't allow the context menu to appear when right clicking
 document.addEventListener('contextmenu', event => event.preventDefault());
+document.addEventListener('click', () => Tone.start());
 
 // The function detects when the user clicks on the canvas
 function detectClick(){

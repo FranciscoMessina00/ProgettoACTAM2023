@@ -24,7 +24,7 @@
                     <div class="bigTitle">Oscillator</div>
                     <div class="knobContainer">
                         <div id="wavTypeContainer" class="container arrows">
-                            <button class="arrow-left" onclick="changeLeft('oscillator')"></button><div class="waveType"><img id="oscImg" src="View/Images/Sine.png" alt="Wave type"></div><button class="arrow-right" onclick="changeRight('oscillator')"></button>
+                            <button class="arrow-left" onclick="changeLeft('oscillator')"></button><div class="waveType"><img id="oscImg" src="View/Images/sine.png" alt="Wave type"></div><button class="arrow-right" onclick="changeRight('oscillator')"></button>
                             <div id="osc_param.type" class="label"><input class="inputEl" disabled id="oscType" type="text" value="sine"></div>
                         </div>
                         <div id="frequencyContainer" class="container">
@@ -40,7 +40,7 @@
                             <div id="osc_param.harm" onclick="focusInput()" class="label">Harmonicity: <input class="inputEl" onfocus="this.select()" type="number" step="0.1" value="0.6" min="0" max="30"></div>
                         </div>
                         <div id="modTypeContainer" class="container arrows">
-                            <button class="arrow-left" onclick="changeLeft('modulation')"></button><div class="waveType"><img id="modImg" src="View/Images/Sine.png" alt="Wave type"></div><button class="arrow-right" onclick="changeRight('modulation')"></button>
+                            <button class="arrow-left" onclick="changeLeft('modulation')"></button><div class="waveType"><img id="modImg" src="View/Images/sine.png" alt="Wave type"></div><button class="arrow-right" onclick="changeRight('modulation')"></button>
                             <div id="osc_param.modType" class="label">Mod type: <input class="inputEl" id="modType" type="text" value="Sine"></div>
                         </div>
                         <div id="modAmtContainer" class="container">
@@ -190,13 +190,27 @@
                 <!-- Global controls -->
                 <div id="controlBlock" class="blockSection">
                     <div class="bigTitle">Global controls</div>
-                    <button onclick="player.start(seq)">Yeah baby</button>
-                    <button onclick="player.stop(seq)">Stop</button>
-                    <button>Hear</button>
-                    <button>Copy to all</button>
-                    <div id="bpmContainer" class="container">
-                        <div class="knob"><div class="dot"></div></div>
-                        <div id="globals.bpm" onclick="focusInput()" class="label">BPM: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="120" min="30" max="300"></div>
+                    <div class="knobContainer">
+                        <div class="containerControl">
+                            <div title="Yeah baby!" class="control" onclick="player.start(seq)" style="cursor: pointer;"><div id="play"></div></div>
+                            <div>Play</div>
+                        </div>
+                        <div class="containerControl">
+                            <div title="Stop, baby!" class="control" onclick="player.stop(seq)" style="cursor: pointer;"><div id="stop"></div></div>
+                            <div>Stop</div>
+                        </div>
+                        <div class="containerControl">
+                            <div title="Hear me, baby!" class="control" onclick="" style="cursor: pointer;"><img id="listenImg" src="View/Images/listen.png" alt="Listen"></div>
+                            <div>Hear step</div>
+                        </div>
+                        <div class="containerControl">
+                            <div title="Copy to all steps!" class="control" onclick="" style="cursor: pointer;"><img id="listenImg" src="View/Images/copy.png" alt="Copy to all"></div>
+                            <div>Copy to all</div>
+                        </div>
+                        <div id="bpmContainer" class="container">
+                            <div class="knob"><div class="dot"></div></div>
+                            <div id="globals.bpm" onclick="focusInput()" class="label">BPM: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="120" min="30" max="300"></div>
+                        </div>
                     </div>
                 </div>
                 <div id="containerSequencer">

@@ -1,6 +1,6 @@
 function drawDodecagon(index, stepPlaying){
-    var cornerRadius = 30;
-    ctx.lineWidth = 4;
+    var cornerRadius = 30*scale;
+    ctx.lineWidth = 4*scale;
     const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, 100);
     if(index == stepPlaying && seq.isPlaying()){
         grd.addColorStop(1, colorPlayingOut);
@@ -26,10 +26,10 @@ function drawDodecagon(index, stepPlaying){
 
 function drawRect(step, index, stepPlaying){
     ctx.beginPath();
-    var sideRect = 80;
-    var heightRect = 16;
-    var yPos = -60;
-    var rad = 5;
+    var sideRect = 80*scale;
+    var heightRect = 16*scale;
+    var yPos = -60*scale;
+    var rad = 5*scale;
     ctx.globalAlpha = 0.75;
     ctx.strokeStyle = "transparent";
     ctx.lineWidth = 0;
@@ -50,10 +50,10 @@ function drawRect(step, index, stepPlaying){
 
 function drawStep(posX, posY, scale = 1, step = 0, index = 0, stepPlaying = 0){
     ctx.translate(posX, posY);
-    ctx.scale(scale, scale);
+    // ctx.scale(scale, scale);
     drawDodecagon(index, stepPlaying);
     drawRect(step, index, stepPlaying);
-    ctx.scale(1/scale, 1/scale);
+    // ctx.scale(1/scale, 1/scale);
     ctx.translate(-posX, -posY);
 }
 
@@ -123,12 +123,12 @@ var roundedPoly = function(points,radius){
 
 function drawSequencer(){
     // calculating the space between the dodecagons
-    var space = ((canvas.width - (200 * 16 * scale)) / 16) / scale;
+    
     for (var i = 0; i < 16; i++) {
         // drawStep((100  + i * 220 + 10) * scale, (100 + 10) * scale, scale, steps[i], i == selected);
         // starting drawing 100 pixels plus a padding from the left 
         // console.log(seq.getChannelSteps()[i]);
-        drawStep((100 + space/2) * scale + (canvas.width / 16) * i, canvas.height - canvas.height/2, scale, seq.getChannelSteps()[i].getToPlay(), i, seq.getStepPlaying());
+        drawStep((100 + space/2) * scale + (canvas.width / 16) * i, heightShift, scale, seq.getChannelSteps()[i].getToPlay(), i, seq.getStepPlaying());
     }
     requestAnimationFrame(drawSequencer);
 }

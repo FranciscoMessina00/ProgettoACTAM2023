@@ -24,6 +24,7 @@
                 2: "G4",
                 3: "B4"
             }
+            var synths = [];
             //create a synth and connect it to the main output (your speakers)
             const context = new AudioContext();
             const synth = new Tone.Synth().toDestination();
@@ -31,7 +32,7 @@
             var canvas = document.getElementById("sequencer");
             var ctx = canvas.getContext('2d');
             var position = 0;
-            var rows = 4;
+            var rows = 2;
             var cols = 16;
             Tone.Transport.scheduleRepeat(function(time){
                 //do something with the time
@@ -48,10 +49,13 @@
             }
             // create a 8 by 4 matrix with initial value 0
             function defineMatrix(){
+                synths = [];
                 var matrix = [];
                 for (var i = 0; i < rows; i++) {
+                    synths[i] = [];
                     matrix[i] = [];
                     for (var j = 0; j < cols; j++) {
+                        synths[i][j] = new Tone.Synth().toDestination();
                         matrix[i][j] = 0;
                     }
                 }
@@ -115,7 +119,7 @@
                     note = notes[i];
                     for(var j = 0; j < cols; j++){
                         if(matrix[i][j] == 1 && j == position){
-                            synth.triggerAttackRelease(note, "16n", time);
+                            synths[i][j].triggerAttackRelease(note, "16n", time);
                         }
                     }
                 }
