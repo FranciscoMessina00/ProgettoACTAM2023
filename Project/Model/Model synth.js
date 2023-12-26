@@ -63,8 +63,7 @@ Tone.context.lookAhead = 0.2;
 // LFO.start();
 // oscillator.fmOsc.start();
 
-function updateSynthParams(){
-    var playing = seq.getStepPlaying();
+function updateSynthParams(playing=seq.getStepPlaying()){
     var chn = seq.getAllSteps();
     for(var i = 0; i < chn.length; i++){
         var stp = chn[i].getSteps()[playing];
@@ -76,6 +75,13 @@ function updateSynthParams(){
             updateLFO(chn[i].getLFO(), stp.LFO);
         }
     }
+}
+function updateSingleSynthParams(playing=seq.getSelected()){
+    var chn = seq.getChannel();
+    var stp = chn.getSteps()[playing];
+    updateOscillator(chn.getOscillator(), stp.osc_param);
+    updateEnv(chn.getAmpEnv(), stp.adsr_mix);
+    updateLFO(chn.getLFO(), stp.LFO);
 }
 
 function updateOscillator(osc, par){

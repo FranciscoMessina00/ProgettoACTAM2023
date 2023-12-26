@@ -40,6 +40,9 @@ class Sequencer{
     getNChannels(){
         return this.nChannels;
     }
+    getCurrentStep(){
+        return this.steps[this.channel].getSteps()[this.stepPlaying];
+    }
     //setters
     setGlobals(value){
         this.globals.bpm = value;
@@ -127,9 +130,13 @@ class Channel{
     // playChannel(note, time){
     //     this.steps[seq.getStepPlaying()].playSound(note, time, this.ampEnv);     
     // }
-    playChannel(time){
-        if(seq.getStepPlaying() != -1){
-            this.steps[seq.getStepPlaying()].playSound(time, this.ampEnv, this.oscillator.fmOsc);
+    playChannel(time=0, singlePlay=false){
+        if(seq.getStepPlaying() != -1 || singlePlay){
+            var stepToPlay = seq.getStepPlaying();
+            if(singlePlay){
+                stepToPlay = seq.getSelected();
+            }
+            this.steps[stepToPlay].playSound(time, this.ampEnv, singlePlay);
         }
     }
 }
@@ -147,10 +154,15 @@ class Step{
         
     }
 
-    playSound(time, ampEnv, osc){
-        if(this.toPlay == 1){
-            Tone.Transport.schedule(updateSynthParams(), time);
-            ampEnv.triggerAttackRelease(ampEnv.attack, time + 0.1);
+    playSound(time=0, ampEnv, singlePlay=false){
+        if(this.toPlay == 1 || singlePlay){
+            if(!singlePlay){
+                Tone.Transport.schedule(updateSynthParams(), time);
+                ampEnv.triggerAttackRelease(ampEnv.attack, time + 0.1);
+            }else{
+                ampEnv.triggerAttackRelease(ampEnv.attack);
+            }
+            
             // filter.triggerAttackRelease(filter.attack, time + 0.05);
         }
     }

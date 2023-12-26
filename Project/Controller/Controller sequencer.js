@@ -50,6 +50,7 @@ function detectClick(){
           // we select the step as a playable step
           seq.setSelected(i);
           knobs.forEach(kn => updateKnobView(kn));
+          updateSingleSynthParams()
         }
         break;
     }

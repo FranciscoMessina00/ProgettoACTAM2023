@@ -42,7 +42,7 @@ function updateParamValue(){
         // console.log(stp[seq.getSelected()])
 
         params = stp[seq.getSelected()].getParams();
-
+        updateSingleSynthParams()
         
         //console.log(spl)
 
