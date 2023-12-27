@@ -75,16 +75,11 @@ button{
     flex-wrap: wrap;
 }
 #tot{
-    display:flex;
-    justify-content: center;
-    align-items: center;
     height: 100%;
+    width: fit-content;
+    margin: 0 auto;
 }
-#filter1{
-    width: 400px;
-    display: block;
-}
-#oscillator{
+#filter1, #oscillator{
     width: 400px;
     display: block;
 }

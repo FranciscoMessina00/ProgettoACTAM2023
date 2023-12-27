@@ -130,7 +130,7 @@ function drawSequencer(){
         // console.log(seq.getChannelSteps()[i]);
         drawStep((100 + space/2) * scale + (canvas.width / 16) * i, heightShift, scale, seq.getChannelSteps()[i].getToPlay(), i, seq.getStepPlaying());
     }
-    requestAnimationFrame(drawSequencer);
+    // requestAnimationFrame(drawSequencer);
 }
 
 function drawLittleSteps(channel, index){

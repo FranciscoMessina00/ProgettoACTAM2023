@@ -157,10 +157,17 @@ class Step{
     playSound(time=0, ampEnv, singlePlay=false){
         if(this.toPlay == 1 || singlePlay){
             if(!singlePlay){
-                Tone.Transport.schedule(updateSynthParams(), time);
+                // to stop the previous envelope we trigger the release
+                ampEnv.triggerRelease(time)
+                Tone.Transport.schedule(updateSynthParams(), time + 0.05);
                 ampEnv.triggerAttackRelease(ampEnv.attack, time + 0.1);
             }else{
+                console.log("singlePlay")
+                // I had to add the start and stop of the transport because otherwise the synth would not play
+                // whenn I started the page. I don't know why this happens, but it works.
+                Tone.Transport.start();
                 ampEnv.triggerAttackRelease(ampEnv.attack);
+                Tone.Transport.stop();
             }
             
             // filter.triggerAttackRelease(filter.attack, time + 0.05);
@@ -234,7 +241,7 @@ class Synth{
     
     static createOscillator(osc_param) {
         var fmOsc = new Tone.FMOscillator();
-        var LFOModFm = new Tone.Gain(osc_param.LFOamt);
+        var LFOModFm = new Tone.Gain(osc_param.LFOamt, "gain");
         fmOsc.set({
             frequency: osc_param.freq,
             type: osc_param.type,
@@ -263,9 +270,9 @@ class Synth{
             sustain: kick_param.fs,
             release: kick_param.fr,
         })
-        var volume = new Tone.Gain(kick_param.volume);
+        var volume = new Tone.Gain(kick_param.volume, "gain");
         var pan = new Tone.Panner(kick_param.position);
-        var freqEnvAmt = new Tone.Gain(kick_param.sweep);
+        var freqEnvAmt = new Tone.Gain(kick_param.sweep, "gain");
         o.chain(amp, volume, pan);
         freqEnv.chain(freqEnvAmt, o.frequency);
         o.start();
@@ -291,7 +298,7 @@ class Synth{
         var tonal = new Tone.Oscillator(snare_param.pitch, "sine");  // Body
         var noise = new Tone.Noise(snare_param.color);               // Snap
         var balance = new Tone.CrossFade(snare_param.balance);
-        var volume = new Tone.Gain(snare_param.volume);
+        var volume = new Tone.Gain(snare_param.volume, "gain");
         var amp = new Tone.AmplitudeEnvelope();
         amp.set({
             attack: snare_param.a,
@@ -306,7 +313,7 @@ class Synth{
             sustain: snare_param.fs,
             release: snare_param.fr,
         })
-        var freqEnvAmt = new Tone.Gain(snare_param.sweep);
+        var freqEnvAmt = new Tone.Gain(snare_param.sweep, "gain");
         var pan = new Tone.Panner(snare_param.position);
         tonal.connect(balance.a);
         noise.connect(balance.b);
@@ -346,7 +353,7 @@ class Synth{
                 release: hat_param.r + 0.2,   // L'open ha un release più lungo
             })
         }
-        var volume = new Tone.Gain(hat_param.volume);
+        var volume = new Tone.Gain(hat_param.volume, "gain");
         var pan = new Tone.Panner(hat_param.position);
         noise.chain(filter, amp, volume, pan);
         noise.start();
@@ -374,7 +381,7 @@ class Synth{
             sustain: tom_param.s,
             release: tom_param.r,
         })
-        var volume = new Tone.Gain(tom_param.volume);
+        var volume = new Tone.Gain(tom_param.volume, "gain");
         var pan = new Tone.Panner(tom_param.position);
         var color = new Tone.CrossFade(tom_param.color);
         sine.chain(amp, dist, color.b);
@@ -395,14 +402,14 @@ class Synth{
 
         var LFOl = new Tone.Oscillator(flanger_param.rate, flanger_param.type);
         var LFOr = new Tone.Oscillator(flanger_param.rate + flanger_param.stereo, flanger_param.type);  // Il parametro stereo alza la frequenza di uno dei due LFO
-        var modl = new Tone.Gain(flanger_param.width);
-        var modr = new Tone.Gain(flanger_param.width - flanger_param.stereo*0.005);  // Il parametro stereo abbassa la quantità di modulazione dell'LFO
+        var modl = new Tone.Gain(flanger_param.width, "gain");
+        var modr = new Tone.Gain(flanger_param.width - flanger_param.stereo*0.005, "gain");  // Il parametro stereo abbassa la quantità di modulazione dell'LFO
         var dlyl = new Tone.Delay(0.015, 0.030);
         var dlyr = new Tone.Delay(0.015 - flanger_param.stereo*0.005, 0.035);  // Il parametro stereo abbassa il ritardo iniziale di una delle due linee di ritardo
-        var feedbackl = new Tone.Gain(flanger_param.feedback);
-        var feedbackr = new Tone.Gain(flanger_param.feedback);
-        var range_depthl = new Tone.Gain(flanger_param.depth);
-        var range_depthr = new Tone.Gain(flanger_param.depth);
+        var feedbackl = new Tone.Gain(flanger_param.feedback, "gain");
+        var feedbackr = new Tone.Gain(flanger_param.feedback, "gain");
+        var range_depthl = new Tone.Gain(flanger_param.depth, "gain");
+        var range_depthr = new Tone.Gain(flanger_param.depth, "gain");
         var crossFadel = new Tone.CrossFade(0.5);
         var crossFader = new Tone.CrossFade(0.5);
         var dryWet = new Tone.CrossFade(flanger_param.dw);
@@ -499,7 +506,7 @@ class Player{
     }
     start(sequencer){
         sequencer.play();
-        Tone.start();
+        // Tone.start();
         Tone.Transport.start();
     }
     stop(sequencer){
@@ -507,6 +514,7 @@ class Player{
         sequencer.stop();
         sequencer.setStepPlaying(-1);
         changeBorders();
+        drawSequencer();
     }
     playSound(time){
         // var notes = ["C4", "E4", "G4", "B4"];

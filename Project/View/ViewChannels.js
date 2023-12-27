@@ -50,6 +50,7 @@ function updateColorChannel(channel){
             document.getElementById("drumSection").style.display = "flex";
             break;
     }
+    drawSequencer();
 }
 
 function visualizeChannels(){
