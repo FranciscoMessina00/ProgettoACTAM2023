@@ -2,7 +2,7 @@ var globals = {
     bpm: 120,
 }
 
-osc_param = {
+var osc_param = {
     freq : 440,  
     type : 'sine', 
     modType: 'sine',

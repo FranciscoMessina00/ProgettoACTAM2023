@@ -91,7 +91,10 @@ function updateOscillator(osc, par){
         type: par.type,
         modulationType: par.modType,
         harmonicity: par.harm,
-        modulationIndex: par.mod
+        modulationIndex: par.mod,
+    })
+    osc.LFOModFm.set({
+        gain: par.LFOamt
     })
 }
 

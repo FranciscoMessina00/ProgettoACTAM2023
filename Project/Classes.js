@@ -248,6 +248,7 @@ class Synth{
             modulationType: osc_param.modType,
             harmonicity: osc_param.harm,
             modulationIndex: osc_param.mod,
+            LFOamt: osc_param.LFOamt
         })
         return {
             fmOsc: fmOsc,
