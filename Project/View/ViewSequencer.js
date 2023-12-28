@@ -123,7 +123,6 @@ var roundedPoly = function(points,radius){
 
 function drawSequencer(){
     // calculating the space between the dodecagons
-    
     for (var i = 0; i < 16; i++) {
         // drawStep((100  + i * 220 + 10) * scale, (100 + 10) * scale, scale, steps[i], i == selected);
         // starting drawing 100 pixels plus a padding from the left 
@@ -131,6 +130,10 @@ function drawSequencer(){
         drawStep((100 + space/2) * scale + (canvas.width / 16) * i, heightShift, scale, seq.getChannelSteps()[i].getToPlay(), i, seq.getStepPlaying());
     }
     // requestAnimationFrame(drawSequencer);
+}
+
+function drawSingleStep(i){
+    drawStep((100 + space/2) * scale + (canvas.width / 16) * i, heightShift, scale, seq.getChannelSteps()[i].getToPlay(), i, seq.getStepPlaying());
 }
 
 function drawLittleSteps(channel, index){

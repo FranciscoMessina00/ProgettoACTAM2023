@@ -96,7 +96,7 @@ function visualizeChannels(){
                         canvCont.style.borderBottomLeftRadius = "10px";
                         break;
                 }
-                changeBorders();
+                // changeBorders();
                 knobs.forEach(kn => updateKnobView(kn));
             });
         }
@@ -104,19 +104,23 @@ function visualizeChannels(){
 };
 
 function changeBorders(){
-    var allSteps = seq.getAllSteps();
+    // var allSteps = seq.getAllSteps();
+    var stepPlaying = seq.getStepPlaying();
+    // console.log("hello", stepPlaying);
+    var prevStep = (16 + stepPlaying - 1) % 16;
     for(var i = 0; i < seq.getNChannels(); i++){
         var childrenList = document.getElementById("ch" + (i+1)).children;
-        for(var j = 0; j < 16; j++){
-            if(j == seq.getStepPlaying() && seq.isPlaying()){
-                childrenList[0].children[j].style.backgroundColor = "#6C3D11";
-            }else{
-                if(allSteps[i].getSteps()[j].getToPlay() == 1){
-                    childrenList[0].children[j].style.backgroundColor = "#C80000";
-                }else{
-                    childrenList[0].children[j].style.backgroundColor = "#D9D9D9";
-                }
-            }
+        childrenList[0].children[prevStep].classList.remove("goldStep");
+        if(seq.isPlaying()){
+            childrenList[0].children[stepPlaying].classList.add("goldStep");
+        }else{
+            childrenList[0].children[stepPlaying].classList.remove("goldStep");
         }
     }
+    drawSingleStep(stepPlaying);
+    drawSingleStep(prevStep);
+}
+function toggleRed(j){
+    var childrenList = document.getElementById("ch" + (seq.getChannelIndex() +1)).children;
+    childrenList[0].children[j].classList.toggle("redStep");
 }

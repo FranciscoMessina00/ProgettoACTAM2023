@@ -10,7 +10,7 @@ class Sequencer{
                     ];
         this.selected = 0;
         this.playing = false;
-        this.stepPlaying = -1;
+        this.stepPlaying = 0;
         this.nChannels = this.steps.length;
     }
     
@@ -159,7 +159,6 @@ class Step{
             if(!singlePlay){
                 // to stop the previous envelope we trigger the release
                 ampEnv.triggerRelease(time)
-                Tone.Transport.schedule(updateSynthParams(), time + 0.05);
                 ampEnv.triggerAttackRelease(ampEnv.attack, time + 0.1);
             }else{
                 console.log("singlePlay")
@@ -248,7 +247,6 @@ class Synth{
             modulationType: osc_param.modType,
             harmonicity: osc_param.harm,
             modulationIndex: osc_param.mod,
-            LFOamt: osc_param.LFOamt
         })
         return {
             fmOsc: fmOsc,
@@ -507,14 +505,16 @@ class Player{
     }
     start(sequencer){
         sequencer.play();
+        Tone.Transport.scheduleRepeat(repeatingEvent, "16n");
         // Tone.start();
         Tone.Transport.start();
     }
     stop(sequencer){
         Tone.Transport.stop();
+        Tone.Transport.cancel();
         sequencer.stop();
-        sequencer.setStepPlaying(-1);
         changeBorders();
+        sequencer.setStepPlaying(0);
         drawSequencer();
     }
     playSound(time){
@@ -524,6 +524,6 @@ class Player{
             // channels[i].playChannel(notes[i], time);
             channels[i].playChannel(time);
         }
-        changeBorders();
+        
     }
 }

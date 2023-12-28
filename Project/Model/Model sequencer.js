@@ -9,7 +9,7 @@ canvas.width  = 1200;
 canvas.height = 80;
 const space = ((canvas.width - (200 * 16 * scale)) / 16) / scale;
 const heightShift = canvas.height - canvas.height/2;
-
+var prevSelected = 0;
 var dodecagon = [
     {x: 0*scale   , y: -100*scale},
     {x: -50*scale , y: -87*scale },

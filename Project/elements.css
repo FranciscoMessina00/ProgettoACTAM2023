@@ -365,3 +365,9 @@ label:active:after {
     align-items: center;
     margin: 0 5px;
 }
+.goldStep{
+    background-color: #6C3D11
+}
+.redStep{
+    background-color: #C80000
+}

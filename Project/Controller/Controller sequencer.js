@@ -46,7 +46,8 @@ function detectClick(){
         if((Math.abs(posX) - i < 100*scale/widthCell) && (Math.abs(posY) - j < 100*scale/heightCell) && (distance < 100*scale/widthCell || distance < 100*scale/heightCell)){
           // we trigger the specific step
           seq.triggerStep(i);
-          drawSequencer();
+          drawSingleStep(i);
+          toggleRed(i);
         }
         break;
       case 1:
@@ -64,7 +65,9 @@ function detectClick(){
           seq.setSelected(i);
           knobs.forEach(kn => updateKnobView(kn));
           updateSingleSynthParams()
-          drawSequencer();
+          drawSingleStep(i);
+          drawSingleStep(prevSelected);
+          prevSelected = i;
         }
         break;
     }
@@ -74,12 +77,13 @@ function detectClick(){
 function repeatingEvent(time){
   // we schedule the metronome of the sequencer with beats every 16th of a note
   // we update the step
-  Tone.Transport.schedule(seq.updateStep(), time);
-  Tone.Transport.schedule(drawSequencer(), time + 0.01);
+  Tone.Transport.schedule(updateSynthParams(), time);
   // we play the step at that specific time
   player.playSound(time);
+  Tone.Transport.schedule(changeBorders(), time);
+  Tone.Transport.schedule(seq.updateStep(), time + 0.01);
 }
-Tone.Transport.scheduleRepeat(repeatingEvent, "16n");
+
 
 // draw the sequencer
 drawSequencer();
