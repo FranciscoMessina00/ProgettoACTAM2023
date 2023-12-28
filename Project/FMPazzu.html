@@ -30,9 +30,9 @@
                         <div id="frequencyContainer" class="container">
                             <div style="display:inline-flex">
                                 <div class="knob"><div class="dot"></div></div>
-                                <div style="display: flex;margin: auto;align-items: center;flex-direction: column;position: relative;"><input type="checkbox" id="ch_freq" onchange=""/><label for="ch_freq"></label></div>    
+                                <div style="display: flex;margin: auto;align-items: center;flex-direction: column;position: relative;"><input type="checkbox" id="ch_freq" onchange="quantize_frequencies('osc_param.freq')"/><label for="ch_freq"></label></div>    
                             </div>
-                            <div id="osc_param.freq" onclick="focusInput()" class="label">Frequency: <input class="inputEl" onfocus="this.select()" type="number" value="440" step="1" min="20" max="20000">Hz</div>
+                            <div id="osc_param.freq" onclick="focusInput()" class="label">Frequency: <input class="inputEl" onfocus="this.select()" type="number" value="440" step="1" min="20" max="20000"></div>
                         
                         </div>
                         <div id="harmonicityContainer" class="container">

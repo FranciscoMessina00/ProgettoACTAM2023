@@ -3,6 +3,7 @@ var globals = {
 }
 
 var osc_param = {
+    quant : false,
     freq : 440,  
     type : 'sine', 
     modType: 'sine',
@@ -94,3 +95,22 @@ var flanger_param = {     // Questi parametri sono gli stessi di synth.js
 
 
 defaults = ["globals", globals, "osc_param", osc_param, "LFO", LFO, "adsr_mix", adsr_mix, "flanger_param", flanger_param];
+
+
+
+function init_quant_f(){
+    var quant_f = [];
+    var base = 27.5;
+    var i = 0;
+    var notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
+    for(var j = 0; j < Math.log2(20000/base)*12; j++){
+        i = base*Math.pow(2, (j/12))
+        quant_f[j] = {
+            note: notes[j%12] + String(Math.floor((j + 9)/12)),
+            freq: i.toFixed(0)
+        };
+    }
+    return quant_f;
+}
+
+var quant_f = init_quant_f()

@@ -37,7 +37,17 @@ function updateParamValue(){
             }
         }
         seq.setGlobals(tmp);
-    }else{
+    }else if(spl[0] == "osc_param"){
+        var ck = knob.parentNode.children[1].children[0]
+        if(ck.checked){
+            while (quant_f[i]['note'] != lbl_value) {
+                i++;
+            }
+            lbl_value = quant_f[i]['freq'];
+        }
+    }
+    else{
+        
         stp = seq.getChannelSteps();
         // console.log(stp[seq.getSelected()])
 
