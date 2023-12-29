@@ -96,7 +96,7 @@ class Channel{
         // Parameters for the synth
         // this.filter = Synth.createFilter(filter_param, adsr_filter);
 
-        if(type == melody){
+        if(type == 'melody'){
         this.ampEnv = Synth.createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
         this.oscillator = Synth.createOscillator(osc_param);
         this.LFO = Synth.createLFO(LFO);
