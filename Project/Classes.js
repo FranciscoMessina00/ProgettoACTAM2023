@@ -3,8 +3,8 @@ class Sequencer{
         this.channel = 0;
         this.globals = {...globals};
         this.steps = [
-                        new Channel(),
-                        new Channel(),
+                        new Channel('melody'),
+                        new Channel('perc'),
                         // new Channel(),
                         // new Channel()
                     ];
@@ -86,7 +86,7 @@ class Sequencer{
 }
 
 class Channel{
-    constructor(){
+    constructor(type){
         this.steps = [];
         for (let i = 0; i <= 15; i++) {
             this.steps[i] = new Step();           
@@ -95,6 +95,8 @@ class Channel{
         this.limiter.connect(Tone.Destination);
         // Parameters for the synth
         // this.filter = Synth.createFilter(filter_param, adsr_filter);
+
+        if(type == melody){
         this.ampEnv = Synth.createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
         this.oscillator = Synth.createOscillator(osc_param);
         this.LFO = Synth.createLFO(LFO);
@@ -106,6 +108,30 @@ class Channel{
         this.LFO.start()
         // this.instrument = new Tone.Synth().toDestination();
         this.oscillator.fmOsc.start();
+        }
+
+        else {
+        this.kick = createKick(kick_params);
+        this.snare = createSnare(snare_params);
+        this.hat = createHat(hat_params);
+        this.tom = createTom(tom_params);
+        this.flanger = createFlanger(flanger_params);
+
+        this.kick.pan.connect(Tone.Destination);
+        this.snare.pan.connect(Tone.Destination);
+        this.hat.pan.connect(Tone.Destination);
+        this.tom.pan.connect(Tone.Destination);
+
+        // this.kick.pan.connect(this.flanger.s);
+        // this.snare.pan.connect(this.flanger.s);
+        // this.hat.pan.connect(this.flanger.s);
+        // this.tom.pan.connect(this.flanger.s);
+        // this.kick.pan.connect(this.flanger.dryWet.a);
+        // this.snare.pan.connect(this.flanger.dryWet.a);
+        // this.hat.pan.connect(this.flanger.dryWet.a);
+        // this.tom.pan.connect(this.flanger.dryWet.a);
+        // this.flanger.dryWet.connect(this.limiter);
+        }
     }
 
     getOscillator(){
@@ -161,7 +187,7 @@ class Step{
                 ampEnv.triggerRelease(time)
                 ampEnv.triggerAttackRelease(ampEnv.attack, time + 0.1);
             }else{
-                console.log("singlePlay")
+                //console.log("singlePlay")
                 // I had to add the start and stop of the transport because otherwise the synth would not play
                 // whenn I started the page. I don't know why this happens, but it works.
                 Tone.Transport.start();
