@@ -111,11 +111,11 @@ class Channel{
         }
 
         else {
-        this.kick = createKick(kick_params);
-        this.snare = createSnare(snare_params);
-        this.hat = createHat(hat_params);
-        this.tom = createTom(tom_params);
-        this.flanger = createFlanger(flanger_params);
+        this.kick = Synth.createKick(kick_param);
+        this.snare = Synth.createSnare(snare_param);
+        this.hat = Synth.createHat(hat_param);
+        this.tom = Synth.createTom(tom_param);
+        this.flanger = Synth.createFlanger(flanger_param);
 
         this.kick.pan.connect(Tone.Destination);
         this.snare.pan.connect(Tone.Destination);
