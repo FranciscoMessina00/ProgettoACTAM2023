@@ -127,7 +127,10 @@ function updateKnobView(kn){
             knob.style.rotate = normalizedValue + "deg";
         }
         // we resize the html to fit the value of the label and update the images of the waveforms
-        updateWaveTypes();
+        if(seq.getChannelIndex() != 1){
+            // we update the images of the waveforms only if we are in the oscillator channel
+            updateWaveTypes();
+        }
         resizeInput(label);
     }
 }
@@ -290,7 +293,7 @@ function changeLeft(category){
         resizeInput(type);
         
     }
-    else if(category == "modulation"){
+    else{
         var type = document.getElementById("modType");
         var condition = (element) => element == type.value;
 
@@ -321,19 +324,7 @@ function changeRight(category){
 
         resizeInput(type);
     }
-    else if(category == "filter"){
-        var type = document.getElementById("filtType");
-        var condition = (element) => element == type.value;
-
-        var index = filterTypes.findIndex(condition);
-        index = (index + 1) % 3;
-        type.value = filterTypes[index].toLowerCase();
-        var file = "View/Images/" + filterTypes[index] + ".png";
-        document.getElementById("filtImg").src = file;
-        
-        resizeInput(type);
-    }
-    else if(category == "modulation"){
+    else{
         var type = document.getElementById("modType");
         var condition = (element) => element == type.value;
 
