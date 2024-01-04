@@ -1,20 +1,21 @@
 function drawDodecagon(index, stepPlaying){
     var cornerRadius = 30*scale;
-    ctx.lineWidth = 4*scale;
+    ctx.lineWidth = 7*scale;
     const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, 100);
     if(index == stepPlaying && seq.isPlaying()){
-        grd.addColorStop(1, colorPlayingOut);
-        grd.addColorStop(0, colorPlayingIn);
+        grd.addColorStop(1*scale, colorPlayingOut);
+        grd.addColorStop(0*scale, colorPlayingIn);
         ctx.strokeStyle = strokePlaying;
     } else{
-        if(index != seq.getSelected()){
-            grd.addColorStop(1, colorDodOffOut);
-            grd.addColorStop(0, colorDodOffIn);
-        }else{
-            grd.addColorStop(1, colorDodOnOut);
-            grd.addColorStop(0,colorDodOnIn);
-        }
         ctx.strokeStyle = strokeNotPlaying;
+        if(index == seq.getSelected()){
+            ctx.lineWidth = 6*scale;
+            ctx.strokeStyle = colorRectOffSel;
+        }
+        grd.addColorStop(1*scale, colorDodOffOut);
+        grd.addColorStop(0*scale, colorDodOffIn);
+        determineGradient(index, grd, seq.getChannelIndex());
+        
     }
     
     ctx.fillStyle = grd;
@@ -49,6 +50,7 @@ function drawRect(step, index, stepPlaying){
 }
 
 function drawStep(posX, posY, scale = 1, step = 0, index = 0, stepPlaying = 0){
+    ctx.clearRect(clearArea.x + (canvas.width / 16) * index, clearArea.y, clearArea.width, clearArea.height);
     ctx.translate(posX, posY);
     // ctx.scale(scale, scale);
     drawDodecagon(index, stepPlaying);
@@ -140,4 +142,31 @@ function drawLittleSteps(channel, index){
     for(var i = 0; i < 16; i++){
         channel.innerHTML += '<span id="'+ index + i +'" class="littleStep"></span>';
     }
+}
+function determineGradient(index, grd, channelIndex){
+    switch(channelIndex){
+        case 0: // we are in the melody channel
+            var interior = spaceAttack(index);
+            var exterior = interior + spaceRelease(index);
+            if (exterior > 1) exterior = 1 - 0.001;
+            
+            grd.addColorStop(exterior*scale, "#000000");
+            grd.addColorStop(interior*scale, "#000000");
+            break;
+        case 1: // we are in the beat channel
+            
+            break;
+    }
+}
+function spaceAttack(index){
+    var step = seq.getIndexStep(index);
+    var attack = step.getAdsrMix().attack;
+    var proportion = attack / 500;
+    return proportion;
+}
+function spaceRelease(index){
+    var step = seq.getIndexStep(index);
+    var release = step.getAdsrMix().release;
+    var proportion = release / 500;
+    return proportion;
 }

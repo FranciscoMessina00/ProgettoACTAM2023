@@ -258,6 +258,8 @@ function onMouseMove(event){
         }
         
         resizeInput(label);
+        updateParamValue();
+        drawSingleStep(seq.getSelected());
         // we memorize the last vertical mouse position for the next time we move the mouse (after we onMouseUp will be updated on the next onMouseDown)
         prevMouseY = event.pageY;
     }
@@ -265,7 +267,7 @@ function onMouseMove(event){
 
 function onMouseUp(){ 
     // when we release the mouse button we update the value of the parameter
-    updateParamValue()
+    
     resizeInput(label);
     // we remove the event listener for the mouse move, otherwise the knob will keep rotating when moving the mouse
     document.removeEventListener("mousemove", onMouseMove); //stop drag
