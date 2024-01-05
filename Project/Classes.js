@@ -28,9 +28,6 @@ class Sequencer{
     getChannelSteps(){
         return this.steps[this.channel].getSteps();
     }
-    getIndexStep(index){
-        return this.steps[this.channel].getSteps()[index];
-    }
     getAllSteps(){
         return this.steps;
     }
@@ -550,7 +547,7 @@ class Synth{
             dryWet: dryWet,}
     }
 
-    static foldaLaMamma(amt, val) {
+    static folding(amt, val) {
         var condition = val*amt;
         var out1 = 1 - (val * amt - 1);
         var out2 = -1 - (val * amt - 1);
