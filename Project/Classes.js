@@ -28,6 +28,9 @@ class Sequencer{
     getChannelSteps(){
         return this.steps[this.channel].getSteps();
     }
+    getIndexStep(index){
+        return this.steps[this.channel].getSteps()[index];
+    }
     getAllSteps(){
         return this.steps;
     }
