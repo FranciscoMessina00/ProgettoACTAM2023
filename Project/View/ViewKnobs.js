@@ -310,7 +310,8 @@ function changeLeft(category){
         
         resizeInput(type);
     }
-    updateParamValue()
+    updateParamValue();
+    drawSingleStep(seq.getSelected());
 }
 function changeRight(category){
     // we change the image of the knob according to the direction we are going
@@ -339,6 +340,7 @@ function changeRight(category){
         resizeInput(type);
     }
     updateParamValue()
+    drawSingleStep(seq.getSelected());
 }
 
 

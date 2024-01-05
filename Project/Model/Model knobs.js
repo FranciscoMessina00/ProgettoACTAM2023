@@ -20,7 +20,7 @@ var getRadiansInDegrees;
 var finalAngleInDegrees;
 var minAngle = 170; 
 var maxAngle = -170;
-var waveTypes = ["sine", "square", "triangle", "sawtooth"];
+var waveTypes = ["sine", "triangle", "square", "sawtooth"];
 var filterTypes = ["lowpass", "highpass", "bandpass"];
 
 function updateParamValue(){

@@ -33,7 +33,7 @@ function updateColorChannel(channel){
             document.querySelectorAll(".image").forEach(el => el.classList.add("violet"));
             colorDodOnOut = '#8951FF';
             colorDodOnIn = '#BE6AFF';
-            colorRectOffSel = '#FF9CD2';
+            // colorRectOffSel = '#FF9CD2';
 
             document.getElementById("oscillator").style.display = "block";
             document.getElementById("filter1").style.display = "block";
@@ -53,7 +53,7 @@ function updateColorChannel(channel){
             document.querySelectorAll(".image").forEach(el => el.classList.remove("violet"));
             colorDodOnOut = '#FF5151';
             colorDodOnIn = '#FF6A6A';
-            colorRectOffSel = '#FF9CD2';
+            // colorRectOffSel = '#FF9CD2';
 
             document.getElementById("oscillator").style.display = "none";
             document.getElementById("filter1").style.display = "none";

@@ -598,10 +598,12 @@ class Player{
         
     }
     start(sequencer){
-        sequencer.play();
-        Tone.Transport.scheduleRepeat(repeatingEvent, "16n");
-        // Tone.start();
-        Tone.Transport.start();
+        if(seq.isPlaying()){
+            sequencer.play();
+            Tone.Transport.scheduleRepeat(repeatingEvent, "16n");
+            // Tone.start();
+            Tone.Transport.start();
+        }
     }
     stop(sequencer){
         Tone.Transport.stop();
