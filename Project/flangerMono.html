@@ -1,0 +1,54 @@
+<html>
+
+<head><script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-jduERlz7En1IUZR54bqzpNI64AbffZWR//KJgF71SJ8D8/liKFZ+s1RxmUmB+bhCnIfzebdZsULwOrbVB5f3nQ==" crossorigin="anonymous" referrerpolicy="no-referrer">import * as Tone from "tone";</script></head>
+<body>
+
+    
+    <script>
+        var flangerMono_param = {     // Questi parametri sono gli stessi di synth.js
+            rate : 0.2,           // 0.1-20000 Hz
+            type : 'sine',
+            depth: 0.5,           // 0.1-1    Attenua l'uscita delle delay line
+            feedback : 1,       // 0-1      Regola il feedback (1 è abbastanza sgravato). Notare l'implementazione di un percorso di crossfeedback (il feedback di destra va al canale sinistro e viceversa, vedi createFlanger)
+            width : 0.01,        // 0-0.015  Osserva i valori delle delay line!
+            dryWet: 1,              // 0-1      Semplice DryWet
+            color: 1,             // 0-1      Quantità di distorsione. Questo comportamento è fortemente influenzato dal valore di feedback (vedi createFlanger per vedere come i due parametri sono relazionati)   
+        }
+
+        var o = new Tone.Oscillator(200, "sawtooth");
+
+        function createFlangerMono(flangerMono_param) {
+            var LFO = new Tone.Oscillator(flangerMono_param.rate, flangerMono_param.type);
+            var mod = new Tone.Gain(flangerMono_param.width);
+            var dly = new Tone.Delay(0.015, 0.030);
+            var feedback = new Tone.Gain(flangerMono_param.feedback);
+            var range_depth = new Tone.Gain(flangerMono_param.depth);
+            var crossFade = new Tone.CrossFade(0.5);
+            var dryWet = new Tone.CrossFade(flangerMono_param.dryWet);
+            var color = new Tone.CrossFade(flangerMono_param.color);
+            var overdrive = new Tone.WaveShaper(function (val) {
+                var amt = 3 - flangerMono_param.feedback;
+                return Math.tanh(2^(amt*val));
+            }, 2048);
+            crossFade.chain(dly, range_depth, dryWet.b);
+            dly.fan(overdrive, color.a);
+            overdrive.connect(color.b);
+            color.chain(feedback, crossFade.b);
+            LFO.chain(mod, dly.delayTime);
+            LFO.start();
+            return{
+                crossFade: crossFade,
+                dryWet: dryWet,
+            }
+        }
+        var flanger = createFlangerMono(flangerMono_param);
+        o.fan(flanger.dryWet.a, flanger.crossFade.a);
+        flanger.dryWet.toDestination();
+        o.start();
+       
+    </script>
+
+
+</body>
+
+</html>
