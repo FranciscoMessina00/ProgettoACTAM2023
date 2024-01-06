@@ -598,7 +598,7 @@ class Player{
         
     }
     start(sequencer){
-        if(seq.isPlaying()){
+        if(!seq.isPlaying()){
             sequencer.play();
             Tone.Transport.scheduleRepeat(repeatingEvent, "16n");
             // Tone.start();
