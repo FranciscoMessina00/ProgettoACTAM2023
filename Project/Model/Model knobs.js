@@ -9,6 +9,7 @@ var lastCurrentRadiansAngle = 0;
 var knob;
 var knobToChange;
 var knobs;
+var volumes;
 var label;
 var labelToChange;
 var knobPositionY;
@@ -20,7 +21,7 @@ var getRadiansInDegrees;
 var finalAngleInDegrees;
 var minAngle = 170; 
 var maxAngle = -170;
-var waveTypes = ["sine", "square", "triangle", "sawtooth"];
+var waveTypes = ["sine", "triangle", "square", "sawtooth"];
 var filterTypes = ["lowpass", "highpass", "bandpass"];
 
 function updateParamValue(){

@@ -371,3 +371,8 @@ label:active:after {
 .redStep{
     background-color: #C80000
 }
+.violet{
+    filter: invert(12%) sepia(83%) saturate(2974%) hue-rotate(267deg) brightness(75%) contrast(103%);
+}
+.red{
+    filter: invert(14%) sepia(26%) saturate(3728%) hue-rotate(333deg) brightness(90%) contrast(110%);}

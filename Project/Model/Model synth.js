@@ -68,20 +68,36 @@ function updateSynthParams(playing=seq.getStepPlaying()){
     for(var i = 0; i < chn.length; i++){
         var stp = chn[i].getSteps()[playing];
         if(stp.toPlay == 1){
-            updateOscillator(chn[i].getOscillator(), stp.osc_param);
-            updateEnv(chn[i].getAmpEnv(), stp.adsr_mix);
-            // updateFilter(chn[i].getFilter(), stp.filter_param);
-            // updateEnv(chn[i].getFilterEnv(), stp.adsr_filter);
-            updateLFO(chn[i].getLFO(), stp.LFO);
+            if(chn[i].getType() == "melody"){
+                updateOscillator(chn[i].getOscillator(), stp.osc_param);
+                updateEnv(chn[i].getAmpEnv(), stp.adsr_mix);
+                // updateFilter(chn[i].getFilter(), stp.filter_param);
+                // updateEnv(chn[i].getFilterEnv(), stp.adsr_filter);
+                updateLFO(chn[i].getLFO(), stp.LFO);
+            }else{
+                updateKick(chn[i].getKick(), stp.kick_param);
+                updateSnare(chn[i].getSnare(), stp.snare_param);
+                updateHat(chn[i].getHat(), stp.hat_param);
+                updateTom(chn[i].getTom(), stp.tom_param);
+            }
+            
         }
     }
 }
 function updateSingleSynthParams(playing=seq.getSelected()){
     var chn = seq.getChannel();
     var stp = chn.getSteps()[playing];
-    updateOscillator(chn.getOscillator(), stp.osc_param);
-    updateEnv(chn.getAmpEnv(), stp.adsr_mix);
-    updateLFO(chn.getLFO(), stp.LFO);
+    if(chn.getType() == "melody"){
+        updateOscillator(chn.getOscillator(), stp.osc_param);
+        updateEnv(chn.getAmpEnv(), stp.adsr_mix);
+        updateLFO(chn.getLFO(), stp.LFO);
+    }else{
+        updateKick(chn.getKick(), stp.kick_param);
+        updateSnare(chn.getSnare(), stp.snare_param);
+        updateHat(chn.getHat(), stp.hat_param);
+        updateTom(chn.getTom(), stp.tom_param);
+    }
+    
 }
 
 function updateOscillator(osc, par){
@@ -129,4 +145,82 @@ function updateLFO(lfo, par){
         frequency: par.rate,
         waveform: par.waveform
     })
+}
+function updateKick(kick, par){
+    kick.o.set({
+        frequency: par.pitch,
+    })
+    kick.amp.set({
+        release: par.r/1000,
+    })
+    kick.freqEnv.set({
+        release: par.fr/1000,
+    })
+    kick.volume.set({
+        gain: par.volume,
+    })
+    kick.pan.set({
+        pan: par.position,
+    })
+    kick.freqEnvAmt.set({
+        gain: par.sweep,
+    })
+}
+function updateSnare(snare, par){
+    snare.tonal.set({
+        frequency: par.pitch,
+    })
+    snare.amp.set({
+        release: par.r/1000,
+    })
+    snare.freqEnv.set({
+        release: par.fr/1000,
+    })
+    snare.volume.set({
+        gain: par.volume,
+    })
+    snare.pan.set({
+        pan: par.position,
+    })
+    snare.freqEnvAmt.set({
+        gain: par.sweep,
+    })
+    snare.noise.set({
+        type: colorNoise(par.color),
+    })
+    snare.balance.set({
+        fade: par.balance,
+    })
+}
+function updateHat(hat, par){
+    hat.amp.set({
+        release: par.r/1000,
+    })
+    hat.volume.set({
+        gain: par.volume,
+    })
+    hat.pan.set({
+        pan: par.position,
+    })
+    hat.filter.set({
+        frequency: par.cutoff,
+    })
+}
+function updateTom(tom, par){
+    tom.sine.set({
+        frequency: par.hiPitch,
+    })
+    tom.amp.set({
+        release: par.r/1000,
+    })
+    tom.volume.set({
+        gain: par.volume,
+    })
+    tom.pan.set({
+        pan: par.position,
+    })
+    tom.color.set({
+        fade: par.color,
+    })
+
 }

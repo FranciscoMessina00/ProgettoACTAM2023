@@ -1,20 +1,28 @@
 function drawDodecagon(index, stepPlaying){
     var cornerRadius = 30*scale;
-    ctx.lineWidth = 4*scale;
+    ctx.lineWidth = 7*scale;
     const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, 100);
     if(index == stepPlaying && seq.isPlaying()){
-        grd.addColorStop(1, colorPlayingOut);
-        grd.addColorStop(0, colorPlayingIn);
+        grd.addColorStop(1*scale, colorPlayingOut);
+        grd.addColorStop(0*scale, colorPlayingIn);
         ctx.strokeStyle = strokePlaying;
     } else{
-        if(index != seq.getSelected()){
-            grd.addColorStop(1, colorDodOffOut);
-            grd.addColorStop(0, colorDodOffIn);
-        }else{
-            grd.addColorStop(1, colorDodOnOut);
-            grd.addColorStop(0,colorDodOnIn);
-        }
         ctx.strokeStyle = strokeNotPlaying;
+        grd.addColorStop(1*scale, colorDodOffOut);
+        grd.addColorStop(0*scale, colorDodOffIn);
+        if(index == seq.getSelected()){
+            ctx.lineWidth = 6*scale;
+            ctx.strokeStyle = "#9d9d9d";
+            // grd.addColorStop(1*scale, colorDodOnOut);
+            // grd.addColorStop(0*scale, colorDodOnIn);
+        }
+        // else{
+        //     grd.addColorStop(1*scale, colorDodOffOut);
+        //     grd.addColorStop(0*scale, colorDodOffIn);
+        // }
+        
+        determineGradient(index, grd, seq.getChannelIndex());
+        
     }
     
     ctx.fillStyle = grd;
@@ -49,6 +57,7 @@ function drawRect(step, index, stepPlaying){
 }
 
 function drawStep(posX, posY, scale = 1, step = 0, index = 0, stepPlaying = 0){
+    ctx.clearRect(clearArea.x + (canvas.width / 16) * index, clearArea.y, clearArea.width, clearArea.height);
     ctx.translate(posX, posY);
     // ctx.scale(scale, scale);
     drawDodecagon(index, stepPlaying);
@@ -140,4 +149,79 @@ function drawLittleSteps(channel, index){
     for(var i = 0; i < 16; i++){
         channel.innerHTML += '<span id="'+ index + i +'" class="littleStep"></span>';
     }
+}
+function determineGradient(index, grd, channelIndex){
+    switch(channelIndex){
+        case 0: // we are in the melody channel
+            var interior = spaceAttack(index);
+            var exterior = interior + spaceRelease(index);
+            if (exterior > 1) {
+                exterior = 1 - 0.001;
+            }
+            var colorFrequency = colorStep(index);
+            grd.addColorStop(exterior*scale, colorFrequency);
+            grd.addColorStop(interior*scale, colorFrequency);
+            break;
+        case 1: // we are in the beat channel
+            
+            break;
+    }
+}
+function spaceAttack(index){
+    var step = seq.getIndexStep(index);
+    var attack = step.getAdsrMix().attack;
+    var proportion = attack / 500;
+    return proportion;
+}
+function spaceRelease(index){
+    var step = seq.getIndexStep(index);
+    var release = step.getAdsrMix().release;
+    var proportion = release / 500;
+    return proportion;
+}
+function colorStep(index){
+    // console.log(index);
+    var step = seq.getIndexStep(index);
+    var frequency = step.getOscParam().freq;
+    var hue = Math.log10(frequency) / Math.log10(20000);
+    var waveType = step.getOscParam().type;
+    switch(waveType){
+        case 'sine':
+            saturation = 0.50;
+            break;
+        case 'triangle':
+            saturation = 0.66;
+            break;
+        case 'square':
+            saturation = 0.82;
+            break;
+        case 'sawtooth':
+            saturation = 1;
+            break;
+    }
+    var valueColor = 0.5 + (Math.log(step.getOscParam().mod * step.getOscParam().harm + 0.1)/(2 * Math.log(3000)));
+    // console.log(hue, saturation, valueColor)
+    var rgb = hsvToRgb(hue, saturation, valueColor);
+    // console.log(rgb);
+    return "#" + ((1 << 24) + (rgb.red << 16) + (rgb.green << 8) + rgb.blue).toString(16).slice(1);;
+}
+function hsvToRgb(h, s, v) {
+    var r, g, b;
+  
+    var i = Math.floor(h * 6);
+    var f = h * 6 - i;
+    var p = v * (1 - s);
+    var q = v * (1 - f * s);
+    var t = v * (1 - (1 - f) * s);
+  
+    switch (i % 6) {
+      case 0: r = v, g = t, b = p; break;
+      case 1: r = q, g = v, b = p; break;
+      case 2: r = p, g = v, b = t; break;
+      case 3: r = p, g = q, b = v; break;
+      case 4: r = t, g = p, b = v; break;
+      case 5: r = v, g = p, b = q; break;
+    }
+  
+    return  {red: Math.round(r * 255), green: Math.round(g * 255), blue: Math.round(b * 255) };
 }
