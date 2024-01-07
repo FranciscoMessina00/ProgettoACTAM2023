@@ -63,7 +63,8 @@ function updateKnobView(kn){
     // we check if the parameter is a global parameter or not, for know we don't do anything
     if(spl[0] == "globals"){
             // console.log(spl[0]);
-    }else if((spl[0] == "osc_param")&&(spl[1] == "freq")){
+    }else if(seq.getChannelIndex() == 0 &&(spl[0] == "osc_param")&&(spl[1] == "freq")){
+        // console.log(seq.getChannelIndex())
         var quant = stp[seq.getSelected()].getOscParam().quant
         var ck = knob.parentNode.children[1].children[0]
 
@@ -92,6 +93,7 @@ function updateKnobView(kn){
             // updateKnob()
             
         }
+        updateColorChannel(seq.getChannelIndex());
         resizeInput(label)
     } // if the parameter is not a global parameter we proceed
     else{
@@ -516,6 +518,7 @@ function quantize_frequencies(label){
         input.type = 'number'
         input.value = quant_f[i]['freq'];
     }
+    updateColorChannel(seq.getChannelIndex());
     resizeInput(input);
     // updateParamValue();
 }
