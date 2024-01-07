@@ -41,15 +41,15 @@ function updateParamValue(){
     }
     else{
 
-        if(spl[0] == "osc_param"){
-            var ck = knob.parentNode.children[1].children[0]
-            if(ck.checked){
-                while (quant_f[i]['note'] != lbl_value) {
-                    i++;
-                }
-                lbl_value = quant_f[i]['freq'];
-            }
-        }
+        // if(spl[0] == "osc_param"){
+        //     var ck = knob.parentNode.children[1].children[0]
+        //     if(ck.checked){
+        //         while (quant_f[i]['note'] != lbl_value) {
+        //             i++;
+        //         }
+        //         lbl_value = quant_f[i]['freq'];
+        //     }
+        // }
         
         stp = seq.getChannelSteps();
         // console.log(stp[seq.getSelected()])
@@ -85,10 +85,14 @@ function updateParamValue(){
 }
 
 function copyToAll(){
-    steps = seq.getChannelSteps();
-    current_pars = steps[seq.getSelected()].getParams();
-
-    steps.forEach(e => {
-        e.params = current_pars;
+    var steps = seq.getChannelSteps();
+    var current_pars = steps[seq.getSelected()].getParams();
+    
+    steps.forEach(e => {    
+        e.setParams(current_pars)
+        // e.resetParams()
     });
+    // knobs.forEach(kn =>{updateKnobView(kn)})
+    // updateParamValue()
+    drawSequencer()
 }

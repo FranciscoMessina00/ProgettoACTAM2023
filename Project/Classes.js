@@ -314,7 +314,19 @@ class Step{
         this.flanger_param = value;
     }
     setParams(value){
-        this.params = value;
+        if(this.type == 'melody'){
+            this.setOscParam({...value[1]})
+            this.setLFO({...value[3]})
+            this.setAdsrMix({...value[5]})
+            this.setFlangerParam({...value[7]})
+            this.params = ["osc_param", this.osc_param, "LFO", this.LFO, "adsr_mix", this.adsr_mix, "flanger_param", this.flanger_param];
+        }else{
+            this.setKick({...value[1]})
+            this.setSnare({...value[3]})
+            this.setHat({...value[5]})
+            this.setTom({...value[7]})
+            this.params = ["kick_param", this.kick_param, "snare_param", this.snare_param, "hat_param", this.hat_param, "tom_param", this.tom_param];
+        }
     }
 }
 
