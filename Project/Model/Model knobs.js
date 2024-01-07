@@ -38,16 +38,18 @@ function updateParamValue(){
             }
         }
         seq.setGlobals(tmp);
-    }else if(spl[0] == "osc_param"){
-        var ck = knob.parentNode.children[1].children[0]
-        if(ck.checked){
-            while (quant_f[i]['note'] != lbl_value) {
-                i++;
-            }
-            lbl_value = quant_f[i]['freq'];
-        }
     }
     else{
+
+        if(spl[0] == "osc_param"){
+            var ck = knob.parentNode.children[1].children[0]
+            if(ck.checked){
+                while (quant_f[i]['note'] != lbl_value) {
+                    i++;
+                }
+                lbl_value = quant_f[i]['freq'];
+            }
+        }
         
         stp = seq.getChannelSteps();
         // console.log(stp[seq.getSelected()])
@@ -80,4 +82,13 @@ function updateParamValue(){
         stp[seq.getSelected()].setParams(params)
     }
     
+}
+
+function copyToAll(){
+    steps = seq.getChannelSteps();
+    current_pars = steps[seq.getSelected()].getParams();
+
+    steps.forEach(e => {
+        e.params = current_pars;
+    });
 }

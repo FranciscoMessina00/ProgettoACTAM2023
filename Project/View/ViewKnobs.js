@@ -426,37 +426,37 @@ function sw_ar(id_ck, id_d, id_s){
 }
 
 //function to quantize the frequencies into 440Hz - based notes
-function quantize_frequencies(label){
-    var input = document.getElementById(label).children[0];
-    var ck = document.getElementById(label).parentNode.children[0].children[1].children[0]
-    var curr_val;
-    // console.log(curr_val);
-    var i = 0;
+// function quantize_frequencies(label){
+//     var input = document.getElementById(label).children[0];
+//     var ck = document.getElementById(label).parentNode.children[0].children[1].children[0]
+//     var curr_val;
+//     // console.log(curr_val);
+//     var i = 0;
     
 
-    if(ck.checked == true){
-        seq.getChannelSteps()[seq.getSelected()].getOscParam().quant = true;
+//     if(ck.checked == true){
+//         seq.getChannelSteps()[seq.getSelected()].getOscParam().quant = true;
 
-        curr_val = Number(input.value);
+//         curr_val = Number(input.value);
 
-        while (quant_f[i]['freq'] < curr_val && i < 114) {
-            // console.log(quant_f[i]['freq'])
-            i++;
-        }
+//         while (quant_f[i]['freq'] < curr_val && i < 114) {
+//             // console.log(quant_f[i]['freq'])
+//             i++;
+//         }
 
-        input.type = 'text'
-        input.value = quant_f[i]['note']
-    }
-    else{
-        seq.getChannelSteps()[seq.getSelected()].getOscParam().quant = false;
+//         input.type = 'text'
+//         input.value = quant_f[i]['note']
+//     }
+//     else{
+//         seq.getChannelSteps()[seq.getSelected()].getOscParam().quant = false;
 
-        curr_val = input.value
-        // console.log(curr_val)
-        while (quant_f[i]['note'] != curr_val) {
-            i++;
-        }
-        input.type = 'number'
-        input.value = quant_f[i]['freq'];
-    }
-    // updateParamValue();
-}
+//         curr_val = input.value
+//         // console.log(curr_val)
+//         while (quant_f[i]['note'] != curr_val) {
+//             i++;
+//         }
+//         input.type = 'number'
+//         input.value = quant_f[i]['freq'];
+//     }
+//     // updateParamValue();
+// }
