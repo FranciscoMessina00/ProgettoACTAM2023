@@ -75,10 +75,18 @@ function updateSynthParams(playing=seq.getStepPlaying()){
                 // updateEnv(chn[i].getFilterEnv(), stp.adsr_filter);
                 updateLFO(chn[i].getLFO(), stp.LFO);
             }else{
-                updateKick(chn[i].getKick(), stp.kick_param);
-                updateSnare(chn[i].getSnare(), stp.snare_param);
-                updateHat(chn[i].getHat(), stp.hat_param);
-                updateTom(chn[i].getTom(), stp.tom_param);
+                if(stp.kick_param.volume > 0){
+                    updateKick(chn[i].getKick(), stp.kick_param);
+                }
+                if(stp.snare_param.volume > 0){
+                    updateSnare(chn[i].getSnare(), stp.snare_param);
+                }
+                if(stp.hat_param.volume > 0){
+                    updateHat(chn[i].getHat(), stp.hat_param);
+                }
+                if(stp.tom_param.volume > 0){
+                    updateTom(chn[i].getTom(), stp.tom_param);
+                }
             }
             
         }

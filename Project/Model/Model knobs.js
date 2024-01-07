@@ -46,8 +46,9 @@ function updateParamValue(){
         // console.log(stp[seq.getSelected()])
 
         var params = stp[seq.getSelected()].getParams();
-        // updateSingleSynthParams()
-        
+        if(!seq.isPlaying()){
+            updateSingleSynthParams()
+        }
         //check if quantization is actived; if so passes label's corresponding value
         if(spl[0] == "osc_param" && spl[1] == "freq"){ 
             var ck = knob.parentNode.children[1].children[0]
@@ -59,6 +60,7 @@ function updateParamValue(){
                 lbl_value = quant_f[i]['freq']
             }
         }
+        
         
         
         

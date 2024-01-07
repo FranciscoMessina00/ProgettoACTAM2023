@@ -41,7 +41,7 @@ var kick_param = {
     fs: 1,
     fr: 300,        // Release dell'inviluppo sul pitch
     sweep: 100,     // Quantità d'inviluppo sul pitch
-    volume: 1,
+    volume: 0,
     position: 0
 }
 
@@ -49,7 +49,7 @@ var snare_param = {
     pitch: 180,
     color: 3,    // colore del noise (white, pink, brown)
     balance: 0.7,  //    // 0-1, bilancia il suono tra i cosiddetti parametri body e snap //
-    volume: 1,
+    volume: 0,
     a: 0.001,
     d: 0.01,
     s: 1,
@@ -63,7 +63,7 @@ var snare_param = {
 }
 
 var hat_param = {
-    volume: 1,
+    volume: 0,
     a: 0.001,
     d: 0.01,
     s: 1,
@@ -81,7 +81,7 @@ var tom_param = {
     r: 400,
     color: 0.5,    // 0-1 Introduce ciccia attraverso una distorsione (diversa da quella del flanger, vedi createTom)
     position: 0,
-    volume: 1
+    volume: 0
 }
 
 var flanger_param = {     // Questi parametri sono gli stessi di synth.js

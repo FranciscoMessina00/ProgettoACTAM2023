@@ -176,20 +176,28 @@ class Channel{
     //     this.steps[seq.getStepPlaying()].playSound(note, time, this.ampEnv);     
     // }
     playChannel(time=0, singlePlay=false){
-        if(seq.getStepPlaying() != -1 || singlePlay){
+        if(seq.isPlaying() || singlePlay){
             var stepToPlay = seq.getStepPlaying();
             if(singlePlay){
                 stepToPlay = seq.getSelected();
             }
             if(this.type == 'melody'){
                 this.steps[stepToPlay].playSound(time, this.ampEnv, singlePlay);
-            }else{
-                this.steps[stepToPlay].playSound(time, this.kick.amp, singlePlay);
-                this.steps[stepToPlay].playSound(time, this.kick.freqEnv, singlePlay);
-                this.steps[stepToPlay].playSound(time, this.snare.amp, singlePlay);
-                this.steps[stepToPlay].playSound(time, this.snare.freqEnv, singlePlay);
-                this.steps[stepToPlay].playSound(time, this.hat.amp, singlePlay);
-                this.steps[stepToPlay].playSound(time, this.tom.amp, singlePlay);
+            }else{                
+                if(this.steps[stepToPlay].getKick().volume > 0){
+                    this.steps[stepToPlay].playSound(time, this.kick.amp, singlePlay);
+                    this.steps[stepToPlay].playSound(time, this.kick.freqEnv, singlePlay); 
+                }
+                if(this.steps[stepToPlay].getSnare().volume > 0){
+                    this.steps[stepToPlay].playSound(time, this.snare.amp, singlePlay);
+                    this.steps[stepToPlay].playSound(time, this.snare.freqEnv, singlePlay);
+                }
+                if(this.steps[stepToPlay].getHat().volume > 0){
+                    this.steps[stepToPlay].playSound(time, this.hat.amp, singlePlay);
+                }
+                if(this.steps[stepToPlay].getTom().volume > 0){
+                    this.steps[stepToPlay].playSound(time, this.tom.amp, singlePlay);
+                }
             }
 
             
@@ -225,7 +233,7 @@ class Step{
         if(this.toPlay == 1 || singlePlay){
             if(!singlePlay){
                 // to stop the previous envelope we trigger the release
-                ampEnv.triggerRelease(time)
+                // ampEnv.triggerRelease(time)
                 ampEnv.triggerAttackRelease(ampEnv.attack, time + 0.1);
             }else{
                 //console.log("singlePlay")
