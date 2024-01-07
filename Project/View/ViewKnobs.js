@@ -127,7 +127,10 @@ function updateKnobView(kn){
             knob.style.rotate = normalizedValue + "deg";
         }
         // we resize the html to fit the value of the label and update the images of the waveforms
-        updateWaveTypes();
+        if(seq.getChannelIndex() != 1){
+            // we update the images of the waveforms only if we are in the oscillator channel
+            updateWaveTypes();
+        }
         resizeInput(label);
     }
 }
@@ -255,6 +258,8 @@ function onMouseMove(event){
         }
         
         resizeInput(label);
+        updateParamValue();
+        drawSingleStep(seq.getSelected());
         // we memorize the last vertical mouse position for the next time we move the mouse (after we onMouseUp will be updated on the next onMouseDown)
         prevMouseY = event.pageY;
     }
@@ -262,7 +267,7 @@ function onMouseMove(event){
 
 function onMouseUp(){ 
     // when we release the mouse button we update the value of the parameter
-    updateParamValue()
+    
     resizeInput(label);
     // we remove the event listener for the mouse move, otherwise the knob will keep rotating when moving the mouse
     document.removeEventListener("mousemove", onMouseMove); //stop drag
@@ -290,7 +295,7 @@ function changeLeft(category){
         resizeInput(type);
         
     }
-    else if(category == "modulation"){
+    else{
         var type = document.getElementById("modType");
         var condition = (element) => element == type.value;
 
@@ -305,7 +310,8 @@ function changeLeft(category){
         
         resizeInput(type);
     }
-    updateParamValue()
+    updateParamValue();
+    drawSingleStep(seq.getSelected());
 }
 function changeRight(category){
     // we change the image of the knob according to the direction we are going
@@ -321,19 +327,7 @@ function changeRight(category){
 
         resizeInput(type);
     }
-    else if(category == "filter"){
-        var type = document.getElementById("filtType");
-        var condition = (element) => element == type.value;
-
-        var index = filterTypes.findIndex(condition);
-        index = (index + 1) % 3;
-        type.value = filterTypes[index].toLowerCase();
-        var file = "View/Images/" + filterTypes[index] + ".png";
-        document.getElementById("filtImg").src = file;
-        
-        resizeInput(type);
-    }
-    else if(category == "modulation"){
+    else{
         var type = document.getElementById("modType");
         var condition = (element) => element == type.value;
 
@@ -346,6 +340,7 @@ function changeRight(category){
         resizeInput(type);
     }
     updateParamValue()
+    drawSingleStep(seq.getSelected());
 }
 
 

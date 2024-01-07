@@ -3,8 +3,8 @@ class Sequencer{
         this.channel = 0;
         this.globals = {...globals};
         this.steps = [
-                        new Channel(),
-                        new Channel(),
+                        new Channel('melody'),
+                        new Channel('perc'),
                         // new Channel(),
                         // new Channel()
                     ];
@@ -27,6 +27,9 @@ class Sequencer{
     }
     getChannelSteps(){
         return this.steps[this.channel].getSteps();
+    }
+    getIndexStep(index){
+        return this.steps[this.channel].getSteps()[index];
     }
     getAllSteps(){
         return this.steps;
@@ -86,26 +89,51 @@ class Sequencer{
 }
 
 class Channel{
-    constructor(){
+    constructor(type){
+        this.type = type;
         this.steps = [];
         for (let i = 0; i <= 15; i++) {
-            this.steps[i] = new Step();           
+            this.steps[i] = new Step(this.type);           
         }
         this.limiter = new Tone.Limiter(-1);
         this.limiter.connect(Tone.Destination);
         // Parameters for the synth
         // this.filter = Synth.createFilter(filter_param, adsr_filter);
-        this.ampEnv = Synth.createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
-        this.oscillator = Synth.createOscillator(osc_param);
-        this.LFO = Synth.createLFO(LFO);
-        // Connections
-        this.oscillator.fmOsc.chain(this.ampEnv, this.limiter);
-        // this.filter.env.chain(this.filter.envAmount, this.filter.filter.frequency);
-        // this.LFO.chain(this.filter.LFOAmt, this.filter.filter.frequency);
-        this.LFO.chain(this.oscillator.LFOModFm, this.oscillator.fmOsc.modulationIndex);
-        this.LFO.start()
-        // this.instrument = new Tone.Synth().toDestination();
-        this.oscillator.fmOsc.start();
+
+        if(this.type == 'melody'){
+            this.ampEnv = Synth.createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
+            this.oscillator = Synth.createOscillator(osc_param);
+            this.LFO = Synth.createLFO(LFO);
+            // Connections
+            this.oscillator.fmOsc.chain(this.ampEnv, this.limiter);
+            // this.filter.env.chain(this.filter.envAmount, this.filter.filter.frequency);
+            // this.LFO.chain(this.filter.LFOAmt, this.filter.filter.frequency);
+            this.LFO.chain(this.oscillator.LFOModFm, this.oscillator.fmOsc.modulationIndex);
+            this.LFO.start()
+            // this.instrument = new Tone.Synth().toDestination();
+            this.oscillator.fmOsc.start();
+        } else {
+            this.kick = Synth.createKick(kick_param);
+            this.snare = Synth.createSnare(snare_param);
+            this.hat = Synth.createHat(hat_param);
+            this.tom = Synth.createTom(tom_param);
+            this.flanger = Synth.createFlanger(flanger_param);
+
+            this.kick.pan.connect(Tone.Destination);
+            this.snare.pan.connect(Tone.Destination);
+            this.hat.pan.connect(Tone.Destination);
+            this.tom.pan.connect(Tone.Destination);
+
+            // this.kick.pan.connect(this.flanger.s);
+            // this.snare.pan.connect(this.flanger.s);
+            // this.hat.pan.connect(this.flanger.s);
+            // this.tom.pan.connect(this.flanger.s);
+            // this.kick.pan.connect(this.flanger.dryWet.a);
+            // this.snare.pan.connect(this.flanger.dryWet.a);
+            // this.hat.pan.connect(this.flanger.dryWet.a);
+            // this.tom.pan.connect(this.flanger.dryWet.a);
+            // this.flanger.dryWet.connect(this.limiter);
+        }
     }
 
     getOscillator(){
@@ -120,10 +148,27 @@ class Channel{
     // getFilterEnv(){
     //     return this.filter.env;
     // }
+    getType(){
+        return this.type;
+    }
     getLFO(){
         return this.LFO;
     }
-    
+    getKick(){
+        return this.kick;
+    }
+    getSnare(){
+        return this.snare;
+    }
+    getHat(){
+        return this.hat;
+    }
+    getTom(){
+        return this.tom;
+    }
+    getParams(){
+        return this.params; 
+    }
     getSteps(){
         return this.steps;
     }
@@ -136,21 +181,43 @@ class Channel{
             if(singlePlay){
                 stepToPlay = seq.getSelected();
             }
-            this.steps[stepToPlay].playSound(time, this.ampEnv, singlePlay);
+            if(this.type == 'melody'){
+                this.steps[stepToPlay].playSound(time, this.ampEnv, singlePlay);
+            }else{
+                this.steps[stepToPlay].playSound(time, this.kick.amp, singlePlay);
+                this.steps[stepToPlay].playSound(time, this.kick.freqEnv, singlePlay);
+                this.steps[stepToPlay].playSound(time, this.snare.amp, singlePlay);
+                this.steps[stepToPlay].playSound(time, this.snare.freqEnv, singlePlay);
+                this.steps[stepToPlay].playSound(time, this.hat.amp, singlePlay);
+                this.steps[stepToPlay].playSound(time, this.tom.amp, singlePlay);
+            }
+
+            
         }
     }
 }
 
 class Step{
-    constructor(){
+    constructor(type){
         this.toPlay = 0;
-        this.osc_param = {...osc_param};
-        // this.filter_param = {...filter_param};
-        this.LFO = {...LFO};
-        this.adsr_mix = {...adsr_mix};
-        // this.adsr_filter = {...adsr_filter};
-        this.flanger_param = {...flanger_param};
-        this.params = ["osc_param", this.osc_param, "LFO", this.LFO, "adsr_mix", this.adsr_mix, "flanger_param", this.flanger_param];
+        this.type = type;
+        if(type == 'melody'){
+            this.osc_param = {...osc_param};
+            // this.filter_param = {...filter_param};
+            this.LFO = {...LFO};
+            this.adsr_mix = {...adsr_mix};
+            // this.adsr_filter = {...adsr_filter};
+            this.flanger_param = {...flanger_param};
+            this.params = ["osc_param", this.osc_param, "LFO", this.LFO, "adsr_mix", this.adsr_mix, "flanger_param", this.flanger_param];
+        }
+        else{
+            this.kick_param = {...kick_param};
+            this.snare_param = {...snare_param};
+            this.hat_param = {...hat_param};
+            this.tom_param = {...tom_param};
+            this.params = ["kick_param", this.kick_param, "snare_param", this.snare_param, "hat_param", this.hat_param, "tom_param", this.tom_param];
+        }
+        
         
     }
 
@@ -161,7 +228,7 @@ class Step{
                 ampEnv.triggerRelease(time)
                 ampEnv.triggerAttackRelease(ampEnv.attack, time + 0.1);
             }else{
-                console.log("singlePlay")
+                //console.log("singlePlay")
                 // I had to add the start and stop of the transport because otherwise the synth would not play
                 // whenn I started the page. I don't know why this happens, but it works.
                 Tone.Transport.start();
@@ -194,6 +261,18 @@ class Step{
     getFlangerParam(){
         return this.flanger_param;
     }
+    getKick(){
+        return this.kick_param;
+    }
+    getSnare(){
+        return this.snare_param;
+    }
+    getHat(){
+        return this.hat_param;
+    }
+    getTom(){
+        return this.tom_param;
+    }
     getParams(){
         return this.params; 
     }
@@ -215,6 +294,19 @@ class Step{
     setAdsrMix(value){
         this.adsr_mix = value;
     }
+    setKick(value){
+        this.kick_param = value;
+    }
+    setSnare(value){
+        this.snare_param = value;
+    }
+    setHat(value){
+        this.hat_param = value;
+    }
+    setTom(value){
+        this.tom_param = value;
+    }
+
     // setAdsrFilter(value){
     //     this.adsr_filter = value;
     // }
@@ -257,17 +349,17 @@ class Synth{
         var o = new Tone.Oscillator(kick_param.pitch, "triangle");   //Vogliamo lasciare la possibilità di cambiare forma d'onda? Potrebbe essere un'idea  
         var amp = new Tone.AmplitudeEnvelope();
         amp.set({
-            attack: kick_param.a,
-            decay: kick_param.d,
-            sustain: kick_param.s,
-            release: kick_param.r,
+            attack: kick_param.a/1000,
+            decay: kick_param.d/1000,
+            sustain: kick_param.s/1000,
+            release: kick_param.r/1000,
         })
         var freqEnv = new Tone.Envelope();
         freqEnv.set({
             attack: kick_param.fa,
             decay: kick_param.fd,
             sustain: kick_param.fs,
-            release: kick_param.fr,
+            release: kick_param.fr/1000,
         })
         var volume = new Tone.Gain(kick_param.volume, "gain");
         var pan = new Tone.Panner(kick_param.position);
@@ -282,6 +374,7 @@ class Synth{
             pan: pan,
             amp: amp,
             freqEnv: freqEnv,
+            freqEnvAmt: freqEnvAmt,
         };
     }
     
@@ -295,7 +388,7 @@ class Synth{
 
     static createSnare(snare_param) {
         var tonal = new Tone.Oscillator(snare_param.pitch, "sine");  // Body
-        var noise = new Tone.Noise(snare_param.color);               // Snap
+        var noise = new Tone.Noise(colorNoise(snare_param.color));     // Snap
         var balance = new Tone.CrossFade(snare_param.balance);
         var volume = new Tone.Gain(snare_param.volume, "gain");
         var amp = new Tone.AmplitudeEnvelope();
@@ -303,14 +396,14 @@ class Synth{
             attack: snare_param.a,
             decay: snare_param.d,
             sustain: snare_param.s,
-            release: snare_param.r,
+            release: snare_param.r/1000,
         })
         var freqEnv = new Tone.Envelope();
         freqEnv.set({
             attack: snare_param.fa,
             decay: snare_param.fd,
             sustain: snare_param.fs,
-            release: snare_param.fr,
+            release: snare_param.fr/1000,
         })
         var freqEnvAmt = new Tone.Gain(snare_param.sweep, "gain");
         var pan = new Tone.Panner(snare_param.position);
@@ -341,7 +434,7 @@ class Synth{
                 attack: hat_param.a,
                 decay: hat_param.d,
                 sustain: hat_param.s,
-                release: hat_param.r,
+                release: hat_param.r/1000,
             })
         }
         else {
@@ -349,7 +442,7 @@ class Synth{
                 attack: hat_param.a,
                 decay: hat_param.d,
                 sustain: hat_param.s,
-                release: hat_param.r + 0.2,   // L'open ha un release più lungo
+                release: hat_param.r/1000 + 0.2,   // L'open ha un release più lungo
             })
         }
         var volume = new Tone.Gain(hat_param.volume, "gain");
@@ -362,6 +455,7 @@ class Synth{
             amp: amp,
             volume: volume,
             pan: pan,
+            open: hat_param.open,
         }
     }
 
@@ -378,7 +472,7 @@ class Synth{
             attack: tom_param.a,
             decay: tom_param.d,
             sustain: tom_param.s,
-            release: tom_param.r,
+            release: tom_param.r/1000,
         })
         var volume = new Tone.Gain(tom_param.volume, "gain");
         var pan = new Tone.Panner(tom_param.position);
@@ -456,7 +550,7 @@ class Synth{
             dryWet: dryWet,}
     }
 
-    static foldaLaMamma(amt, val) {
+    static folding(amt, val) {
         var condition = val*amt;
         var out1 = 1 - (val * amt - 1);
         var out2 = -1 - (val * amt - 1);
@@ -504,10 +598,12 @@ class Player{
         
     }
     start(sequencer){
-        sequencer.play();
-        Tone.Transport.scheduleRepeat(repeatingEvent, "16n");
-        // Tone.start();
-        Tone.Transport.start();
+        if(!seq.isPlaying()){
+            sequencer.play();
+            Tone.Transport.scheduleRepeat(repeatingEvent, "16n");
+            // Tone.start();
+            Tone.Transport.start();
+        }
     }
     stop(sequencer){
         Tone.Transport.stop();

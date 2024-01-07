@@ -22,13 +22,18 @@ function updateColorChannel(channel){
         case 0:
             document.getElementById("wholeContainer").style.backgroundColor = "#3C3C48";
             document.querySelectorAll(".dot").forEach(el => el.style.backgroundColor = "#44116C");
+            document.querySelectorAll("#play").forEach(el => el.style.borderLeftColor = "#44116C");
+            document.querySelectorAll("#stop").forEach(el => el.style.backgroundColor = "#44116C");
             document.querySelectorAll(".knob").forEach(el => el.style.borderColor = "#44116C");
+            document.querySelectorAll(".control").forEach(el => el.style.borderColor = "#44116C");
             document.querySelectorAll("label").forEach(el => el.style.backgroundColor = "#44116C");
             document.querySelectorAll("input:checked + label").forEach(el => el.style.backgroundColor = "grey");
             document.querySelectorAll(".blockSection").forEach(el => el.style.borderColor = "#44116C");
+            document.querySelectorAll(".image").forEach(el => el.classList.remove("red"));
+            document.querySelectorAll(".image").forEach(el => el.classList.add("violet"));
             colorDodOnOut = '#8951FF';
             colorDodOnIn = '#BE6AFF';
-            colorRectOffSel = '#FF9CD2';
+            // colorRectOffSel = '#FF9CD2';
 
             document.getElementById("oscillator").style.display = "block";
             document.getElementById("filter1").style.display = "block";
@@ -37,13 +42,18 @@ function updateColorChannel(channel){
         case 1:
             document.getElementById("wholeContainer").style.backgroundColor = "#6D1111";
             document.querySelectorAll(".dot").forEach(el => el.style.backgroundColor = "#580C0C");
+            document.querySelectorAll("#play").forEach(el => el.style.borderLeftColor = "#580C0C");
+            document.querySelectorAll("#stop").forEach(el => el.style.backgroundColor = "#580C0C");
             document.querySelectorAll(".knob").forEach(el => el.style.borderColor = "#580C0C");
+            document.querySelectorAll(".control").forEach(el => el.style.borderColor = "#580C0C");
             document.querySelectorAll("label").forEach(el => el.style.backgroundColor = "#580C0C");
             document.querySelectorAll("input:checked + label").forEach(el => el.style.backgroundColor = "grey");
             document.querySelectorAll(".blockSection").forEach(el => el.style.borderColor = "#580C0C");
+            document.querySelectorAll(".image").forEach(el => el.classList.add("red"));
+            document.querySelectorAll(".image").forEach(el => el.classList.remove("violet"));
             colorDodOnOut = '#FF5151';
             colorDodOnIn = '#FF6A6A';
-            colorRectOffSel = '#FF9CD2';
+            // colorRectOffSel = '#FF9CD2';
 
             document.getElementById("oscillator").style.display = "none";
             document.getElementById("filter1").style.display = "none";

@@ -25,6 +25,12 @@ var dodecagon = [
     {x: 50*scale  , y: -87*scale },
 ]
 
+var clearArea = {
+    x: 0,
+    y: 0,
+    width: (canvas.width / 16),
+    height: canvas.height
+}
 var colorDodOffOut = '#D9D9D9';
 var colorDodOffIn = '#B1B1B1';
 
@@ -35,7 +41,7 @@ var colorPlayingOut = '#F5A94F'
 var colorPlayingIn = '#C89140';
 
 var colorRectOffNotSel = '#7B7B7B';
-var colorRectOffSel = '#FF9CD2';
+var colorRectOffSel = '#D9D9D9';
 var colorRectOn = '#C80000';
 
 var strokeNotPlaying = '#343434';
