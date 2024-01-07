@@ -25,6 +25,8 @@ var waveTypes = ["sine", "triangle", "square", "sawtooth"];
 var filterTypes = ["lowpass", "highpass", "bandpass"];
 
 function updateParamValue(){
+    // console.log(quant_f[1]['note']);
+
     spl = label.parentNode.id.split(".");
     var lbl_value = label.value;
     if (spl[0] == "globals"){
@@ -40,22 +42,25 @@ function updateParamValue(){
         seq.setGlobals(tmp);
     }
     else{
-
-        // if(spl[0] == "osc_param"){
-        //     var ck = knob.parentNode.children[1].children[0]
-        //     if(ck.checked){
-        //         while (quant_f[i]['note'] != lbl_value) {
-        //             i++;
-        //         }
-        //         lbl_value = quant_f[i]['freq'];
-        //     }
-        // }
-        
-        stp = seq.getChannelSteps();
+        var stp = seq.getChannelSteps();
         // console.log(stp[seq.getSelected()])
 
-        params = stp[seq.getSelected()].getParams();
-        updateSingleSynthParams()
+        var params = stp[seq.getSelected()].getParams();
+        // updateSingleSynthParams()
+        
+        //check if quantization is actived; if so passes label's corresponding value
+        if(spl[0] == "osc_param" && spl[1] == "freq"){ 
+            var ck = knob.parentNode.children[1].children[0]
+            if(ck.checked){
+                var i = 0
+                while (quant_f[i]['note'] != lbl_value) {
+                    i++;
+                }
+                lbl_value = quant_f[i]['freq']
+            }
+        }
+        
+        
         
         //console.log(spl)
 
@@ -84,6 +89,8 @@ function updateParamValue(){
     
 }
 
+
+//function to copy current view value to all channel's steps
 function copyToAll(){
     var steps = seq.getChannelSteps();
     var current_pars = steps[seq.getSelected()].getParams();

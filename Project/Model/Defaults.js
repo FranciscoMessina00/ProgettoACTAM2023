@@ -107,7 +107,7 @@ function init_quant_f(){
         i = base*Math.pow(2, (j/12))
         quant_f[j] = {
             note: notes[j%12] + String(Math.floor((j + 9)/12)),
-            freq: i.toFixed(0)
+            freq: Math.round(i)
         };
     }
     return quant_f;
