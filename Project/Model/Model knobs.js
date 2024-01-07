@@ -9,6 +9,7 @@ var lastCurrentRadiansAngle = 0;
 var knob;
 var knobToChange;
 var knobs;
+var volumes;
 var label;
 var labelToChange;
 var knobPositionY;

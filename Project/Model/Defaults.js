@@ -3,6 +3,7 @@ var globals = {
 }
 
 var osc_param = {
+    volume: 1,
     freq : 440,  
     type : 'sine', 
     modType: 'sine',

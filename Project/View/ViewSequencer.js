@@ -180,7 +180,7 @@ function spaceRelease(index){
     return proportion;
 }
 function colorStep(index){
-    console.log(index);
+    // console.log(index);
     var step = seq.getIndexStep(index);
     var frequency = step.getOscParam().freq;
     var hue = Math.log10(frequency) / Math.log10(20000);
@@ -200,9 +200,9 @@ function colorStep(index){
             break;
     }
     var valueColor = 0.5 + (Math.log(step.getOscParam().mod * step.getOscParam().harm + 0.1)/(2 * Math.log(3000)));
-    console.log(hue, saturation, valueColor)
+    // console.log(hue, saturation, valueColor)
     var rgb = hsvToRgb(hue, saturation, valueColor);
-    console.log(rgb);
+    // console.log(rgb);
     return "#" + ((1 << 24) + (rgb.red << 16) + (rgb.green << 8) + rgb.blue).toString(16).slice(1);;
 }
 function hsvToRgb(h, s, v) {
