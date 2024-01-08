@@ -120,6 +120,9 @@ function updateOscillator(osc, par){
     osc.LFOModFm.set({
         gain: par.LFOamt
     })
+    osc.volume.set({
+        gain: par.volume
+    })
 }
 
 function updateEnv(env, par){

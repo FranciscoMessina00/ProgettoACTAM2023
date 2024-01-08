@@ -105,7 +105,7 @@ class Channel{
             this.oscillator = Synth.createOscillator(osc_param);
             this.LFO = Synth.createLFO(LFO);
             // Connections
-            this.oscillator.fmOsc.chain(this.ampEnv, this.limiter);
+            this.oscillator.fmOsc.chain(this.ampEnv, this.oscillator.volume, this.limiter);
             // this.filter.env.chain(this.filter.envAmount, this.filter.filter.frequency);
             // this.LFO.chain(this.filter.LFOAmt, this.filter.filter.frequency);
             this.LFO.chain(this.oscillator.LFOModFm, this.oscillator.fmOsc.modulationIndex);
@@ -353,6 +353,7 @@ class Synth{
     static createOscillator(osc_param) {
         var fmOsc = new Tone.FMOscillator();
         var LFOModFm = new Tone.Gain(osc_param.LFOamt, "gain");
+        var volume = new Tone.Gain(osc_param.volume, "gain");
         fmOsc.set({
             frequency: osc_param.freq,
             type: osc_param.type,
@@ -362,7 +363,9 @@ class Synth{
         })
         return {
             fmOsc: fmOsc,
-            LFOModFm: LFOModFm};
+            LFOModFm: LFOModFm,
+            volume: volume,
+        };
     }
     
     static createKick(kick_param) {
@@ -449,22 +452,12 @@ class Synth{
         var noise = new Tone.Noise("white");
         var filter = new Tone.Filter(hat_param.cutoff, "highpass");   // Si sceglie il carattere degli hat
         var amp = new Tone.AmplitudeEnvelope();
-        if (hat_param.open == 0){   // Attraverso l'if si gestisce l'alternanza di open e closed
-            amp.set({
-                attack: hat_param.a,
-                decay: hat_param.d,
-                sustain: hat_param.s,
-                release: hat_param.r/1000,
-            })
-        }
-        else {
-            amp.set({
-                attack: hat_param.a,
-                decay: hat_param.d,
-                sustain: hat_param.s,
-                release: hat_param.r/1000 + 0.2,   // L'open ha un release più lungo
-            })
-        }
+        amp.set({
+            attack: hat_param.a,
+            decay: hat_param.d,
+            sustain: hat_param.s,
+            release: hat_param.r/1000,
+        })
         var volume = new Tone.Gain(hat_param.volume, "gain");
         var pan = new Tone.Panner(hat_param.position);
         noise.chain(filter, amp, volume, pan);
@@ -475,7 +468,6 @@ class Synth{
             amp: amp,
             volume: volume,
             pan: pan,
-            open: hat_param.open,
         }
     }
 

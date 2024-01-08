@@ -212,7 +212,10 @@ function colorStep(index){
             saturation = 1;
             break;
     }
-    var valueColor = 0.5 + (Math.log(step.getOscParam().mod * step.getOscParam().harm + 0.1)/(2 * Math.log(3000)));
+    var mod = step.getOscParam().mod==0 ? 0.1 : step.getOscParam().mod;
+    var harm = step.getOscParam().harm==0 ? 0.1 : step.getOscParam().harm;
+    var vol = parseFloat(step.getOscParam().volume)==0 ? 0.1 : parseFloat(step.getOscParam().volume);
+    var valueColor = (vol/2) + (Math.log(mod * harm + 1)/(2 * Math.log(3000 + 1)));
     // console.log(hue, saturation, valueColor)
     var rgb = hsvToRgb(hue, saturation, valueColor);
     // console.log(rgb);

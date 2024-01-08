@@ -3,9 +3,8 @@ var globals = {
 }
 
 var osc_param = {
-
     quant : false,
-    volume: 1,
+    volume: 0,
     freq : 440,  
     type : 'sine', 
     modType: 'sine',
@@ -70,7 +69,6 @@ var hat_param = {
     r: 100,
     cutoff: 3000,   // Filtro del noise per cambiare colore ai piatti
     position: 0,
-    open: 0       // 0 o 1  Così gestisci l'alternarsi di open e closed hihat (vedi createHat) 
 }
 
 var tom_param = {
