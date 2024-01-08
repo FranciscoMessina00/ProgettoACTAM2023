@@ -35,6 +35,7 @@ function detectKnob(){
         stp[seq.getSelected()].setParams(params);
         updateSingleSynthParams();
         updateKnobView(v);
+        drawSingleStep(seq.getSelected());
     }));
 }
 

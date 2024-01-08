@@ -44,5 +44,6 @@ var colorRectOffNotSel = '#7B7B7B';
 var colorRectOffSel = '#D9D9D9';
 var colorRectOn = '#C80000';
 
+var strokeSelected = '#5c1001';
 var strokeNotPlaying = '#343434';
 var strokePlaying = '#6C3D11';

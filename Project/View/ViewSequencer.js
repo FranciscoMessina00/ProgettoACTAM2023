@@ -11,8 +11,8 @@ function drawDodecagon(index, stepPlaying){
         grd.addColorStop(1*scale, colorDodOffOut);
         grd.addColorStop(0*scale, colorDodOffIn);
         if(index == seq.getSelected()){
-            ctx.lineWidth = 6*scale;
-            ctx.strokeStyle = "#9d9d9d";
+            ctx.lineWidth = 10*scale;
+            ctx.strokeStyle = strokeSelected;
             // grd.addColorStop(1*scale, colorDodOnOut);
             // grd.addColorStop(0*scale, colorDodOnIn);
         }
@@ -38,7 +38,7 @@ function drawRect(step, index, stepPlaying){
     var heightRect = 16*scale;
     var yPos = -60*scale;
     var rad = 5*scale;
-    ctx.globalAlpha = 0.75;
+    ctx.globalAlpha = 1;
     ctx.strokeStyle = "transparent";
     ctx.lineWidth = 0;
     if(index == stepPlaying && seq.isPlaying()){
@@ -163,7 +163,20 @@ function determineGradient(index, grd, channelIndex){
             grd.addColorStop(interior*scale, colorFrequency);
             break;
         case 1: // we are in the beat channel
-            
+            var kickColor = intensityStep(index, 0);
+            var snareColor = intensityStep(index, 1);
+            var hihatColor = intensityStep(index, 2);
+            var tomColor = intensityStep(index, 3);
+
+            grd.addColorStop(0*scale, kickColor);
+            grd.addColorStop(0.25*scale, kickColor);
+            grd.addColorStop(0.3*scale, snareColor);
+            grd.addColorStop(0.5*scale, snareColor);
+            grd.addColorStop(0.55*scale, hihatColor);
+            grd.addColorStop(0.75*scale, hihatColor);
+            grd.addColorStop(0.8*scale, tomColor);
+            grd.addColorStop(0.95*scale, tomColor);
+
             break;
     }
 }
@@ -224,4 +237,24 @@ function hsvToRgb(h, s, v) {
     }
   
     return  {red: Math.round(r * 255), green: Math.round(g * 255), blue: Math.round(b * 255) };
+}
+function intensityStep(index, instrument){
+    var step = seq.getIndexStep(index);
+    switch(instrument){
+        case 0:
+            var intensity = (step.getKick().volume * 0.7) + 0.1;
+            break;
+        case 1:
+            var intensity = (step.getSnare().volume * 0.7) + 0.1;
+            break;
+        case 2:
+            var intensity = (step.getHat().volume * 0.7) + 0.1;
+            break;
+        case 3:
+            var intensity = (step.getTom().volume * 0.7) + 0.1;
+            break;
+    }
+    
+    var rgb = hsvToRgb(0, 0, intensity);
+    return "#" + ((1 << 24) + (rgb.red << 16) + (rgb.green << 8) + rgb.blue).toString(16).slice(1);;
 }
