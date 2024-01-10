@@ -106,7 +106,7 @@ class Channel{
             this.LFO = Synth.createLFO(LFO);
             this.flanger = Synth.createFlanger(flanger_param);
             // Connections
-            this.oscillator.fmOsc.chain(this.ampEnv, this.oscillator.volume, this.flanger.s);
+            this.oscillator.fmOsc.chain(this.ampEnv, this.oscillator.volume, this.oscillator.pan, this.flanger.s);
             this.flanger.dryWet.connect(this.limiter)
             // this.filter.env.chain(this.filter.envAmount, this.filter.filter.frequency);
             // this.LFO.chain(this.filter.LFOAmt, this.filter.filter.frequency);
@@ -355,6 +355,7 @@ class Synth{
         var fmOsc = new Tone.FMOscillator();
         var LFOModFm = new Tone.Gain(osc_param.LFOamt, "gain");
         var volume = new Tone.Gain(osc_param.volume, "gain");
+        var pan = new Tone.Panner(0);
         fmOsc.set({
             frequency: osc_param.freq,
             type: osc_param.type,
@@ -366,6 +367,7 @@ class Synth{
             fmOsc: fmOsc,
             LFOModFm: LFOModFm,
             volume: volume,
+            pan: pan,
         };
     }
     
@@ -548,7 +550,7 @@ class Synth{
         crossFader.connect(dlyr, 0, 0);
         dlyr.connect(overdriver, 0, 0);
         dlyr.connect(colorr.a, 0, 0);
-        overdriver.connect(colorr.b, 0, 0);
+         overdriver.connect(colorr.b, 0, 0);
         colorr.connect(feedbackr, 0, 0);
         feedbackr.connect(crossFadel.b, 0, 0);
         dlyr.connect(range_depthr, 0, 0)
