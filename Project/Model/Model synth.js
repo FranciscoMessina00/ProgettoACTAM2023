@@ -235,3 +235,12 @@ function updateTom(tom, par){
     })
 
 }
+function updateFlanger(flanger, par){
+    flanger.set({
+        delayTime: par.delayTime,
+        depth: par.depth,
+        feedback: par.feedback,
+        frequency: par.frequency,
+        type: par.type,
+    })
+}

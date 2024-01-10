@@ -90,6 +90,7 @@ drawSequencer();
 detectClick();
 // we draw the channels
 visualizeChannels();
+Tone.Transport.scheduleRepeat(repeatingEvent, "16n");
 // we draw the little steps in the HTML file
 for (var i = 0; i < seq.getNChannels(); i++) {
   var ch = document.getElementById('ch' + (i + 1)).firstChild;

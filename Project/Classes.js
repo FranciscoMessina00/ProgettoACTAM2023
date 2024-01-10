@@ -104,8 +104,10 @@ class Channel{
             this.ampEnv = Synth.createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
             this.oscillator = Synth.createOscillator(osc_param);
             this.LFO = Synth.createLFO(LFO);
+            this.flanger = Synth.createFlanger(flanger_param);
             // Connections
-            this.oscillator.fmOsc.chain(this.ampEnv, this.oscillator.volume, this.limiter);
+            this.oscillator.fmOsc.chain(this.ampEnv, this.oscillator.volume, this.flanger.s);
+            this.flanger.dryWet.connect(this.limiter)
             // this.filter.env.chain(this.filter.envAmount, this.filter.filter.frequency);
             // this.LFO.chain(this.filter.LFOAmt, this.filter.filter.frequency);
             this.LFO.chain(this.oscillator.LFOModFm, this.oscillator.fmOsc.modulationIndex);
@@ -117,7 +119,6 @@ class Channel{
             this.snare = Synth.createSnare(snare_param);
             this.hat = Synth.createHat(hat_param);
             this.tom = Synth.createTom(tom_param);
-            this.flanger = Synth.createFlanger(flanger_param);
 
             this.kick.pan.connect(Tone.Destination);
             this.snare.pan.connect(Tone.Destination);
@@ -505,8 +506,8 @@ class Synth{
 
     static createFlanger(flanger_param) {
 
-        var LFOl = new Tone.Oscillator(flanger_param.rate, flanger_param.type);
-        var LFOr = new Tone.Oscillator(flanger_param.rate + flanger_param.stereo, flanger_param.type);  // Il parametro stereo alza la frequenza di uno dei due LFO
+        var LFOl = new Tone.Oscillator(flanger_param.freq, flanger_param.type);
+        var LFOr = new Tone.Oscillator(flanger_param.freq + flanger_param.stereo, flanger_param.type);  // Il parametro stereo alza la frequenza di uno dei due LFO
         var modl = new Tone.Gain(flanger_param.width, "gain");
         var modr = new Tone.Gain(flanger_param.width - flanger_param.stereo*0.005, "gain");  // Il parametro stereo abbassa la quantità di modulazione dell'LFO
         var dlyl = new Tone.Delay(0.015, 0.030);
@@ -612,14 +613,12 @@ class Player{
     start(sequencer){
         if(!seq.isPlaying()){
             sequencer.play();
-            Tone.Transport.scheduleRepeat(repeatingEvent, "16n");
             // Tone.start();
             Tone.Transport.start();
         }
     }
     stop(sequencer){
         Tone.Transport.stop();
-        Tone.Transport.cancel();
         sequencer.stop();
         changeBorders();
         sequencer.setStepPlaying(0);
