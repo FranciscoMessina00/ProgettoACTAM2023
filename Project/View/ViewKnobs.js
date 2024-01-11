@@ -78,17 +78,26 @@ function updateKnobView(kn){
             label.value = quant_f[i]['freq'];
             normalizedValue = normalizeToAngle(label, isLabelFrequency);
             knob.style.rotate = normalizedValue + "deg";
-            
+            label.type = 'text';
             label.value = quant_f[i]['note']
-            ck.checked = true
+            ck.checked = true;
+            label.disabled = true;
+            var type = document.getElementById("typeOfValue");
+            type.innerHTML = "Note";
+            var udm = document.getElementById("unitOfMeasure");
+            udm.innerHTML = "";
             // drawSequencer()
         }else{
+            label.type = 'number';
             label.value = params[1].freq
             ck.checked = false
-
+            label.disabled = false;
             normalizedValue = normalizeToAngle(label, isLabelFrequency);
             knob.style.rotate = normalizedValue + "deg";
-            
+            var type = document.getElementById("typeOfValue");
+            type.innerHTML = "Frequency";
+            var udm = document.getElementById("unitOfMeasure");
+            udm.innerHTML = "Hz";
             labelToChange = label;
             // updateKnob()
             
@@ -238,6 +247,8 @@ function focusInput(){
 function updateKnob(){
     // Here we update the knob when we press enter, blur means that we can't write on the input anymore
     labelToChange.blur();
+    if(labelToChange.value > labelToChange.max) labelToChange.value = labelToChange.max;
+    if(labelToChange.value < labelToChange.min) labelToChange.value = labelToChange.min;
     // we update the value of the parameter
     updateParamValue();
     // we resize the input to fit the value of the label
@@ -485,7 +496,7 @@ function sw_ar(id_ck, id_d, id_s){
 
 //function to quantize the frequencies into 440Hz - based notes
 function quantize_frequencies(label){
-    var input = document.getElementById(label).children[0];
+    var input = document.getElementById(label).children[1];
     var ck = document.getElementById(label).parentNode.children[0].children[1].children[0]
     var curr_val;
     // console.log(curr_val);
@@ -503,8 +514,13 @@ function quantize_frequencies(label){
             i++;
         }
 
-        input.type = 'text'
-        input.value = quant_f[i]['note']
+        input.type = 'text';
+        input.value = quant_f[i]['note'];
+        input.disabled = true;
+        var type = document.getElementById("typeOfValue");
+        type.innerHTML = "Note";
+        var udm = document.getElementById("unitOfMeasure");
+        udm.innerHTML = "";
     }
     else{
         seq.getChannelSteps()[seq.getSelected()].getOscParam().quant = false;
@@ -517,6 +533,11 @@ function quantize_frequencies(label){
         }
         input.type = 'number'
         input.value = quant_f[i]['freq'];
+        input.disabled = false;
+        var type = document.getElementById("typeOfValue");
+        type.innerHTML = "Frequency";
+        var udm = document.getElementById("unitOfMeasure");
+        udm.innerHTML = "Hz";
     }
     updateColorChannel(seq.getChannelIndex());
     resizeInput(input);

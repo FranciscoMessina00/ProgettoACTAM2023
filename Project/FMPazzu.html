@@ -32,7 +32,7 @@
                                 <div class="knob"><div class="dot"></div></div>
                                 <div style="display: flex;margin: auto;align-items: center;flex-direction: column;position: relative;"><input type="checkbox" id="ch_freq" onchange="quantize_frequencies('osc_param.freq')"/><label for="ch_freq"></label></div>    
                             </div>
-                            <div id="osc_param.freq" onclick="focusInput()" class="label">Frequency: <input class="inputEl" onfocus="this.select()" type="number" value="440" step="1" min="20" max="20000"></div>
+                            <div id="osc_param.freq" onclick="focusInput()" class="label"><span id="typeOfValue">Frequency</span>: <input class="inputEl" onfocus="this.select()" type="number" value="440" step="1" min="20" max="20000"><span id="unitOfMeasure">Hz</span></div>
                         </div>
                         <div id="harmonicityContainer" class="container">
                             <div class="knob"><div class="dot"></div></div>
@@ -40,7 +40,7 @@
                         </div>
                         <div id="modTypeContainer" class="container arrows">
                             <button class="arrow-left" onclick="changeLeft('modulation')"></button><div class="waveType"><img id="modImg" src="View/Images/sine.png" alt="Wave type"></div><button class="arrow-right" onclick="changeRight('modulation')"></button>
-                            <div id="osc_param.modType" class="label">Mod type: <input class="inputEl" id="modType" type="text" value="Sine"></div>
+                            <div id="osc_param.modType" class="label">Mod type: <input class="inputEl" disabled id="modType" type="text" value="Sine"></div>
                         </div>
                         <div id="modAmtContainer" class="container">
                             <div class="knob"><div class="dot"></div></div>
