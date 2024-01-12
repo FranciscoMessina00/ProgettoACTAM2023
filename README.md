@@ -28,3 +28,18 @@ Let's delve into the key functionalities, starting with the first track based on
 - Additionally, you can select the global BPM. In the same section, you'll find controls related to play and stop, hear the selected step, and copy to all (copies the selected step's parameters to all steps).
 
 The most significant aspect of our instrument is the flexibility to alter sound parameters for every step. To trigger a step, left-click it. If you wish to adjust step parameters, right-click it, and the knob positions will adjust based on the sound designed for that step. Then, you can freely modify the knob positions as desired.
+
+
+An additional noteworthy feature of our synthesizer is the custom flanger algorithm we've developed. This stereo flanger incorporates cross-feedback distortion, resulting in a potentially highly distorted sound. The parameters of this effect unit include:
+
+LFO Shape: Uncommon in typical flanger effects, this parameter influences the shape of the Low-Frequency Oscillator (LFO).
+LFO Rate: Determines the speed of the flanger, capable of reaching audio rates for a unique effect.
+Flanger Depth: Controls the sweep of the flanger by reducing the amplitude of the delay lines' outputs.
+Flanger Feedback: Influences the metallic quality of the flanger sound, interacting significantly with the color parameter.
+Flanger Width: Dictates the movement of the delay lines within the flanger.
+Flanger Dry/Wet: Adjusts the balance between the affected signal and the normal signal.
+Flanger Color: Governs the feedback distortion within the flanger.
+Flanger Stereo: Determines the stereo width of the sound.
+These parameters collectively contribute to the versatile and unique sonic possibilities offered by our synthesizer's flanger effect.
+
+We've also crafted a distinctive effect – a folder/distortion unit situated at the input of the flanger. The initial stage of this unit involves a folder that folds the input sounds a variable number of times, determined by the fold amount parameter. This process significantly enhances the harmonic content of the sound. Subsequently, the sound traverses through a distortion unit, the intensity of which can range from soft to extremely hard, depending on the distortion parameter.
