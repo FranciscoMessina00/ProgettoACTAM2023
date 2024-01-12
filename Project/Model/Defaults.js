@@ -93,6 +93,11 @@ var flanger_param = {     // Questi parametri sono gli stessi di synth.js
     stereo: 1             // 0-1      Crea delle differenze tra il canale di destra e sinistra (vedi createFlanger)   
 }
 
+var fold_param = {
+    fold_amt : 1,
+    dist_amt : 1          // il valore minimo di entrambi gli amount deve essere 1. Il max dipende dal nostro gusto. Notare che la distorsione scritta in quel modo è sempre presente (soft clip)... Se vogliamo cambiare questa cosa va messo un if con due return diversi
+}
+
 
 
 
