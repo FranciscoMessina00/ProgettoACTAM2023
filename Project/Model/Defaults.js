@@ -88,8 +88,8 @@ var flanger_param = {     // Questi parametri sono gli stessi di synth.js
     depth: 0.7,           // 0.1-1    Attenua l'uscita delle delay line
     feedback : 0.9,       // 0-1      Regola il feedback (1 è abbastanza sgravato). Notare l'implementazione di un percorso di crossfeedback (il feedback di destra va al canale sinistro e viceversa, vedi createFlanger)
     width : 0.010,        // 0-0.015  Osserva i valori delle delay line!
-    dw: 1,              // 0-1      Semplice DryWet
-    color: 1,             // 0-1      Quantità di distorsione. Questo comportamento è fortemente influenzato dal valore di feedback (vedi createFlanger per vedere come i due parametri sono relazionati)
+    dw: 0,              // 0-1      Semplice DryWet
+    color: 0,             // 0-1      Quantità di distorsione. Questo comportamento è fortemente influenzato dal valore di feedback (vedi createFlanger per vedere come i due parametri sono relazionati)
     stereo: 1             // 0-1      Crea delle differenze tra il canale di destra e sinistra (vedi createFlanger)   
 }
 
