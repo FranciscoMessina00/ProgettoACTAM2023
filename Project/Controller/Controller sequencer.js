@@ -9,6 +9,8 @@ function initializeAudio() {
     console.log("resuming")
     // We start the audio context
     Tone.start();
+    Tone.Transport.start();
+    Tone.Transport.stop();
     // We remove the event listener after it's been triggered once
     document.removeEventListener('mousedown', initializeAudio);
   }
@@ -96,6 +98,3 @@ for (var i = 0; i < seq.getNChannels(); i++) {
   var ch = document.getElementById('ch' + (i + 1)).firstChild;
   drawLittleSteps(ch, i);
 }
-
-Tone.Transport.start();
-Tone.Transport.stop();
