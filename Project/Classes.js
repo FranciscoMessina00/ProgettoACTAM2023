@@ -104,7 +104,8 @@ class Channel{
             this.ampEnv = Synth.createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
             this.oscillator = Synth.createOscillator(osc_param);
             this.LFO = Synth.createLFO(LFO);
-            this.flanger = Synth.createFlanger(flanger_param);
+            this.flanger_param = {...flanger_param};
+            this.flanger = Synth.createFlanger(this.flanger_param);
             // Connections
             this.oscillator.fmOsc.chain(this.ampEnv, this.oscillator.volume, this.oscillator.pan, this.flanger.s);
             this.oscillator.pan.connect(this.flanger.dryWet.a);
@@ -144,12 +145,6 @@ class Channel{
     getAmpEnv(){
         return this.ampEnv;
     }
-    // getFilter(){
-    //     return this.filter;
-    // }
-    // getFilterEnv(){
-    //     return this.filter.env;
-    // }
     getType(){
         return this.type;
     }
@@ -168,8 +163,8 @@ class Channel{
     getTom(){
         return this.tom;
     }
-    getParams(){
-        return this.params; 
+    getFlanger(){
+        return this.flanger_param; 
     }
     getSteps(){
         return this.steps;
@@ -217,8 +212,7 @@ class Step{
             this.LFO = {...LFO};
             this.adsr_mix = {...adsr_mix};
             // this.adsr_filter = {...adsr_filter};
-            this.flanger_param = {...flanger_param};
-            this.params = ["osc_param", this.osc_param, "LFO", this.LFO, "adsr_mix", this.adsr_mix, "flanger_param", this.flanger_param];
+            this.params = ["osc_param", this.osc_param, "LFO", this.LFO, "adsr_mix", this.adsr_mix];
         }
         else{
             this.kick_param = {...kick_param};
@@ -264,12 +258,6 @@ class Step{
     }
     getAdsrMix(){
         return this.adsr_mix;
-    }
-    // getAdsrFilter(){
-    //     return this.adsr_filter;
-    // }
-    getFlangerParam(){
-        return this.flanger_param;
     }
     getKick(){
         return this.kick_param;

@@ -36,7 +36,7 @@ function updateColorChannel(channel){
             strokeSelected = '#5c1001'
 
             document.getElementById("oscillator").style.display = "block";
-            document.getElementById("filter1").style.display = "block";
+            document.getElementById("effects").style.display = "block";
             document.getElementById("drumSection").style.display = "none";
             break;
         case 1:
@@ -56,7 +56,7 @@ function updateColorChannel(channel){
             strokeSelected = '#013c5c'
 
             document.getElementById("oscillator").style.display = "none";
-            document.getElementById("filter1").style.display = "none";
+            document.getElementById("effects").style.display = "none";
             document.getElementById("drumSection").style.display = "flex";
             break;
     }

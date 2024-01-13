@@ -191,6 +191,11 @@ function updateWaveTypes(){
     var modType = document.getElementById("modImg");
     var file = "View/Images/" + params[1].modType + ".png";
     modType.src = file;
+
+    var type = seq.getChannel().getFlanger().type;
+    var flangType = document.getElementById("flangImg");
+    var file = "View/Images/" + type + ".png";
+    flangType.src = file;
 }
 
 function normalizeToAngle(label, frequency=false){
@@ -364,7 +369,7 @@ function changeLeft(category){
         resizeInput(type);
         
     }
-    else{
+    else if(category == "modulation"){
         var type = document.getElementById("modType");
         var condition = (element) => element == type.value;
 
@@ -376,6 +381,21 @@ function changeLeft(category){
         type.value = waveTypes[index].toLowerCase();
         var file = "View/Images/" + waveTypes[index] + ".png";
         document.getElementById("modImg").src = file;
+        
+        resizeInput(type);
+    }
+    else{
+        var type = document.getElementById("flangType");
+        var condition = (element) => element == type.value;
+
+        var index = waveTypes.findIndex(condition);
+        index--;
+        if(index < 0){
+            index = 3;
+        }
+        type.value = waveTypes[index].toLowerCase();
+        var file = "View/Images/" + waveTypes[index] + ".png";
+        document.getElementById("flangImg").src = file;
         
         resizeInput(type);
     }
@@ -396,7 +416,7 @@ function changeRight(category){
 
         resizeInput(type);
     }
-    else{
+    else if(category == "modulation"){
         var type = document.getElementById("modType");
         var condition = (element) => element == type.value;
 
@@ -405,6 +425,18 @@ function changeRight(category){
         type.value = waveTypes[index].toLowerCase();
         var file = "View/Images/" + waveTypes[index] + ".png";
         document.getElementById("modImg").src = file;
+
+        resizeInput(type);
+    }
+    else{
+        var type = document.getElementById("flangType");
+        var condition = (element) => element == type.value;
+
+        var index = waveTypes.findIndex(condition);
+        index = (index + 1) % 4;
+        type.value = waveTypes[index].toLowerCase();
+        var file = "View/Images/" + waveTypes[index] + ".png";
+        document.getElementById("flangImg").src = file;
 
         resizeInput(type);
     }

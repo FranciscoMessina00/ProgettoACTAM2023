@@ -4,13 +4,13 @@ var globals = {
 
 var osc_param = {
     quant : false,
-    volume: 0,
+    volume: 1,
     freq : 440,  
     type : 'sine', 
     modType: 'sine',
-    harm : 1.3, 
-    mod : 1,
-    LFOamt: 50,
+    harm : 0, 
+    mod : 0,
+    LFOamt: 0,
 }
 
 var LFO = {
@@ -86,16 +86,16 @@ var flanger_param = {     // Questi parametri sono gli stessi di synth.js
     freq : 0.5,           // 0.1-20000 Hz
     type : 'sine',
     depth: 0.7,           // 0.1-1    Attenua l'uscita delle delay line
-    feedback : 0.9,       // 0-1      Regola il feedback (1 è abbastanza sgravato). Notare l'implementazione di un percorso di crossfeedback (il feedback di destra va al canale sinistro e viceversa, vedi createFlanger)
+    feedback : 0.5,       // 0-1      Regola il feedback (1 è abbastanza sgravato). Notare l'implementazione di un percorso di crossfeedback (il feedback di destra va al canale sinistro e viceversa, vedi createFlanger)
     width : 0.010,        // 0-0.015  Osserva i valori delle delay line!
     dw: 0,              // 0-1      Semplice DryWet
-    color: 0,             // 0-1      Quantità di distorsione. Questo comportamento è fortemente influenzato dal valore di feedback (vedi createFlanger per vedere come i due parametri sono relazionati)
+    color: 1,             // 0-1      Quantità di distorsione. Questo comportamento è fortemente influenzato dal valore di feedback (vedi createFlanger per vedere come i due parametri sono relazionati)
     stereo: 1             // 0-1      Crea delle differenze tra il canale di destra e sinistra (vedi createFlanger)   
 }
 
 var fold_param = {
-    fold_amt : 1,
-    dist_amt : 1          // il valore minimo di entrambi gli amount deve essere 1. Il max dipende dal nostro gusto. Notare che la distorsione scritta in quel modo è sempre presente (soft clip)... Se vogliamo cambiare questa cosa va messo un if con due return diversi
+    fold_amt : 0,
+    dist_amt : 0          // il valore minimo di entrambi gli amount deve essere 1. Il max dipende dal nostro gusto. Notare che la distorsione scritta in quel modo è sempre presente (soft clip)... Se vogliamo cambiare questa cosa va messo un if con due return diversi
 }
 
 

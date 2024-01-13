@@ -74,12 +74,25 @@
                     </div>
                 </div>
                 <!-- Filter section -->
-                <div id="filter1" class="blockSection">
+                <div id="effects" class="blockSection">
+                    <div class="bigTitle">Folder & Distortion</div>
+                    <div style="display: flex;align-items: center;justify-content: center;">
+                        <div class="knobContainer">
+                            <div id="folderAmountContainer" class="container largerContainer">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="fold_param.fold_amt" onclick="focusInput()" class="label">Folder amount: <input class="inputEl" onfocus="this.select()" type="number" value="1" step="0.01" min="0" max="1"></div>
+                            </div>
+                            <div id="distortionAmountContainer" class="container largerContainer">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="fold_param.dist_amt" onclick="focusInput()" class="label">Distortion amount: <input class="inputEl" onfocus="this.select()" type="number" step="0.01" value="1" min="0" max="1"></div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="bigTitle">Flanger</div>
                     <div class="knobContainer">
                         <div id="flangerTypeContainer" class="container arrows">
-                            <button class="arrow-left" onclick="changeLeft('oscillator')"></button><div class="waveType"><img id="oscImg" src="View/Images/sine.png" alt="Wave type"></div><button class="arrow-right" onclick="changeRight('oscillator')"></button>
-                            <div id="flanger_param.type" class="label"><input class="inputEl" disabled id="flangerType" type="text" value="sine"></div>
+                            <button class="arrow-left" onclick="changeLeft('effects')"></button><div class="waveType"><img id="flangImg" src="View/Images/sine.png" alt="Wave type"></div><button class="arrow-right" onclick="changeRight('effects')"></button>
+                            <div id="flanger_param.type" class="label"><input class="inputEl" disabled id="flangType" type="text" value="sine"></div>
                         </div>
                         <div id="rateFlangerContainer" class="container">
                             <div class="knob"><div class="dot"></div></div>

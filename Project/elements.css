@@ -79,7 +79,7 @@ button{
     width: fit-content;
     margin: 0 auto;
 }
-#filter1, #oscillator{
+#effects, #oscillator{
     width: 400px;
     display: block;
 }
