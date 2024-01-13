@@ -107,7 +107,7 @@ class Channel{
             this.flanger = Synth.createFlanger(flanger_param);
             // Connections
             this.oscillator.fmOsc.chain(this.ampEnv, this.oscillator.volume, this.oscillator.pan, this.flanger.s);
-            this.ampEnv.connect(this.flanger.dryWet.a);
+            this.oscillator.pan.connect(this.flanger.dryWet.a);
             this.flanger.dryWet.connect(this.limiter)
             // this.filter.env.chain(this.filter.envAmount, this.filter.filter.frequency);
             // this.LFO.chain(this.filter.LFOAmt, this.filter.filter.frequency);
