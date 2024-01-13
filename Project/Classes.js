@@ -235,9 +235,9 @@ class Step{
                 //console.log("singlePlay")
                 // I had to add the start and stop of the transport because otherwise the synth would not play
                 // whenn I started the page. I don't know why this happens, but it works.
-                Tone.Transport.start();
+                // Tone.Transport.start();
+                // Tone.Transport.stop();
                 ampEnv.triggerAttackRelease(ampEnv.attack);
-                Tone.Transport.stop();
             }
             
             // filter.triggerAttackRelease(filter.attack, time + 0.05);

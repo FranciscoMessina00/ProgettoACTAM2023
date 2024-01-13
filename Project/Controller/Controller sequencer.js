@@ -96,3 +96,6 @@ for (var i = 0; i < seq.getNChannels(); i++) {
   var ch = document.getElementById('ch' + (i + 1)).firstChild;
   drawLittleSteps(ch, i);
 }
+
+Tone.Transport.start();
+Tone.Transport.stop();
