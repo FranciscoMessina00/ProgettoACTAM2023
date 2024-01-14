@@ -253,8 +253,8 @@ function focusInput(){
 function updateKnob(){
     // Here we update the knob when we press enter, blur means that we can't write on the input anymore
     labelToChange.blur();
-    if(labelToChange.value > labelToChange.max) labelToChange.value = labelToChange.max;
-    if(labelToChange.value < labelToChange.min) labelToChange.value = labelToChange.min;
+    if(parseFloat(labelToChange.value) > labelToChange.max) labelToChange.value = labelToChange.max;
+    if(parseFloat(labelToChange.value) < labelToChange.min) labelToChange.value = labelToChange.min;
     // we update the value of the parameter
     updateParamValue();
     // we resize the input to fit the value of the label
