@@ -56,7 +56,8 @@ function updateParamValue(){
                 tmp[key] = lbl_value;
             }
         }
-        seq.getCurrentStep().setFold(tmp);
+        seq.getCurrentStep().setFolder(tmp);
+        updateFolder();
     }else{
         var stp = seq.getChannelSteps();
         // console.log(stp[seq.getSelected()])

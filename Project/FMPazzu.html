@@ -18,7 +18,6 @@
     <body>
         <div id="tot">
             <div id="wholeContainer">
-                <div id="titleContainer" style="display: none;"><button class="arrow-left" onclick="changeChannelLeft()"></button><div id="channelName" class="bigTitle">Channel 1</div><button class="arrow-right" onclick="changeChannelRight()"></button></div>
                 <!-- Oscillator section -->
                 <div id="oscillator" class="blockSection">
                     <div class="bigTitle">Oscillator</div>
@@ -36,7 +35,7 @@
                         </div>
                         <div id="harmonicityContainer" class="container">
                             <div class="knob"><div class="dot"></div></div>
-                            <div id="osc_param.harm" onclick="focusInput()" class="label">Harmonicity: <input class="inputEl" onfocus="this.select()" type="number" step="0.1" value="0.6" min="0" max="30"></div>
+                            <div id="osc_param.harm" onclick="focusInput()" class="label">Harmonicity: <input class="inputEl" onfocus="this.select()" type="number" step="0.1" value="0.6" min="0.1" max="30"></div>
                         </div>
                         <div id="modTypeContainer" class="container arrows">
                             <button class="arrow-left" onclick="changeLeft('modulation')"></button><div class="waveType"><img id="modImg" src="View/Images/sine.png" alt="Wave type"></div><button class="arrow-right" onclick="changeRight('modulation')"></button>
@@ -78,13 +77,17 @@
                     <div class="bigTitle">Folder & Distortion</div>
                     <div style="display: flex;align-items: center;justify-content: center;">
                         <div class="knobContainer">
-                            <div id="folderAmountContainer" class="container largerContainer">
+                            <div id="folderAmountContainer" class="container">
                                 <div class="knob"><div class="dot"></div></div>
-                                <div id="fold_param.fold_amt" onclick="focusInput()" class="label">Folder amount: <input class="inputEl" onfocus="this.select()" type="number" value="1" step="0.01" min="0" max="1"></div>
+                                <div id="fold_param.fold_amt" onclick="focusInput()" class="label">Fold amount: <input class="inputEl" onfocus="this.select()" type="number" value="1" step="1" min="1" max="100"></div>
                             </div>
-                            <div id="distortionAmountContainer" class="container largerContainer">
+                            <div id="distortionAmountContainer" class="container">
                                 <div class="knob"><div class="dot"></div></div>
-                                <div id="fold_param.dist_amt" onclick="focusInput()" class="label">Distortion amount: <input class="inputEl" onfocus="this.select()" type="number" step="0.01" value="1" min="0" max="1"></div>
+                                <div id="fold_param.dist_amt" onclick="focusInput()" class="label">Dist amount: <input class="inputEl" onfocus="this.select()" type="number" step="1" value="1" min="1" max="1000"></div>
+                            </div>
+                            <div id="dryWetContainer" class="container">
+                                <div class="knob"><div class="dot"></div></div>
+                                <div id="fold_param.drywet" onclick="focusInput()" class="label">Dry/Wet: <input class="inputEl" onfocus="this.select()" type="number" step="0.1" value="0" min="0" max="1"></div>
                             </div>
                         </div>
                     </div>

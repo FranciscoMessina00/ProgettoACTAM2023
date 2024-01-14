@@ -287,3 +287,12 @@ function updateFlanger(){
         return Math.tanh(2^(amt*val));  //tanh e 2^val sono funzioni utilizzate nel design di distorsori. Io le ho combinate, se volete sperimentate altre funzioni.
         }, 2048);
 }
+function updateFolder(){
+    var folder_par = seq.getCurrentStep().getFolder();
+    var folder = seq.getChannel().getFolder();
+    seq.getChannel().resetFolder();
+    seq.getChannel().resetDist();
+    folder.drywetBlock.set({
+        fade: folder_par.drywet,
+    })
+}

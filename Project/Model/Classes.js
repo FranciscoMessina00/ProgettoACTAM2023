@@ -168,12 +168,32 @@ class Channel{
     getFlanger(){
         return this.flanger;
     }
+    getFolder(){
+        return this.folder;
+    }
     getSteps(){
         return this.steps;
     }
     // playChannel(note, time){
     //     this.steps[seq.getStepPlaying()].playSound(note, time, this.ampEnv);     
     // }
+    resetFolder(){
+        this.folder.folder.setMap(
+            function(val){
+                return Synth.folding(fold_param.fold_amt, val);
+            }
+        );    
+    }
+    resetDist(){
+        this.folder.dist.setMap(
+            function (val) {
+            
+                var amt = fold_param.dist_amt;
+            
+                return Math.tanh(val*amt);    
+            }
+        );    
+    }
     playChannel(time=0, singlePlay=false){
         if(seq.isPlaying() || singlePlay){
             var stepToPlay = seq.getStepPlaying();
@@ -278,6 +298,9 @@ class Step{
     getFlanger(){
         return this.flanger_param;
     }
+    getFolder(){
+        return this.fold_param;
+    }
     getParams(){
         return this.params; 
     }
@@ -318,12 +341,16 @@ class Step{
     setFlanger(value){
         this.flanger_param = value;
     }
+    setFolder(value){
+        this.fold_param = value;
+    }
     setParams(value){
         if(this.type == 'melody'){
             this.setOscParam({...value[1]})
             this.setLFO({...value[3]})
             this.setAdsrMix({...value[5]})
             this.setFlanger(value[7])
+            this.setFolder(value[9])
             this.params = ["osc_param", this.osc_param, "LFO", this.LFO, "adsr_mix", this.adsr_mix, "flanger_param", this.flanger_param, "fold_param", this.fold_param];
         }else{
             this.setKick({...value[1]})
@@ -597,12 +624,12 @@ class Synth{
 
     static brutalize(block, fold_amt, dist_amt, drywet) {
         var folder = new Tone.WaveShaper(function (val) {
-            return Synth.folding(fold_amt, val);
+            return Synth.folding(fold_param.fold_amt, val);
         }, 2048);
 
         var dist = new Tone.WaveShaper(function (val) {
             
-            var amt = dist_amt;
+            var amt = fold_param.dist_amt;
         
             return Math.tanh(val*amt);    
             }, 2048);
@@ -612,11 +639,14 @@ class Synth{
         block.connect(folder);
         folder.chain(dist, drywetBlock.b);
         folder.connect(drywetBlock.a);
-        
+    
         return {
             drywetBlock: drywetBlock,
-        }
+            dist: dist,
+            folder: folder,
+        };
     }
+    
 
     
 }
