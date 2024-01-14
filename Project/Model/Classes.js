@@ -107,7 +107,7 @@ class Channel{
             this.flanger = Synth.createFlanger(flanger_param);
             // this.folder = Synth.brutalize(fold_param.fold_amt, fold_param.dist_amt, 0.5);
             // Connections
-            this.folder = Synth.brutalize(this.ampEnv, fold_param.fold_amt, fold_param.dist_amt, fold_param.drywetBlock);
+            this.folder = Synth.brutalize(this.ampEnv, fold_param.fold_amt, fold_param.dist_amt, fold_param.drywet);
             this.oscillator.fmOsc.connect(this.ampEnv);
             this.folder.drywetBlock.chain(this.oscillator.volume, this.oscillator.pan, this.flanger.s);
             this.oscillator.pan.connect(this.flanger.dryWet.a);
@@ -584,18 +584,18 @@ class Synth{
         if (condition > 1) {
             if (out1 > -1 && out1 < 1) {
                 return out1;
-            }else {return foldaLaMamma(1, out1);}
+            }else {return Synth.folding(1, out1);}
         } else if (condition < -1) {
             if (out2 < 1 && out2 > -1) {
                 return out2;
-            } else {return foldaLaMamma(1, out2);}
+            } else {return Synth.folding(1, out2);}
                 
         } else {
             return val * amt;
         }
     }
 
-    static brutalize(block, fold_amt, dist_amt, drywetBlock) {
+    static brutalize(block, fold_amt, dist_amt, drywet) {
         var folder = new Tone.WaveShaper(function (val) {
             return Synth.folding(fold_amt, val);
         }, 2048);
@@ -607,13 +607,15 @@ class Synth{
             return Math.tanh(val*amt);    
             }, 2048);
 
-        var drywet = new Tone.CrossFade(drywet);
+        var drywetBlock = new Tone.CrossFade(drywet);
         
         block.connect(folder);
-        folder.chain(dist, drywet.b);
-        folder.connect(drywet.a);
+        folder.chain(dist, drywetBlock.b);
+        folder.connect(drywetBlock.a);
         
-        return drywetBlock
+        return {
+            drywetBlock: drywetBlock,
+        }
     }
 
     
