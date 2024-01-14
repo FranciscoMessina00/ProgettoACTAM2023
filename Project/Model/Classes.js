@@ -107,9 +107,11 @@ class Channel{
             this.flanger = Synth.createFlanger(flanger_param);
             // this.folder = Synth.brutalize(fold_param.fold_amt, fold_param.dist_amt, 0.5);
             // Connections
-            this.oscillator.fmOsc.chain(this.ampEnv, this.oscillator.volume, this.oscillator.pan, this.flanger.s);
+            this.folder = Synth.brutalize(this.ampEnv, fold_param.fold_amt, fold_param.dist_amt, fold_param.drywetBlock);
+            this.oscillator.fmOsc.connect(this.ampEnv);
+            this.folder.drywetBlock.chain(this.oscillator.volume, this.oscillator.pan, this.flanger.s);
             this.oscillator.pan.connect(this.flanger.dryWet.a);
-            this.flanger.dryWet.connect(this.limiter)
+            this.flanger.dryWet.connect(this.limiter);
             // this.filter.env.chain(this.filter.envAmount, this.filter.filter.frequency);
             // this.LFO.chain(this.filter.LFOAmt, this.filter.filter.frequency);
             this.LFO.chain(this.oscillator.LFOModFm, this.oscillator.fmOsc.modulationIndex);
@@ -593,7 +595,7 @@ class Synth{
         }
     }
 
-    static brutalize(block, fold_amt, dist_amt, drywet) {
+    static brutalize(block, fold_amt, dist_amt, drywetBlock) {
         var folder = new Tone.WaveShaper(function (val) {
             return Synth.folding(fold_amt, val);
         }, 2048);
@@ -611,7 +613,7 @@ class Synth{
         folder.chain(dist, drywet.b);
         folder.connect(drywet.a);
         
-        return drywet
+        return drywetBlock
     }
 
     

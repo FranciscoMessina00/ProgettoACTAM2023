@@ -95,7 +95,8 @@ var flanger_param = {     // Questi parametri sono gli stessi di synth.js
 
 var fold_param = {
     fold_amt : 0,
-    dist_amt : 0          // il valore minimo di entrambi gli amount deve essere 1. Il max dipende dal nostro gusto. Notare che la distorsione scritta in quel modo è sempre presente (soft clip)... Se vogliamo cambiare questa cosa va messo un if con due return diversi
+    dist_amt : 0,
+    drywetBlock: 1          // il valore minimo di entrambi gli amount deve essere 1. Il max dipende dal nostro gusto. Notare che la distorsione scritta in quel modo è sempre presente (soft clip)... Se vogliamo cambiare questa cosa va messo un if con due return diversi
 }
 
 
