@@ -8,7 +8,8 @@ The standout feature of our instrument is the ability to tweak all sound paramet
 Let's delve into the key functionalities, starting with the first track based on an FM engine.
 
 ## FM Synth Track
-- **Oscillator Section:** Comprising a carrier and a modulator, you can select the waveform for both by clicking the respective arrows. For the carrier, you can also choose the frequency (quantized notes are available by toggling the vertical switch). Regarding the modulator, you can set its frequency with the harmonicity parameter (modulator frequency equals the carrier frequency multiplied by the harmonicity value). The modulation amount determines the modulator oscillator's amplitude.
+### Oscillator Section
+Comprising a carrier and a modulator, you can select the waveform for both by clicking the respective arrows. For the carrier, you can also choose the frequency (quantized notes are available by toggling the vertical switch). Regarding the modulator, you can set its frequency with the harmonicity parameter (modulator frequency equals the carrier frequency multiplied by the harmonicity value). The modulation amount determines the modulator oscillator's amplitude.
 
 ### Amplitude Properties 
 Define the attack and release of the sound in this section (designed for a percussive behavior). Below these controls are the LFO rate and amount knobs (the LFO modulates the modulator oscillator's amount parameter and can operate at audio rate, providing wild modulations and effects).
