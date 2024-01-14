@@ -104,8 +104,8 @@ class Channel{
             this.ampEnv = Synth.createAmpEnv(adsr_mix.attack,adsr_mix.decay,adsr_mix.sustain,adsr_mix.release);
             this.oscillator = Synth.createOscillator(osc_param);
             this.LFO = Synth.createLFO(LFO);
-            this.flanger_param = {...flanger_param};
-            this.flanger = Synth.createFlanger(this.flanger_param);
+            this.flanger = Synth.createFlanger(flanger_param);
+            // this.folder = Synth.brutalize(fold_param.fold_amt, fold_param.dist_amt, 0.5);
             // Connections
             this.oscillator.fmOsc.chain(this.ampEnv, this.oscillator.volume, this.oscillator.pan, this.flanger.s);
             this.oscillator.pan.connect(this.flanger.dryWet.a);
@@ -164,7 +164,7 @@ class Channel{
         return this.tom;
     }
     getFlanger(){
-        return this.flanger_param; 
+        return this.flanger;
     }
     getSteps(){
         return this.steps;
@@ -212,7 +212,9 @@ class Step{
             this.LFO = {...LFO};
             this.adsr_mix = {...adsr_mix};
             // this.adsr_filter = {...adsr_filter};
-            this.params = ["osc_param", this.osc_param, "LFO", this.LFO, "adsr_mix", this.adsr_mix];
+            this.flanger_param = flanger_param;
+            this.fold_param = fold_param;
+            this.params = ["osc_param", this.osc_param, "LFO", this.LFO, "adsr_mix", this.adsr_mix, "flanger_param", this.flanger_param, "fold_param", this.fold_param];
         }
         else{
             this.kick_param = {...kick_param};
@@ -271,6 +273,9 @@ class Step{
     getTom(){
         return this.tom_param;
     }
+    getFlanger(){
+        return this.flanger_param;
+    }
     getParams(){
         return this.params; 
     }
@@ -308,7 +313,7 @@ class Step{
     // setAdsrFilter(value){
     //     this.adsr_filter = value;
     // }
-    setFlangerParam(value){
+    setFlanger(value){
         this.flanger_param = value;
     }
     setParams(value){
@@ -316,8 +321,8 @@ class Step{
             this.setOscParam({...value[1]})
             this.setLFO({...value[3]})
             this.setAdsrMix({...value[5]})
-            this.setFlangerParam({...value[7]})
-            this.params = ["osc_param", this.osc_param, "LFO", this.LFO, "adsr_mix", this.adsr_mix, "flanger_param", this.flanger_param];
+            this.setFlanger(value[7])
+            this.params = ["osc_param", this.osc_param, "LFO", this.LFO, "adsr_mix", this.adsr_mix, "flanger_param", this.flanger_param, "fold_param", this.fold_param];
         }else{
             this.setKick({...value[1]})
             this.setSnare({...value[3]})
@@ -551,7 +556,22 @@ class Synth{
         LFOr.start();
         return {
             s: s, //Ho voluto fare le connessioni interne del flanger dentro la funzione, ho messo a disposizione solo il nodo in e out
-            dryWet: dryWet,}
+            dryWet: dryWet,
+            colorl: colorl,
+            colorr: colorr,
+            overdrivel: overdrivel,
+            overdriver: overdriver,
+            feedbackl: feedbackl,
+            feedbackr: feedbackr,
+            range_depthl: range_depthl,
+            range_depthr: range_depthr,
+            LFOl: LFOl,
+            LFOr: LFOr,
+            modl: modl,
+            modr: modr,
+            dlyl: dlyl,
+            dlyr: dlyr,
+        }
     }
 
     static folding(amt, val) {
@@ -575,7 +595,7 @@ class Synth{
 
     static brutalize(block, fold_amt, dist_amt, drywet) {
         var folder = new Tone.WaveShaper(function (val) {
-            return foldaLaMamma(fold_amt, val);
+            return Synth.folding(fold_amt, val);
         }, 2048);
 
         var dist = new Tone.WaveShaper(function (val) {

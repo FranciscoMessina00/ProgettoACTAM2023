@@ -150,7 +150,9 @@ function updateKnobView(kn){
         // we get the parameters of the current selected channel
         
         // we initialize the default value to set to the parameter to 0
-        
+        // if(seq.getChannelIndex == 0){
+        //     params.push("flanger_param", seq.getChannel().getFlanger().params);
+        // }
         // we loop through the params of step file to get the current value of the parameter
         for (let i = 0; i < params.length; i++) {
             if(params[i] == spl[0]){
@@ -192,9 +194,8 @@ function updateWaveTypes(){
     var file = "View/Images/" + params[1].modType + ".png";
     modType.src = file;
 
-    var type = seq.getChannel().getFlanger().type;
     var flangType = document.getElementById("flangImg");
-    var file = "View/Images/" + type + ".png";
+    var file = "View/Images/" + params[7].type + ".png";
     flangType.src = file;
 }
 

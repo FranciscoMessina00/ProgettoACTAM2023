@@ -119,7 +119,7 @@ function init_quant_f(){
 var quant_f = init_quant_f()
 
 
-defaults = ["globals", globals, "osc_param", osc_param, "LFO", LFO, "adsr_mix", adsr_mix, "flanger_param", flanger_param, "kick_param", kick_param, "snare_param", snare_param, "hat_param", hat_param, "tom_param", tom_param];
+defaults = ["globals", globals, "osc_param", osc_param, "LFO", LFO, "adsr_mix", adsr_mix, "flanger_param", flanger_param, "kick_param", kick_param, "snare_param", snare_param, "hat_param", hat_param, "tom_param", tom_param, "fold_param", fold_param];
 
 function colorNoise(color){
     if (color == 1){

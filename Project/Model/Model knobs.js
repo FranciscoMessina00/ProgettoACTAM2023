@@ -40,8 +40,24 @@ function updateParamValue(){
             }
         }
         seq.setGlobals(tmp);
-    }
-    else{
+    } else if (spl[0] == "flanger_param"){
+        tmp = flanger_param
+        for (const [key, value] of Object.entries(tmp)){
+            if(key == spl[1]){
+                tmp[key] = lbl_value;
+            }
+        }
+        seq.getCurrentStep().setFlanger(tmp);
+        updateFlanger();
+    }else if(spl[0] == "fold_param"){
+        tmp = fold_param
+        for (const [key, value] of Object.entries(tmp)){
+            if(key == spl[1]){
+                tmp[key] = lbl_value;
+            }
+        }
+        seq.getCurrentStep().setFold(tmp);
+    }else{
         var stp = seq.getChannelSteps();
         // console.log(stp[seq.getSelected()])
 

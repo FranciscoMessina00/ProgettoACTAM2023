@@ -235,12 +235,55 @@ function updateTom(tom, par){
     })
 
 }
-function updateFlanger(flanger, par){
-    flanger.set({
-        delayTime: par.delayTime,
-        depth: par.depth,
-        feedback: par.feedback,
-        frequency: par.frequency,
-        type: par.type,
+function updateFlanger(){
+    var flanger_par = seq.getCurrentStep().getFlanger();
+    var flanger = seq.getChannel().getFlanger();
+    flanger.LFOl.set({
+        frequency: flanger_par.freq,
+        type: flanger_par.type,
     })
+    flanger.LFOr.set({
+        frequency: flanger_par.freq + flanger_par.stereo,
+        type: flanger_par.type,
+    })
+    flanger.modl.set({
+        gain: flanger_par.width,
+    })
+    flanger.modr.set({
+        gain: flanger_par.width - flanger_param.stereo*0.005,
+    })
+    flanger.dlyr.set({
+        delayTime: 0.015 - flanger_param.stereo*0.005,
+    })
+    flanger.feedbackl.set({
+        gain: flanger_par.feedback,
+    })
+    flanger.feedbackr.set({
+        gain: flanger_par.feedback,
+    })
+    flanger.range_depthl.set({
+        gain: flanger_par.depth,
+    })
+    flanger.range_depthr.set({
+        gain: flanger_par.depth,
+    })
+    flanger.dryWet.set({
+        fade: flanger_par.dw,
+    })
+    flanger.colorl.set({
+        fade: flanger_par.color,
+    })
+    flanger.colorr.set({
+        fade: flanger_par.color,
+    })
+    flanger.overdrivel = new Tone.WaveShaper(function (val) {
+
+        var amt = 3 - flanger_param.feedback;  // Bisogna abbassare l'amt di distorsione perché con valori di feedback troppo alti si rischia l'auto-oscillazione del flanger. Il carattere della distorsione dipende tantissimo dal feedback e non solo per l'operazione di sottrazione ma soprattutto per come questo cambia il flusso del segnale audio
+        return Math.tanh(2^(amt*val));  //tanh e 2^val sono funzioni utilizzate nel design di distorsori. Io le ho combinate, se volete sperimentate altre funzioni.
+        }, 2048);
+    flanger.overdriver = new Tone.WaveShaper(function (val) {
+
+        var amt = 3 - flanger_param.feedback;  // Bisogna abbassare l'amt di distorsione perché con valori di feedback troppo alti si rischia l'auto-oscillazione del flanger. Il carattere della distorsione dipende tantissimo dal feedback e non solo per l'operazione di sottrazione ma soprattutto per come questo cambia il flusso del segnale audio
+        return Math.tanh(2^(amt*val));  //tanh e 2^val sono funzioni utilizzate nel design di distorsori. Io le ho combinate, se volete sperimentate altre funzioni.
+        }, 2048);
 }
