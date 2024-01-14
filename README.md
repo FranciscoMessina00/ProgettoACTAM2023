@@ -54,5 +54,5 @@ Flanger Stereo: Determines the stereo width of the sound.
 These parameters collectively contribute to the versatile and unique sonic possibilities offered by our synthesizer's flanger effect.
 
 ## Custom folder/distortion unit
-We've also crafted a distinctive effect – a folder/distortion unit situated at the input of the flanger. The initial stage of this unit involves a folder that folds the input sounds a variable number of times, determined by the fold amount parameter. This process significantly enhances the harmonic content of the sound. Subsequently, the sound traverses through a distortion unit, the intensity of which can range from soft to extremely hard, depending on the distortion parameter.
+We've also crafted a distinctive effect – a folder/distortion unit situated at the input of the flanger. The initial stage of this unit involves a folder that folds the input sounds a variable number of times, determined by the fold amount parameter. This process significantly enhances the harmonic content of the sound. Subsequently, the sound traverses through a distortion unit, the intensity of which can range from soft to extremely hard, depending on the distortion parameter. Note that the dry/wet only works on the distortion. In order to remove the folder simply set fold amount to zero.
 
