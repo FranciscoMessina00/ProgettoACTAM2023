@@ -15,7 +15,7 @@ Comprising a carrier and a modulator, you can select the waveform for both by cl
 Define the attack and release of the sound in this section (designed for a percussive behavior). Below these controls are the LFO rate and amount knobs (the LFO modulates the modulator oscillator's amount parameter and can operate at audio rate, providing wild modulations and effects).
 
 ## Drum Track
-This second channel is dedicated to drums, featuring four independent channels: kick, snare, tom, and hat. These can be played simultaneously for each step, with different volumes selectable for these four instruments, effectively creating a complete drum machine within a single channel.
+This second channel is dedicated to drums (you can access it by clicking the smaller channel below the main sequencer and vice-versa to go back to the oscillator's channel), featuring four independent channels: kick, snare, tom, and hat. These can be played simultaneously for each step, with different volumes selectable for these four instruments, effectively creating a complete drum machine within a single channel.
 
 ### Kick
  Control over frequency, volume release, pitch envelope release, and pitch sweep amount (this parameter works in tandem with frequency release).
@@ -45,9 +45,7 @@ An additional noteworthy feature of our synthesizer is the custom flanger algori
 
 LFO Shape: Uncommon in typical flanger effects, this parameter influences the shape of the Low-Frequency Oscillator (LFO).
 LFO Rate: Determines the speed of the flanger, capable of reaching audio rates for a unique effect.
-Flanger Depth: Controls the sweep of the flanger by reducing the amp
-
-litude of the delay lines' outputs.
+Flanger Depth: Controls the sweep of the flanger by reducing the amplitude of the delay lines' outputs.
 Flanger Feedback: Influences the metallic quality of the flanger sound, interacting significantly with the color parameter.
 Flanger Width: Dictates the movement of the delay lines within the flanger.
 Flanger Dry/Wet: Adjusts the balance between the affected signal and the normal signal.
