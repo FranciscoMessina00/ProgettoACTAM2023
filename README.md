@@ -66,6 +66,6 @@ Here you can see a quick example of the capabilities of our sequencer!
 https://github.com/FranciscoMessina00/ProgettoACTAM2023/assets/91835899/4264d2fd-f1ad-4376-8968-f68646d98ded
 
 ## Where can I try it?
-Good question! Here is a link where you can try it:
+Good question! Here's a link where you can try it: https://franciscomessina00.github.io/
 
 Have fun!
