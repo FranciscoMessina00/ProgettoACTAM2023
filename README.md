@@ -1,7 +1,7 @@
-# ProgettoACTAM2023
+# Advanced Coding Tools And Methodologies 2023/2024 - Project FM sequencer
 The main project of ACTAM
 
-We've crafted a two-channel synthesizer with a percussive character. One channel is built on an FM engine (from tone.js), while the other is tailored to deliver drum sounds.
+We've crafted a two-channel sequencer/synthesizer with a percussive character. One channel is built on an FM engine (from tone.js), while the other is tailored to deliver drum sounds.
 
 The standout feature of our instrument is the ability to tweak all sound parameters for each step, enabling musicians to create highly unpredictable lines.
 
@@ -45,7 +45,9 @@ An additional noteworthy feature of our synthesizer is the custom flanger algori
 
 LFO Shape: Uncommon in typical flanger effects, this parameter influences the shape of the Low-Frequency Oscillator (LFO).
 LFO Rate: Determines the speed of the flanger, capable of reaching audio rates for a unique effect.
-Flanger Depth: Controls the sweep of the flanger by reducing the amplitude of the delay lines' outputs.
+Flanger Depth: Controls the sweep of the flanger by reducing the amp
+
+litude of the delay lines' outputs.
 Flanger Feedback: Influences the metallic quality of the flanger sound, interacting significantly with the color parameter.
 Flanger Width: Dictates the movement of the delay lines within the flanger.
 Flanger Dry/Wet: Adjusts the balance between the affected signal and the normal signal.
@@ -53,6 +55,17 @@ Flanger Color: Governs the feedback distortion within the flanger.
 Flanger Stereo: Determines the stereo width of the sound.
 These parameters collectively contribute to the versatile and unique sonic possibilities offered by our synthesizer's flanger effect.
 
-## Custom folder/distortion unit
-We've also crafted a distinctive effect – a folder/distortion unit situated at the input of the flanger. The initial stage of this unit involves a folder that folds the input sounds a variable number of times, determined by the fold amount parameter. This process significantly enhances the harmonic content of the sound. Subsequently, the sound traverses through a distortion unit, the intensity of which can range from soft to extremely hard, depending on the distortion parameter. Note that the dry/wet only works on the distortion. In order to remove the folder simply set fold amount to zero.
 
+
+## Custom folder/distortion unit
+We've also crafted a distinctive effect – a folder/distortion unit situated at the input of the flanger. The initial stage of this unit involves a folder that folds the input sounds a variable number of times, determined by the fold amount parameter. This process significantly enhances the harmonic content of the sound. Subsequently, the sound traverses through a distortion unit, the intensity of which can range from soft to extremely hard, depending on the distortion parameter. Note that the dry/wet only works on the distortion. In order to remove the folder simply set fold amount to the minimum value.
+
+## Video demonstration
+Here you can see a quick example of the capabilities of our sequencer!
+
+https://github.com/FranciscoMessina00/ProgettoACTAM2023/assets/91835899/4264d2fd-f1ad-4376-8968-f68646d98ded
+
+## Where can I try it?
+Good question! Here is a link where you can try it:
+
+Have fun!
