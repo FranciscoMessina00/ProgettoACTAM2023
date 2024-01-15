@@ -43,14 +43,22 @@ For the drum section, each step contains four circular crowns representing the f
 ## Custom flanger unit
 An additional noteworthy feature of our synthesizer is the custom flanger algorithm we've developed. This stereo flanger incorporates cross-feedback distortion, resulting in a potentially highly distorted sound. The parameters of this effect unit include:
 
-LFO Shape: Uncommon in typical flanger effects, this parameter influences the shape of the Low-Frequency Oscillator (LFO).
-LFO Rate: Determines the speed of the flanger, capable of reaching audio rates for a unique effect.
-Flanger Depth: Controls the sweep of the flanger by reducing the amplitude of the delay lines' outputs.
-Flanger Feedback: Influences the metallic quality of the flanger sound, interacting significantly with the color parameter.
-Flanger Width: Dictates the movement of the delay lines within the flanger.
-Flanger Dry/Wet: Adjusts the balance between the affected signal and the normal signal.
-Flanger Color: Governs the feedback distortion within the flanger.
-Flanger Stereo: Determines the stereo width of the sound.
+- LFO Shape: Uncommon in typical flanger effects, this parameter influences the shape of the Low-Frequency Oscillator (LFO).
+
+- LFO Rate: Determines the speed of the flanger, capable of reaching audio rates for a unique effect.
+
+- Flanger Depth: Controls the sweep of the flanger by reducing the amplitude of the delay lines' outputs.
+
+- Flanger Feedback: Influences the metallic quality of the flanger sound, interacting significantly with the color parameter.
+
+- Flanger Width: Dictates the movement of the delay lines within the flanger.
+
+- Flanger Dry/Wet: Adjusts the balance between the affected signal and the normal signal.
+
+- Flanger Color: Governs the feedback distortion within the flanger.
+
+- Flanger Stereo: Determines the stereo width of the sound.
+
 These parameters collectively contribute to the versatile and unique sonic possibilities offered by our synthesizer's flanger effect.
 
 
